@@ -1,5 +1,5 @@
-import DeckGLTest from "../components/layouts/deckgl-test";
+import MapLayout from "@/components/layouts/map-layout";
 
 export const App = () => {
-  return <DeckGLTest />;
+  return <MapLayout />;
 };
