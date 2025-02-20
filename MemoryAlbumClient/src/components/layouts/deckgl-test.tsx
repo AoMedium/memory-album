@@ -1,16 +1,17 @@
-import { DeckGL } from "@deck.gl/react";
-import StaticMap from "react-map-gl";
-import { BASEMAP } from "@deck.gl/carto";
+import Map from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { BASEMAP } from "@deck.gl/carto";
 
 export default function DeckGLTest() {
   return (
-    <DeckGL
-    // initialViewState={INITIAL_VIEW_STATE}
-    // controller={true}
-    // layers={layers}
-    >
-      <StaticMap reuseMaps mapStyle={BASEMAP.POSITRON} />
-    </DeckGL>
+    <Map
+      initialViewState={{
+        longitude: -100,
+        latitude: 40,
+        zoom: 3.5,
+      }}
+      style={{ width: "100vw", height: "100vh" }}
+      mapStyle={BASEMAP.VOYAGER}
+    />
   );
 }
