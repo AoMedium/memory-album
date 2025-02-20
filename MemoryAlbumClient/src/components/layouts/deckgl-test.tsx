@@ -13,15 +13,12 @@ export default function DeckGLTest() {
         latitude: 40,
         zoom: 3.5,
       }}
-      controller
+      controller={{ inertia: 500 }}
     >
       {/* See https://github.com/visgl/deck.gl/issues/7304#issuecomment-1277850750) */}
       {/* @ts-expect-error: cannot be used as JSX component */}
       <MapView>
-        <Map
-          style={{ width: "100vw", height: "100vh" }}
-          mapStyle={BASEMAP.VOYAGER}
-        />
+        <Map mapStyle={BASEMAP.VOYAGER} />
       </MapView>
     </DeckGL>
   );
