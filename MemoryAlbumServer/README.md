@@ -5,3 +5,8 @@ Run the server with the following command:
 ```sh
 dotnet run
 ```
+
+## Model configuration
+
+- [Linking model and model configuration to context](https://learn.microsoft.com/en-us/ef/core/modeling/#using-entitytypeconfigurationattribute-on-entity-types)
+- [Connect MySQL to ASP.NET](https://stackoverflow.com/questions/72148071/how-to-connect-to-mysql-server-using-entity-framework-core)

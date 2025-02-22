@@ -1,7 +1,9 @@
 using MemoryAlbumServer.Models.Entities.Media;
+using Microsoft.EntityFrameworkCore;
 
 namespace MemoryAlbumServer.Models.Entities;
 
+[EntityTypeConfiguration(typeof(AlbumConfiguration))]
 public class Album
 {
     public int Id { get; set; }
