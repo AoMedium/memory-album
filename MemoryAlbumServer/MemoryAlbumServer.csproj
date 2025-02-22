@@ -19,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="NetTopologySuite" Version="2.5.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.2.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
   </ItemGroup>
 
 </Project>
