@@ -1,5 +1,6 @@
 using MemoryAlbumServer.Data;
 using MemoryAlbumServer.Models.Entities;
+using MemoryAlbumServer.Models.Entities.Media;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,9 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Album>>> GetAlbums()
     {
-        return await _context.Albums.Include(album => album.Events).ToListAsync();
+        return await _context.Albums
+            .Include(album => album.Cover)
+            .ToListAsync();
     }
 
     // POST: /Albums

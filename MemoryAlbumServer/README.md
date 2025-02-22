@@ -30,3 +30,12 @@ mysql -u root -p
 show databases;
 drop database memory_album;
 ```
+
+### Review
+
+```cs
+return await _context.Albums
+            .Include(album => album.Cover)
+            .Include(album => album.Events) // FIXME: missing inherited types
+            .ToListAsync();
+```

@@ -80,42 +80,24 @@ namespace MemoryAlbumServer.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
+            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Media", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<byte[]>("Data")
-                        .HasColumnType("longblob");
-
-                    b.Property<Guid?>("MemoryId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MemoryId");
-
-                    b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Video", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<byte[]>("Data")
-                        .HasColumnType("longblob");
-
-                    b.Property<Guid?>("MemoryId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar(5)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemoryId");
+                    b.ToTable("Media");
 
-                    b.ToTable("Videos");
+                    b.HasDiscriminator().HasValue("Media");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Person", b =>
@@ -178,6 +160,47 @@ namespace MemoryAlbumServer.Migrations
                     b.HasDiscriminator().HasValue("Memory");
                 });
 
+            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
+                {
+                    b.HasBaseType("MemoryAlbumServer.Models.Entities.Media.Media");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
+                    b.Property<Guid?>("MemoryId")
+                        .HasColumnType("char(36)");
+
+                    b.HasIndex("MemoryId");
+
+                    b.HasDiscriminator().HasValue("Photo");
+                });
+
+            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Video", b =>
+                {
+                    b.HasBaseType("MemoryAlbumServer.Models.Entities.Media.Media");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("longblob");
+
+                    b.Property<Guid?>("MemoryId")
+                        .HasColumnType("char(36)");
+
+                    b.HasIndex("MemoryId");
+
+                    b.ToTable("Media", t =>
+                        {
+                            t.Property("Data")
+                                .HasColumnName("Video_Data");
+
+                            t.Property("MemoryId")
+                                .HasColumnName("Video_MemoryId");
+                        });
+
+                    b.HasDiscriminator().HasValue("Video");
+                });
+
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Album", b =>
                 {
                     b.HasOne("MemoryAlbumServer.Models.Entities.Media.Photo", "Cover")
@@ -212,22 +235,7 @@ namespace MemoryAlbumServer.Migrations
                                 .HasForeignKey("EventId");
                         });
 
-                    b.Navigation("Location")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
-                {
-                    b.HasOne("MemoryAlbumServer.Models.Entities.Memory", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("MemoryId");
-                });
-
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Video", b =>
-                {
-                    b.HasOne("MemoryAlbumServer.Models.Entities.Memory", null)
-                        .WithMany("Videos")
-                        .HasForeignKey("MemoryId");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Person", b =>
@@ -244,6 +252,20 @@ namespace MemoryAlbumServer.Migrations
                     b.HasOne("MemoryAlbumServer.Models.Entities.Event", null)
                         .WithMany("Tags")
                         .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
+                {
+                    b.HasOne("MemoryAlbumServer.Models.Entities.Memory", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("MemoryId");
+                });
+
+            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Video", b =>
+                {
+                    b.HasOne("MemoryAlbumServer.Models.Entities.Memory", null)
+                        .WithMany("Videos")
+                        .HasForeignKey("MemoryId");
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Album", b =>

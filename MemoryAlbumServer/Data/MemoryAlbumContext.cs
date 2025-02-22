@@ -11,24 +11,30 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
     public DbSet<Memory> Memories { get; set; }
     public DbSet<Person> People { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<Medium> Media { get; set; }
     public DbSet<Photo> Photos { get; set; }
     public DbSet<Video> Videos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Album>()
-            .Property(b => b.Title)
+            .Property(album => album.Title)
             .IsRequired();
 
         // TODO: add configurations
-        modelBuilder.Entity<Event>()
-            .OwnsOne(e => e.Location); // Configures Location as a property rather than entity
 
-        modelBuilder.Entity<Memory>();
-        modelBuilder.Entity<Person>();
-        modelBuilder.Entity<Tag>();
-        modelBuilder.Entity<Photo>();
-        modelBuilder.Entity<Video>();
+        modelBuilder.Entity<Event>(entity =>
+        {
+            entity.OwnsOne(e => e.Location); // Configures Location as a property rather than an entity
+            entity.Property(e => e.Title).IsRequired();
+        });
+
+        modelBuilder.Entity<Photo>()
+            .Property(photo => photo.Data)
+            .IsRequired();
+
+        modelBuilder.Entity<Video>()
+            .Property(video => video.Data)
+            .IsRequired();
     }
-
 }

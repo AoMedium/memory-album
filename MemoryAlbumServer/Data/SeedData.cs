@@ -4,6 +4,8 @@ using MemoryAlbumServer.Data;
 using System;
 using System.Linq;
 using MemoryAlbumServer.Models.Entities;
+using MemoryAlbumServer.Models.Entities.Media;
+using System.Text;
 
 namespace MvcMovie.Models;
 
@@ -24,7 +26,28 @@ public static class SeedData
             new Album
             {
                 Title = "Album Title 1",
-                Description = "Album description 1"
+                Description = "Album description 1",
+                Cover = new Photo
+                {
+                    Data = Encoding.ASCII.GetBytes("test-photo")
+                },
+                Events = [
+                    new Memory
+                    {
+                        Title = "Memory 1",
+                        Photos = [
+                            new Photo { Data = Encoding.ASCII.GetBytes("test-photo-1") },
+                            new Photo { Data = Encoding.ASCII.GetBytes("test-photo-2") },
+                        ],
+                        Videos = [
+                            new Video { Data = Encoding.ASCII.GetBytes("test-video-1") }
+                        ]
+                    },
+                    new Event
+                    {
+                        Title = "Event 1"
+                    }
+                ]
             },
             new Album
             {
