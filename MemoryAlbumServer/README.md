@@ -18,6 +18,7 @@ dotnet run
 #### Migrate and update/create database
 
 ```sh
+rm -rf Migrations
 dotnet ef migrations add Initial
 dotnet ef database update
 ```
