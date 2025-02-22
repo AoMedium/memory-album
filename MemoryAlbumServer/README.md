@@ -10,3 +10,10 @@ dotnet run
 
 - [Linking model and model configuration to context](https://learn.microsoft.com/en-us/ef/core/modeling/#using-entitytypeconfigurationattribute-on-entity-types)
 - [Connect MySQL to ASP.NET](https://stackoverflow.com/questions/72148071/how-to-connect-to-mysql-server-using-entity-framework-core)
+
+## Setup database
+
+```sh
+dotnet ef migrations add Initial
+dotnet ef database update
+```

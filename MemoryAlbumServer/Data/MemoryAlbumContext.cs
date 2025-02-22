@@ -16,10 +16,14 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Album>();
+        modelBuilder.Entity<Album>()
+            .Property(b => b.Title)
+            .IsRequired();
 
         // TODO: add configurations
-        modelBuilder.Entity<Event>();
+        modelBuilder.Entity<Event>()
+            .OwnsOne(e => e.Location); // Configures Location as a property rather than entity
+
         modelBuilder.Entity<Memory>();
         modelBuilder.Entity<Person>();
         modelBuilder.Entity<Tag>();
