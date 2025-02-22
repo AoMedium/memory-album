@@ -5,7 +5,7 @@ namespace MemoryAlbumServer.Models.Entities;
 /// </summary>
 public abstract class ShareableContent
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public AccessType AccessType { get; set; }
 
     // public ICollection<User> SharedUsers { get; set; }

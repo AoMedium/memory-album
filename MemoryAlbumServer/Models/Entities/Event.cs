@@ -4,7 +4,7 @@ using MemoryAlbumServer.Models.Properties;
 namespace MemoryAlbumServer.Models.Entities;
 public abstract class Event
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     [Required]
     public string? Title { get; set; }
@@ -14,4 +14,8 @@ public abstract class Event
     [Required]
     public Position? Location { get; set; }
     public ICollection<Tag>? Tags { get; set; }
+
+    // // Navigation properties
+    // public Guid AlbumId { get; set; }
+    // public Album Album { get; set; } = null!;
 }

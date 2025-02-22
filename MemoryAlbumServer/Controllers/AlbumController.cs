@@ -1,6 +1,7 @@
 using MemoryAlbumServer.Data;
 using MemoryAlbumServer.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MemoryAlbumServer.Controllers;
 
@@ -12,8 +13,18 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
 
     // GET: /Albums
     [HttpGet]
-    public IEnumerable<Album> Get()
+    public async Task<ActionResult<IEnumerable<Album>>> GetAlbums()
     {
-        return _context.Albums.AsEnumerable();
+        return await _context.Albums.ToListAsync();
+    }
+
+    // POST: /Albums
+    [HttpPost]
+    public async Task<ActionResult<Album>> PostAlbum(Album album)
+    {
+        _context.Albums.Add(album);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(PostAlbum), new { id = album.Id });
     }
 }
