@@ -27,6 +27,6 @@ dotnet ef database update
 
 ```sh
 mysql -u root -p
-show databases
-drop database memory_album
+show databases;
+drop database memory_album;
 ```

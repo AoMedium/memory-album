@@ -1,7 +1,6 @@
 namespace MemoryAlbumServer.Models.Entities.Media;
 
-public class Photo
+public class Photo : Media
 {
-    public Guid Id { get; set; }
     public byte[]? Data { get; set; }
 }

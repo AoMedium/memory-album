@@ -15,7 +15,7 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Album>>> GetAlbums()
     {
-        return await _context.Albums.ToListAsync();
+        return await _context.Albums.Include(album => album.Events).ToListAsync();
     }
 
     // POST: /Albums

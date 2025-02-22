@@ -14,8 +14,4 @@ public abstract class Event
     [Required]
     public Position? Location { get; set; }
     public ICollection<Tag>? Tags { get; set; }
-
-    // // Navigation properties
-    // public Guid AlbumId { get; set; }
-    // public Album Album { get; set; } = null!;
 }

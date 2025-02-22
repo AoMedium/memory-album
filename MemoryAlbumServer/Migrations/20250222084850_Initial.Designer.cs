@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryAlbumServer.Migrations
 {
     [DbContext(typeof(MemoryAlbumContext))]
-    [Migration("20250222064059_Initial")]
+    [Migration("20250222084850_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -27,14 +27,12 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Album", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CoverId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CoverId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
@@ -52,14 +50,12 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Event", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AlbumId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("AlbumId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
@@ -89,17 +85,15 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("char(36)");
 
                     b.Property<byte[]>("Data")
                         .HasColumnType("longblob");
 
-                    b.Property<int?>("MemoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("MemoryId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -110,17 +104,15 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Video", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("char(36)");
 
                     b.Property<byte[]>("Data")
                         .HasColumnType("longblob");
 
-                    b.Property<int?>("MemoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("MemoryId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -131,11 +123,9 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Person", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime(6)");
@@ -149,8 +139,8 @@ namespace MemoryAlbumServer.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ProfilePictureId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ProfilePictureId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -161,11 +151,9 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Tag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Color")
                         .HasColumnType("longtext");
@@ -173,8 +161,8 @@ namespace MemoryAlbumServer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
@@ -208,10 +196,10 @@ namespace MemoryAlbumServer.Migrations
                         .WithMany("Events")
                         .HasForeignKey("AlbumId");
 
-                    b.OwnsOne("MemoryAlbumServer.Models.Entities.Position", "Location", b1 =>
+                    b.OwnsOne("MemoryAlbumServer.Models.Properties.Position", "Location", b1 =>
                         {
-                            b1.Property<int>("EventId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("EventId")
+                                .HasColumnType("char(36)");
 
                             b1.Property<double>("Latitude")
                                 .HasColumnType("double");
