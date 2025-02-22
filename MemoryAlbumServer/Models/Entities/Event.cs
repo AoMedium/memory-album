@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using MemoryAlbumServer.Models.Properties;
 
 namespace MemoryAlbumServer.Models.Entities;
 public abstract class Event

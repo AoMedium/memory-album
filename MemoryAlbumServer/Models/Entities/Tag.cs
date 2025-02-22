@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace MemoryAlbumServer.Models.Entities;
 
 public class Tag

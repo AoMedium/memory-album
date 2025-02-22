@@ -1,4 +1,4 @@
-namespace MemoryAlbumServer.Models.Entities;
+namespace MemoryAlbumServer.Models.Properties;
 
 public class Position
 {
