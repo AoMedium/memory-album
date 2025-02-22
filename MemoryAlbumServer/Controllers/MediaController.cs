@@ -59,4 +59,18 @@ public class MediaController(MemoryAlbumContext context) : Controller
 
         return Ok(new { size, id = medium.Id });
     }
+
+    // GET: /Media/Photos
+    [HttpGet("/Media/Photos")]
+    public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
+    {
+        return await _context.Media.OfType<Photo>().ToListAsync();
+    }
+
+    // GET: /Media/Videos
+    [HttpGet("/Media/Videos")]
+    public async Task<ActionResult<IEnumerable<Video>>> GetVideos()
+    {
+        return await _context.Media.OfType<Video>().ToListAsync();
+    }
 }
