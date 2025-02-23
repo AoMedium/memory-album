@@ -23,7 +23,7 @@ namespace MemoryAlbumServer.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CoverId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    CoverPhotoId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -140,9 +140,9 @@ namespace MemoryAlbumServer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Albums_CoverId",
+                name: "IX_Albums_CoverPhotoId",
                 table: "Albums",
-                column: "CoverId");
+                column: "CoverPhotoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_AlbumId",
@@ -175,9 +175,9 @@ namespace MemoryAlbumServer.Migrations
                 column: "EventId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Albums_Media_CoverId",
+                name: "FK_Albums_Media_CoverPhotoId",
                 table: "Albums",
-                column: "CoverId",
+                column: "CoverPhotoId",
                 principalTable: "Media",
                 principalColumn: "Id");
         }
@@ -186,7 +186,7 @@ namespace MemoryAlbumServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Albums_Media_CoverId",
+                name: "FK_Albums_Media_CoverPhotoId",
                 table: "Albums");
 
             migrationBuilder.DropTable(

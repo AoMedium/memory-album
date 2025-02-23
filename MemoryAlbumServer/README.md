@@ -41,7 +41,7 @@ drop database memory_album;
 
 ```cs
 return await _context.Albums
-            .Include(album => album.Cover)
+            .Include(album => album.CoverPhoto)
             .Include(album => album.Events) // FIXME: missing inherited types
             .ToListAsync();
 ```

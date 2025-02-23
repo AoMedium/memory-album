@@ -17,7 +17,7 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
     public async Task<ActionResult<IEnumerable<AlbumDto>>> GetAlbums()
     {
         var albums = _context.Albums
-            .Include(album => album.Cover) // Need to include or it will be missing from DTO
+            .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
             .Include(album => album.Events)
             .Select(album => MapToAlbumDto(album));
         return await albums.ToListAsync();
@@ -28,7 +28,7 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
     public async Task<ActionResult<AlbumDto>> GetAlbumById(Guid id)
     {
         var album = await _context.Albums
-            .Include(album => album.Cover) // Need to include or it will be missing from DTO
+            .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
             .Include(album => album.Events)
             .SingleOrDefaultAsync(album => id == album.Id);
 
@@ -52,13 +52,13 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
 
         Photo? coverPhoto = null;
 
-        if (albumDto.CoverId != null) // Get profile picture if specified
+        if (albumDto.CoverPhotoId != null) // Get profile picture if specified
         {
-            coverPhoto = await _context.Media.OfType<Photo>().SingleOrDefaultAsync(photo => photo.Id == albumDto.CoverId);
+            coverPhoto = await _context.Media.OfType<Photo>().SingleOrDefaultAsync(photo => photo.Id == albumDto.CoverPhotoId);
 
             if (coverPhoto == null)
             {
-                return BadRequest("Invalid CoverId. Photo not found.");
+                return BadRequest("Invalid CoverPhotoId. Photo not found.");
             }
         }
 
@@ -76,7 +76,7 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
             Id = albumDto.Id,
             Title = albumDto.Title,
             Description = albumDto.Description,
-            Cover = coverPhoto,
+            CoverPhoto = coverPhoto,
             Events = events
         };
 
@@ -93,7 +93,7 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
             Id = album.Id,
             Title = album.Title,
             Description = album.Description,
-            CoverId = album.Cover?.Id,
+            CoverPhotoId = album.CoverPhoto?.Id,
             EventIds = [.. album.Events.Select(e => e.Id)]
         };
     }

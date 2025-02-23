@@ -8,6 +8,6 @@ public class Album
 
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public Photo? Cover { get; set; }
+    public Photo? CoverPhoto { get; set; }
     public ICollection<Event> Events { get; set; } = [];
 }

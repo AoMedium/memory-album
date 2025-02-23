@@ -28,7 +28,7 @@ namespace MemoryAlbumServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("CoverId")
+                    b.Property<Guid?>("CoverPhotoId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
@@ -40,7 +40,7 @@ namespace MemoryAlbumServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CoverId");
+                    b.HasIndex("CoverPhotoId");
 
                     b.ToTable("Albums");
                 });
@@ -194,11 +194,11 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Album", b =>
                 {
-                    b.HasOne("MemoryAlbumServer.Models.Entities.Media.Photo", "Cover")
+                    b.HasOne("MemoryAlbumServer.Models.Entities.Media.Photo", "CoverPhoto")
                         .WithMany()
-                        .HasForeignKey("CoverId");
+                        .HasForeignKey("CoverPhotoId");
 
-                    b.Navigation("Cover");
+                    b.Navigation("CoverPhoto");
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Event", b =>

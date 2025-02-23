@@ -99,7 +99,7 @@ public static class SeedData
         {
             Title = "Album Title 1",
             Description = "Album description 1",
-            Cover = contextPhotos.SingleOrDefault(p => p.Id == photos["cover-photo-1"].Id),
+            CoverPhoto = contextPhotos.SingleOrDefault(p => p.Id == photos["cover-photo-1"].Id),
             Events = [context.Events.Find(event1.Id)]
         };
 
