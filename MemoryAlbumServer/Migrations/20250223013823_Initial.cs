@@ -63,7 +63,7 @@ namespace MemoryAlbumServer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Discriminator = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: false)
+                    Discriminator = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Data = table.Column<byte[]>(type: "longblob", nullable: true),
                     MemoryId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
@@ -115,18 +115,24 @@ namespace MemoryAlbumServer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    FirstName = table.Column<string>(type: "longtext", nullable: true)
+                    FirstName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProfilePictureId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    Birthday = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Birthday = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EventId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_People", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_People_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_People_Media_ProfilePictureId",
                         column: x => x.ProfilePictureId,
@@ -154,6 +160,11 @@ namespace MemoryAlbumServer.Migrations
                 name: "IX_Media_Video_MemoryId",
                 table: "Media",
                 column: "Video_MemoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_People_EventId",
+                table: "People",
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_People_ProfilePictureId",

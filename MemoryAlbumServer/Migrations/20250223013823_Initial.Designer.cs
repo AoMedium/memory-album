@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryAlbumServer.Migrations
 {
     [DbContext(typeof(MemoryAlbumContext))]
-    [Migration("20250222101509_Initial")]
+    [Migration("20250223013823_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -83,7 +83,7 @@ namespace MemoryAlbumServer.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Media", b =>
+            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Medium", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,14 +91,14 @@ namespace MemoryAlbumServer.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("varchar(5)");
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Media");
 
-                    b.HasDiscriminator().HasValue("Media");
+                    b.HasDiscriminator().HasValue("Medium");
 
                     b.UseTphMappingStrategy();
                 });
@@ -115,7 +115,11 @@ namespace MemoryAlbumServer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
@@ -125,6 +129,8 @@ namespace MemoryAlbumServer.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.HasIndex("ProfilePictureId");
 
@@ -165,7 +171,7 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
                 {
-                    b.HasBaseType("MemoryAlbumServer.Models.Entities.Media.Media");
+                    b.HasBaseType("MemoryAlbumServer.Models.Entities.Media.Medium");
 
                     b.Property<byte[]>("Data")
                         .IsRequired()
@@ -181,7 +187,7 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Video", b =>
                 {
-                    b.HasBaseType("MemoryAlbumServer.Models.Entities.Media.Media");
+                    b.HasBaseType("MemoryAlbumServer.Models.Entities.Media.Medium");
 
                     b.Property<byte[]>("Data")
                         .IsRequired()
@@ -243,6 +249,10 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Person", b =>
                 {
+                    b.HasOne("MemoryAlbumServer.Models.Entities.Event", null)
+                        .WithMany("People")
+                        .HasForeignKey("EventId");
+
                     b.HasOne("MemoryAlbumServer.Models.Entities.Media.Photo", "ProfilePicture")
                         .WithMany()
                         .HasForeignKey("ProfilePictureId");
@@ -278,6 +288,8 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Event", b =>
                 {
+                    b.Navigation("People");
+
                     b.Navigation("Tags");
                 });
 

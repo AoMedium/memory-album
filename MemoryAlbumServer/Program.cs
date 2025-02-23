@@ -1,6 +1,5 @@
 using MemoryAlbumServer.Data;
 using Microsoft.EntityFrameworkCore;
-using MvcMovie.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

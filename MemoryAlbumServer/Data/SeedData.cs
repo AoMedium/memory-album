@@ -1,13 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MemoryAlbumServer.Data;
-using System;
-using System.Linq;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
 using System.Text;
 
-namespace MvcMovie.Models;
+namespace MemoryAlbumServer.Data;
 
 public static class SeedData
 {
@@ -22,44 +18,75 @@ public static class SeedData
         {
             return;   // DB has been seeded
         }
-        context.Albums.AddRange(
-            new Album
-            {
-                Title = "Album Title 1",
-                Description = "Album description 1",
-                Cover = new Photo
-                {
-                    Data = Encoding.ASCII.GetBytes("test-photo")
-                },
-                Events = [
-                    new Memory
-                    {
-                        Title = "Memory 1",
-                        Photos = [
-                            new Photo { Data = Encoding.ASCII.GetBytes("test-photo-1") },
-                            new Photo { Data = Encoding.ASCII.GetBytes("test-photo-2") },
-                        ],
-                        Videos = [
-                            new Video { Data = Encoding.ASCII.GetBytes("test-video-1") }
-                        ]
-                    },
-                    new Event
-                    {
-                        Title = "Event 1"
-                    }
-                ]
-            },
-            new Album
-            {
-                Title = "Album Title 2",
-                Description = "Album description 2"
-            },
-            new Album
-            {
-                Title = "Album Title 3",
-                Description = "Album description 3"
-            }
-        );
+
+        PopulateData(context);
         context.SaveChanges();
+    }
+
+    private static void PopulateData(MemoryAlbumContext context)
+    {
+        Dictionary<string, Photo> photos = [];
+
+        photos.Add("test-photo-1", new Photo { Data = Encoding.ASCII.GetBytes("test-photo-1") });
+        photos.Add("test-photo-2", new Photo { Data = Encoding.ASCII.GetBytes("test-photo-2") });
+        photos.Add("test-photo-3", new Photo { Data = Encoding.ASCII.GetBytes("test-photo-3") });
+
+        photos.Add("cover-photo-1", new Photo { Data = Encoding.ASCII.GetBytes("cover-photo-1") });
+
+        Dictionary<string, Video> videos = [];
+
+        videos.Add("test-video-1", new Video { Data = Encoding.ASCII.GetBytes("test-video-1") });
+        videos.Add("test-video-2", new Video { Data = Encoding.ASCII.GetBytes("test-video-2") });
+        videos.Add("test-video-3", new Video { Data = Encoding.ASCII.GetBytes("test-video-3") });
+
+        var memory1 = new Memory
+        {
+            Title = "Memory 1",
+            Photos = [.. photos.Values],
+            Videos = [videos["test-video-1"]]
+        };
+
+        var person = new Person
+        {
+            FirstName = "Test Name"
+        };
+
+        var personMemory = new Memory
+        {
+            Title = "Person Memory",
+            Photos = [photos["test-photo-2"]],
+            // People = [person]
+        };
+
+        var event1 = new Event
+        {
+            Title = "Event 1"
+        };
+
+
+        var album1 = new Album
+        {
+            Title = "Album Title 1",
+            Description = "Album description 1",
+            // Cover = photos["cover-photo-1"],
+            Events = [memory1, event1]
+        };
+
+        var album2 = new Album
+        {
+            Title = "Album Title 2",
+            Description = "Album description 2"
+        };
+
+        var personAlbum = new Album
+        {
+            Title = "Person Album",
+            Events = [personMemory]
+        };
+
+
+
+
+        context.Albums.AddRange([album1, album2, personAlbum]);
     }
 }

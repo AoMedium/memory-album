@@ -8,5 +8,6 @@ public class Event
     public string? Description { get; set; }
     public DateTime Timestamp { get; set; }
     public Position? Location { get; set; }
-    public ICollection<Tag>? Tags { get; set; }
+    public ICollection<Person> People { get; set; } = [];
+    public ICollection<Tag> Tags { get; set; } = [];
 }
