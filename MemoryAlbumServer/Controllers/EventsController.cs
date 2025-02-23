@@ -35,13 +35,13 @@ public class EventsController(MemoryAlbumContext context) : Controller
         return e;
     }
 
-    // // POST: /api/Albums
-    // [HttpPost]
-    // public async Task<ActionResult<Album>> PostAlbum(Album album)
-    // {
-    //     _context.Albums.Add(album);
-    //     await _context.SaveChangesAsync();
+    // POST: /api/Events
+    [HttpPost]
+    public async Task<ActionResult<Album>> CreateEvent(Event ev)
+    {
+        _context.Events.Add(ev);
+        await _context.SaveChangesAsync();
 
-    //     return CreatedAtAction(nameof(PostAlbum), new { id = album.Id });
-    // }
+        return CreatedAtAction(nameof(CreateEvent), new { id = ev.Id });
+    }
 }

@@ -15,8 +15,7 @@ public class PeopleController(MemoryAlbumContext context) : Controller
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
     {
-        return await _context.People
-            .ToListAsync();
+        return await _context.People.ToListAsync();
     }
 
     // GET: /api/People/{id}
@@ -31,5 +30,15 @@ public class PeopleController(MemoryAlbumContext context) : Controller
         }
 
         return person;
+    }
+
+    // POST: /api/People
+    [HttpPost]
+    public async Task<ActionResult<Person>> CreatePerson(Person person)
+    {
+        _context.People.Add(person);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(CreatePerson), new { id = person.Id });
     }
 }

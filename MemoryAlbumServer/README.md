@@ -13,6 +13,11 @@ dotnet run
 
 ## Developer notes
 
+### To do
+
+- Create DTO for endpoints (for example: passing person id instead of person, then identify and create person entity in action)
+- Encryption and decryption for media content
+
 ### Setup database
 
 #### Migrate and update/create database

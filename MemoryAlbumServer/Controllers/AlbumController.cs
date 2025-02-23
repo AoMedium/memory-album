@@ -37,11 +37,11 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
 
     // POST: /api/Albums
     [HttpPost]
-    public async Task<ActionResult<Album>> PostAlbum(Album album)
+    public async Task<ActionResult<Album>> CreateAlbum(Album album)
     {
         _context.Albums.Add(album);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(PostAlbum), new { id = album.Id });
+        return CreatedAtAction(nameof(CreateAlbum), new { id = album.Id });
     }
 }
