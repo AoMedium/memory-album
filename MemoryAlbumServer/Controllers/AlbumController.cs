@@ -14,18 +14,18 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
 
     // GET: /api/Albums
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AlbumDto>>> GetAlbums()
+    public async Task<ActionResult<IEnumerable<AlbumResponse>>> GetAlbums()
     {
         var albums = _context.Albums
             .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
             .Include(album => album.Events)
-            .Select(album => MapToAlbumDto(album));
+            .Select(album => MapToAlbumResponse(album));
         return await albums.ToListAsync();
     }
 
     // GET: /api/Albums/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<AlbumDto>> GetAlbumById(Guid id)
+    public async Task<ActionResult<AlbumResponse>> GetAlbumById(Guid id)
     {
         var album = await _context.Albums
             .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
@@ -37,13 +37,13 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
             return NotFound();
         }
 
-        var albumDto = MapToAlbumDto(album);
-        return albumDto;
+        var albumResponse = MapToAlbumResponse(album);
+        return albumResponse;
     }
 
     // POST: /api/Albums
     [HttpPost]
-    public async Task<ActionResult<AlbumDto>> CreateAlbum(AlbumDto albumDto)
+    public async Task<ActionResult<AlbumResponse>> CreateAlbum(AlbumRequest albumRequest)
     {
         if (!ModelState.IsValid) // Check if validation rules were broken during request-model binding.
         {
@@ -52,9 +52,9 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
 
         Photo? coverPhoto = null;
 
-        if (albumDto.CoverPhotoId != null) // Get profile picture if specified
+        if (albumRequest.CoverPhotoId != null) // Get profile picture if specified
         {
-            coverPhoto = await _context.Media.OfType<Photo>().SingleOrDefaultAsync(photo => photo.Id == albumDto.CoverPhotoId);
+            coverPhoto = await _context.Media.OfType<Photo>().SingleOrDefaultAsync(photo => photo.Id == albumRequest.CoverPhotoId);
 
             if (coverPhoto == null)
             {
@@ -62,22 +62,13 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
             }
         }
 
-        var events = await _context.Events
-            .Where(e => albumDto.EventIds.Contains(e.Id))
-            .ToListAsync();
-
-        if (events.Count != albumDto.EventIds.Count)
-        {
-            return BadRequest("One or more EventIds are invalid.");
-        }
-
         var album = new Album
         {
-            Id = albumDto.Id,
-            Title = albumDto.Title,
-            Description = albumDto.Description,
+            Id = albumRequest.Id,
+            Title = albumRequest.Title,
+            Description = albumRequest.Description,
             CoverPhoto = coverPhoto,
-            Events = events
+            Events = [] // This action does not allow adding events
         };
 
         _context.Albums.Add(album);
@@ -86,9 +77,9 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
         return CreatedAtAction(nameof(CreateAlbum), new { id = album.Id });
     }
 
-    private static AlbumDto MapToAlbumDto(Album album)
+    private static AlbumResponse MapToAlbumResponse(Album album)
     {
-        return new AlbumDto
+        return new AlbumResponse
         {
             Id = album.Id,
             Title = album.Title,
