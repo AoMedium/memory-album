@@ -1,6 +1,6 @@
 @MemoryAlbumServer_HostAddress = http://localhost:5226
 
-GET {{MemoryAlbumServer_HostAddress}}/weatherforecast/
+GET {{MemoryAlbumServer_HostAddress}}/api/Albums
 Accept: application/json
 
 ###

@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class AlbumsController(MemoryAlbumContext context) : Controller
 {
     private readonly MemoryAlbumContext _context = context;
 
-    // GET: /Albums
+    // GET: /api/Albums
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Album>>> GetAlbums()
     {
@@ -21,7 +21,21 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
             .ToListAsync();
     }
 
-    // POST: /Albums
+    // GET: /api/Albums/{id}
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Album>> GetAlbumById(Guid id)
+    {
+        var album = await _context.Albums.FindAsync(id);
+
+        if (album == null)
+        {
+            return NotFound();
+        }
+
+        return album;
+    }
+
+    // POST: /api/Albums
     [HttpPost]
     public async Task<ActionResult<Album>> PostAlbum(Album album)
     {

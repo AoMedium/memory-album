@@ -7,19 +7,19 @@ using Microsoft.EntityFrameworkCore;
 namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class MediaController(MemoryAlbumContext context) : Controller
 {
     private readonly MemoryAlbumContext _context = context;
 
-    // GET: /Photos
+    // GET: /api/Media
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Medium>>> GetMedia()
     {
         return await _context.Media.ToListAsync();
     }
 
-    // POST: /Photos
+    // POST: /api/Media
 
     /// <summary>
     /// https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads?view=aspnetcore-9.0
@@ -27,7 +27,7 @@ public class MediaController(MemoryAlbumContext context) : Controller
     /// <param name="file"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> PostMedia(IFormFile file)
+    public async Task<IActionResult> PostMedium(IFormFile file)
     {
         const float fileSizeLimit = 2097.152f; // TODO: replace with config value https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-9.0
 
@@ -60,17 +60,43 @@ public class MediaController(MemoryAlbumContext context) : Controller
         return Ok(new { size, id = medium.Id });
     }
 
-    // GET: /Media/Photos
-    [HttpGet("/Media/Photos")]
+    // GET: /api/Media/Photos
+    [HttpGet("Photos")]
     public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
     {
         return await _context.Media.OfType<Photo>().ToListAsync();
     }
 
-    // GET: /Media/Videos
-    [HttpGet("/Media/Videos")]
+    // GET: /api/Media/Photos/{id}
+    [HttpGet("Photos/{id}")]
+    public async Task<ActionResult<Photo>> GetPhotoById(Guid id)
+    {
+        var photo = await _context.Media.OfType<Photo>().SingleOrDefaultAsync(x => x.Id == id);
+
+        if (photo == null)
+        {
+            return NotFound();
+        }
+        return photo;
+    }
+
+    // GET: /api/Media/Videos
+    [HttpGet("Videos")]
     public async Task<ActionResult<IEnumerable<Video>>> GetVideos()
     {
         return await _context.Media.OfType<Video>().ToListAsync();
+    }
+
+    // GET: /api/Media/Videos/{id}
+    [HttpGet("Videos/{id}")]
+    public async Task<ActionResult<Video>> GetVideoById(Guid id)
+    {
+        var video = await _context.Media.OfType<Video>().SingleOrDefaultAsync(x => x.Id == id);
+
+        if (video == null)
+        {
+            return NotFound();
+        }
+        return video;
     }
 }
