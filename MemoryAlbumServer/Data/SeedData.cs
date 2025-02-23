@@ -48,13 +48,20 @@ public static class SeedData
 
         // People
 
-        var person = new Person
+        var person1 = new Person
         {
             Id = Guid.NewGuid(),
             FirstName = "Test Name"
         };
 
-        context.People.AddRange([person]);
+        var person2 = new Person
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Profile Person",
+            ProfilePicture = contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-3"].Id),
+        };
+
+        context.People.AddRange([person1, person2]);
 
 
 
@@ -62,6 +69,7 @@ public static class SeedData
 
         // Events
 
+#pragma warning disable CS8601 // Possible null reference assignment.
         var event1 = new Event
         {
             Id = Guid.NewGuid(),
@@ -78,7 +86,7 @@ public static class SeedData
             Id = Guid.NewGuid(),
             Title = "Person Event",
             Photos = [contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-2"].Id)],
-            People = [context.People.Find(person.Id)]
+            People = [context.People.Find(person1.Id), context.People.Find(person2.Id)]
         };
 
         context.Events.AddRange([event1, personEvent]);
@@ -108,6 +116,8 @@ public static class SeedData
         };
 
         context.Albums.AddRange([album1, album2, personAlbum]);
+
+#pragma warning restore CS8601 // Possible null reference assignment.
 
         context.SaveChanges();
     }

@@ -141,6 +141,7 @@ namespace MemoryAlbumServer.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
