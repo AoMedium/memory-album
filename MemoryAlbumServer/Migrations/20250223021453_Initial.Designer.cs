@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryAlbumServer.Migrations
 {
     [DbContext(typeof(MemoryAlbumContext))]
-    [Migration("20250223015233_Initial")]
+    [Migration("20250223021453_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

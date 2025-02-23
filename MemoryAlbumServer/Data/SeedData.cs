@@ -20,51 +20,79 @@ public static class SeedData
         }
 
         PopulateData(context);
-        context.SaveChanges();
     }
 
     private static void PopulateData(MemoryAlbumContext context)
     {
+        // Media
+
         Dictionary<string, Photo> photos = [];
-
-        photos.Add("test-photo-1", new Photo { Data = Encoding.ASCII.GetBytes("test-photo-1") });
-        photos.Add("test-photo-2", new Photo { Data = Encoding.ASCII.GetBytes("test-photo-2") });
-        photos.Add("test-photo-3", new Photo { Data = Encoding.ASCII.GetBytes("test-photo-3") });
-
-        photos.Add("cover-photo-1", new Photo { Data = Encoding.ASCII.GetBytes("cover-photo-1") });
+        photos.Add("test-photo-1", new Photo { Id = Guid.NewGuid(), Data = Encoding.ASCII.GetBytes("test-photo-1") });
+        photos.Add("test-photo-2", new Photo { Id = Guid.NewGuid(), Data = Encoding.ASCII.GetBytes("test-photo-2") });
+        photos.Add("test-photo-3", new Photo { Id = Guid.NewGuid(), Data = Encoding.ASCII.GetBytes("test-photo-3") });
+        photos.Add("cover-photo-1", new Photo { Id = Guid.NewGuid(), Data = Encoding.ASCII.GetBytes("cover-photo-1") });
 
         Dictionary<string, Video> videos = [];
+        videos.Add("test-video-1", new Video { Id = Guid.NewGuid(), Data = Encoding.ASCII.GetBytes("test-video-1") });
+        videos.Add("test-video-2", new Video { Id = Guid.NewGuid(), Data = Encoding.ASCII.GetBytes("test-video-2") });
 
-        videos.Add("test-video-1", new Video { Data = Encoding.ASCII.GetBytes("test-video-1") });
-        videos.Add("test-video-2", new Video { Data = Encoding.ASCII.GetBytes("test-video-2") });
-        videos.Add("test-video-3", new Video { Data = Encoding.ASCII.GetBytes("test-video-3") });
+        context.Media.AddRange([.. photos.Values, .. videos.Values]);
+        context.SaveChanges();
 
-        var event1 = new Event
-        {
-            Title = "Event 1",
-            Photos = [.. photos.Values],
-            Videos = [videos["test-video-1"]]
-        };
+        var contextPhotos = context.Media.OfType<Photo>();
+        var contextVideos = context.Media.OfType<Video>();
+
+
+
+
+
+        // People
 
         var person = new Person
         {
+            Id = Guid.NewGuid(),
             FirstName = "Test Name"
+        };
+
+        context.People.AddRange([person]);
+
+
+
+
+
+        // Events
+
+        var event1 = new Event
+        {
+            Id = Guid.NewGuid(),
+            Title = "Event 1",
+            Photos = [
+                    contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-1"].Id),
+                    contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-2"].Id)
+                ],
+            Videos = [contextVideos.SingleOrDefault(v => v.Id == videos["test-video-2"].Id)]
         };
 
         var personEvent = new Event
         {
+            Id = Guid.NewGuid(),
             Title = "Person Event",
-            Photos = [photos["test-photo-2"]],
-            // People = [person]
+            Photos = [contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-2"].Id)],
+            People = [context.People.Find(person.Id)]
         };
 
+        context.Events.AddRange([event1, personEvent]);
+
+
+
+        // Albums
 
         var album1 = new Album
         {
             Title = "Album Title 1",
             Description = "Album description 1",
-            // Cover = photos["cover-photo-1"],
-            Events = [event1]
+            Cover = contextPhotos.SingleOrDefault(p => p.Id == photos["cover-photo-1"].Id),
+            Events = [context.Events.Find(event1.Id)]
         };
 
         var album2 = new Album
@@ -76,12 +104,11 @@ public static class SeedData
         var personAlbum = new Album
         {
             Title = "Person Album",
-            Events = [personEvent]
+            Events = [context.Events.Find(personEvent.Id)]
         };
 
-
-
-
         context.Albums.AddRange([album1, album2, personAlbum]);
+
+        context.SaveChanges();
     }
 }
