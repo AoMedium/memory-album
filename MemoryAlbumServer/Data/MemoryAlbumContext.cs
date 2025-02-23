@@ -21,7 +21,7 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
         modelBuilder.Entity<Album>()
             .Property(album => album.Title).IsRequired();
 
-        // TODO: add configurations
+        // TODO: add validation configurations
 
         modelBuilder.Entity<Event>(entity =>
         {
@@ -29,10 +29,11 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
             entity.Property(e => e.Title).IsRequired();
         });
 
-        modelBuilder.Entity<Person>(entity =>
-        {
-            entity.Property(e => e.FirstName).IsRequired();
-        });
+        modelBuilder.Entity<Tag>()
+            .Property(e => e.Title).IsRequired();
+
+        modelBuilder.Entity<Person>()
+            .Property(e => e.FirstName).IsRequired();
 
         modelBuilder.Entity<Photo>()
             .Property(photo => photo.Data).IsRequired();
