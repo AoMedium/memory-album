@@ -39,9 +39,9 @@ public static class SeedData
         videos.Add("test-video-2", new Video { Data = Encoding.ASCII.GetBytes("test-video-2") });
         videos.Add("test-video-3", new Video { Data = Encoding.ASCII.GetBytes("test-video-3") });
 
-        var memory1 = new Memory
+        var event1 = new Event
         {
-            Title = "Memory 1",
+            Title = "Event 1",
             Photos = [.. photos.Values],
             Videos = [videos["test-video-1"]]
         };
@@ -51,16 +51,11 @@ public static class SeedData
             FirstName = "Test Name"
         };
 
-        var personMemory = new Memory
+        var personEvent = new Event
         {
-            Title = "Person Memory",
+            Title = "Person Event",
             Photos = [photos["test-photo-2"]],
             // People = [person]
-        };
-
-        var event1 = new Event
-        {
-            Title = "Event 1"
         };
 
 
@@ -69,7 +64,7 @@ public static class SeedData
             Title = "Album Title 1",
             Description = "Album description 1",
             // Cover = photos["cover-photo-1"],
-            Events = [memory1, event1]
+            Events = [event1]
         };
 
         var album2 = new Album
@@ -81,7 +76,7 @@ public static class SeedData
         var personAlbum = new Album
         {
             Title = "Person Album",
-            Events = [personMemory]
+            Events = [personEvent]
         };
 
 

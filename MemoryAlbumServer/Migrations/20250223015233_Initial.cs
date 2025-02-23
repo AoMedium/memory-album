@@ -43,9 +43,7 @@ namespace MemoryAlbumServer.Migrations
                     Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Location_Latitude = table.Column<double>(type: "double", nullable: true),
                     Location_Longitude = table.Column<double>(type: "double", nullable: true),
-                    AlbumId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    Discriminator = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    AlbumId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -66,21 +64,21 @@ namespace MemoryAlbumServer.Migrations
                     Discriminator = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Data = table.Column<byte[]>(type: "longblob", nullable: true),
-                    MemoryId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    EventId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     Video_Data = table.Column<byte[]>(type: "longblob", nullable: true),
-                    Video_MemoryId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    Video_EventId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Media", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Media_Events_MemoryId",
-                        column: x => x.MemoryId,
+                        name: "FK_Media_Events_EventId",
+                        column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Media_Events_Video_MemoryId",
-                        column: x => x.Video_MemoryId,
+                        name: "FK_Media_Events_Video_EventId",
+                        column: x => x.Video_EventId,
                         principalTable: "Events",
                         principalColumn: "Id");
                 })
@@ -152,14 +150,14 @@ namespace MemoryAlbumServer.Migrations
                 column: "AlbumId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Media_MemoryId",
+                name: "IX_Media_EventId",
                 table: "Media",
-                column: "MemoryId");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Media_Video_MemoryId",
+                name: "IX_Media_Video_EventId",
                 table: "Media",
-                column: "Video_MemoryId");
+                column: "Video_EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_People_EventId",

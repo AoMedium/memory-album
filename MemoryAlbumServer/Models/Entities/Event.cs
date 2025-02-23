@@ -1,3 +1,4 @@
+using MemoryAlbumServer.Models.Entities.Media;
 using MemoryAlbumServer.Models.Properties;
 
 namespace MemoryAlbumServer.Models.Entities;
@@ -10,4 +11,6 @@ public class Event
     public Position? Location { get; set; }
     public ICollection<Person> People { get; set; } = [];
     public ICollection<Tag> Tags { get; set; } = [];
+    public ICollection<Photo> Photos { get; set; } = [];
+    public ICollection<Video> Videos { get; set; } = [];
 }

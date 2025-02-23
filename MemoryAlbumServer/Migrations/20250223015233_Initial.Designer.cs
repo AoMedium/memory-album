@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryAlbumServer.Migrations
 {
     [DbContext(typeof(MemoryAlbumContext))]
-    [Migration("20250223013823_Initial")]
+    [Migration("20250223015233_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -60,11 +60,6 @@ namespace MemoryAlbumServer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("varchar(8)");
-
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime(6)");
 
@@ -77,10 +72,6 @@ namespace MemoryAlbumServer.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Events");
-
-                    b.HasDiscriminator().HasValue("Event");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Medium", b =>
@@ -162,13 +153,6 @@ namespace MemoryAlbumServer.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Memory", b =>
-                {
-                    b.HasBaseType("MemoryAlbumServer.Models.Entities.Event");
-
-                    b.HasDiscriminator().HasValue("Memory");
-                });
-
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
                 {
                     b.HasBaseType("MemoryAlbumServer.Models.Entities.Media.Medium");
@@ -177,10 +161,10 @@ namespace MemoryAlbumServer.Migrations
                         .IsRequired()
                         .HasColumnType("longblob");
 
-                    b.Property<Guid?>("MemoryId")
+                    b.Property<Guid?>("EventId")
                         .HasColumnType("char(36)");
 
-                    b.HasIndex("MemoryId");
+                    b.HasIndex("EventId");
 
                     b.HasDiscriminator().HasValue("Photo");
                 });
@@ -193,18 +177,18 @@ namespace MemoryAlbumServer.Migrations
                         .IsRequired()
                         .HasColumnType("longblob");
 
-                    b.Property<Guid?>("MemoryId")
+                    b.Property<Guid?>("EventId")
                         .HasColumnType("char(36)");
 
-                    b.HasIndex("MemoryId");
+                    b.HasIndex("EventId");
 
                     b.ToTable("Media", t =>
                         {
                             t.Property("Data")
                                 .HasColumnName("Video_Data");
 
-                            t.Property("MemoryId")
-                                .HasColumnName("Video_MemoryId");
+                            t.Property("EventId")
+                                .HasColumnName("Video_EventId");
                         });
 
                     b.HasDiscriminator().HasValue("Video");
@@ -269,16 +253,16 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Photo", b =>
                 {
-                    b.HasOne("MemoryAlbumServer.Models.Entities.Memory", null)
+                    b.HasOne("MemoryAlbumServer.Models.Entities.Event", null)
                         .WithMany("Photos")
-                        .HasForeignKey("MemoryId");
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Video", b =>
                 {
-                    b.HasOne("MemoryAlbumServer.Models.Entities.Memory", null)
+                    b.HasOne("MemoryAlbumServer.Models.Entities.Event", null)
                         .WithMany("Videos")
-                        .HasForeignKey("MemoryId");
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Album", b =>
@@ -290,12 +274,9 @@ namespace MemoryAlbumServer.Migrations
                 {
                     b.Navigation("People");
 
-                    b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Memory", b =>
-                {
                     b.Navigation("Photos");
+
+                    b.Navigation("Tags");
 
                     b.Navigation("Videos");
                 });

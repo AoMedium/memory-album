@@ -8,7 +8,6 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
 {
     public DbSet<Album> Albums { get; set; }
     public DbSet<Event> Events { get; set; }
-    public DbSet<Memory> Memories { get; set; }
     public DbSet<Person> People { get; set; }
     public DbSet<Tag> Tags { get; set; }
 
