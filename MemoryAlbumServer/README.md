@@ -16,6 +16,7 @@ dotnet run
 ### To do
 
 - Create DTO for endpoints (for example: passing person id instead of person, then identify and create person entity in action)
+  - Separate DTOs to request and response models
 - Encryption and decryption for media content
 
 ### Setup database
