@@ -16,17 +16,9 @@ public class PeopleController(MemoryAlbumContext context) : Controller
     [HttpGet]
     public IEnumerable<PersonDto> GetPeople()
     {
-        var people = from person in _context.People
-                     select new PersonDto
-                     {
-                         Id = person.Id,
-                         FirstName = person.FirstName,
-                         LastName = person.LastName,
-                         Description = person.Description,
-                         ProfilePictureId = person.ProfilePicture == null ? null : person.ProfilePicture.Id,
-                         Birthday = person.Birthday
-                     };
-
+        var people = _context.People
+            .Include(person => person.ProfilePicture) // Need to include or it will be missing from DTO
+            .Select(person => MapToPersonDto(person));
         return people;
     }
 
@@ -34,23 +26,16 @@ public class PeopleController(MemoryAlbumContext context) : Controller
     [HttpGet("{id}")]
     public async Task<ActionResult<PersonDto>> GetPersonById(Guid id)
     {
-        var person = await _context.People.FindAsync(id);
+        var person = await _context.People
+            .Include(person => person.ProfilePicture) // Need to include or it will be missing from DT
+            .SingleOrDefaultAsync(person => id == person.Id);
 
         if (person == null)
         {
             return NotFound();
         }
 
-        var personDto = new PersonDto
-        {
-            Id = person.Id,
-            FirstName = person.FirstName,
-            LastName = person.LastName,
-            Description = person.Description,
-            ProfilePictureId = person.ProfilePicture?.Id,
-            Birthday = person.Birthday
-        };
-
+        var personDto = MapToPersonDto(person);
         return personDto;
     }
 
@@ -90,4 +75,21 @@ public class PeopleController(MemoryAlbumContext context) : Controller
         return CreatedAtAction(nameof(CreatePerson), new { id = person.Id });
     }
 
+    /// <summary>
+    /// Remember to include any referenced entities before passing this person.
+    /// </summary>
+    /// <param name="person"></param>
+    /// <returns></returns>
+    private static PersonDto MapToPersonDto(Person person)
+    {
+        return new PersonDto
+        {
+            Id = person.Id,
+            FirstName = person.FirstName,
+            LastName = person.LastName,
+            Description = person.Description,
+            ProfilePictureId = person.ProfilePicture?.Id,
+            Birthday = person.Birthday
+        };
+    }
 }
