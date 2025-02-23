@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MemoryAlbumServer.Data;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
@@ -14,12 +15,13 @@ public class PeopleController(MemoryAlbumContext context) : Controller
 
     // GET: /api/People
     [HttpGet]
-    public IEnumerable<PersonDto> GetPeople()
+    public async Task<ActionResult<IEnumerable<PersonDto>>> GetPeople()
     {
         var people = _context.People
             .Include(person => person.ProfilePicture) // Need to include or it will be missing from DTO
             .Select(person => MapToPersonDto(person));
-        return people;
+
+        return await people.ToListAsync();
     }
 
     // GET: /api/People/{id}
