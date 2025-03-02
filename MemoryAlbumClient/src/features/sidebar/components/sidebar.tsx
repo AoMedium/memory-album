@@ -75,7 +75,7 @@ export default function Sidebar() {
             transform: "none",
             transition: `transform ${styles.sidebar.animationLength} cubic-bezier(0, 0, 0.2, 1)`, // From MUI Drawer
 
-            opacity: 1,
+            opacity: 0.9,
             visibility: "visible",
             borderRadius: "10px",
             boxShadow: "4px 4px 10px rgba(0,0,0,0.25)", // TODO: replace with theme for all box shadows

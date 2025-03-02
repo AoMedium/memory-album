@@ -19,7 +19,7 @@ export default function SidebarItem(props: SidebarItemProps) {
   return (
     <ListItem sx={{ justifyContent: "center" }} key={props.text} disablePadding>
       <ListItemButton
-        sx={{ padding: "15px", borderRadius: "10px" }}
+        sx={{ padding: "12px", borderRadius: "10px" }}
         onClick={props.onClick}
         onMouseEnter={() => setVisible(true)}
         onMouseLeave={() => setVisible(false)}
@@ -40,13 +40,13 @@ export default function SidebarItem(props: SidebarItemProps) {
                 left: "110%",
                 background: "white",
                 borderRadius: "10px",
-                padding: "8px 20px",
+                padding: "6px 20px",
                 boxShadow: "4px 4px 10px rgba(0,0,0,0.25)",
 
                 transition: "opacity 225ms, visibility 225ms",
               },
               isVisible && {
-                opacity: 1,
+                opacity: 0.9, // TODO: add to theme
                 visibility: "visible",
               },
               !isVisible && {
