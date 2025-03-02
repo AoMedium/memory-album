@@ -5,6 +5,7 @@ import DeckGL from "deck.gl";
 import { MapView } from "@deck.gl/core";
 import Sidebar from "@/features/sidebar/components/sidebar";
 import AddEventButton from "@/features/add-event/components/add-event-button";
+import AlbumSelector from "@/features/album-selector/components/album-selector";
 
 export default function MapLayout() {
   return (
@@ -24,6 +25,7 @@ export default function MapLayout() {
       </MapView>
       <Sidebar />
       <AddEventButton />
+      <AlbumSelector />
     </DeckGL>
   );
 }
