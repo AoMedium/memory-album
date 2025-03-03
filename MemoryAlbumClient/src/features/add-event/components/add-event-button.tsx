@@ -1,33 +1,23 @@
+import { styles } from "@/config/constants";
 import { Add } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-
-const styles = {
-  colors: {
-    fill: {
-      primary: "rgb(83, 153, 251)",
-      secondary: "white",
-    },
-    text: {
-      primary: "white",
-      secondary: "rgb(83, 153, 251)",
-    },
-  },
-};
 
 export default function AddEventButton() {
   return (
     <IconButton
       sx={{
         position: "absolute",
-        bottom: "calc(2 * 30px)", // TODO: define as global page margin
-        right: "calc(2 * 30px)",
+        bottom: `calc(2 * ${styles.viewport.margin})`,
+        right: `calc(2 * ${styles.viewport.margin})`,
 
-        background: styles.colors.fill.secondary,
-        color: styles.colors.text.secondary,
+        background: (theme) => theme.palette.background.paper,
+        boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
+
+        color: (theme) => theme.palette.text.primary,
 
         ":hover": {
-          background: styles.colors.fill.primary,
-          color: styles.colors.text.primary,
+          background: (theme) => theme.palette.primary.main,
+          color: (theme) => theme.palette.primary.contrastText,
         },
       }}
     >

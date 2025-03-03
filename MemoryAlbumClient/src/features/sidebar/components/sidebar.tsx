@@ -12,16 +12,7 @@ import { Box, IconButton, List } from "@mui/material";
 import { useState } from "react";
 import SidebarItem from "./sidebar-item";
 import SidebarDivider from "./sidebar-divider";
-
-const styles = {
-  sidebar: {
-    marginLeft: "30px",
-    animationLength: "225ms",
-  },
-  openSidebarButton: {
-    padding: "8px",
-  },
-};
+import { styles } from "@/config/constants";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -50,10 +41,10 @@ export default function Sidebar() {
           {
             position: "absolute", // TODO: check if this is appropriate for avoiding collision with sidebar
             top: "50%",
-            left: styles.openSidebarButton.padding,
-            padding: styles.openSidebarButton.padding,
+            left: "8px",
+            padding: "8px",
             transform: "translateY(-50%)",
-            background: "white",
+            background: (theme) => theme.palette.background.paper,
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
           },
@@ -66,23 +57,25 @@ export default function Sidebar() {
         id="sidebar"
         sx={[
           {
-            margin: `auto ${styles.sidebar.marginLeft}`,
+            margin: `auto ${styles.viewport.margin}`,
             background: "white", // TODO: replace with theme paper color
             width: "fit-content",
             height: "fit-content",
 
             boxSizing: "border-box",
             transform: "none",
-            transition: `transform ${styles.sidebar.animationLength} cubic-bezier(0, 0, 0.2, 1)`, // From MUI Drawer
+            transition: `transform ${styles.transition.duration} cubic-bezier(0, 0, 0.2, 1)`, // From MUI Drawer
 
             opacity: 0.9,
             visibility: "visible",
             borderRadius: "10px",
-            boxShadow: "4px 4px 10px rgba(0,0,0,0.25)", // TODO: replace with theme for all box shadows
+            boxShadow: (theme) => theme.shadows[4],
           },
           !open && {
-            transform: `translateX(calc(-100% - ${styles.sidebar.marginLeft}))`,
-            transition: `transform ${styles.sidebar.animationLength} cubic-bezier(0, 0, 0.2, 1), opacity ${styles.sidebar.animationLength}, visibility 1s`, // From MUI Drawer
+            transform: `translateX(calc(-100% - ${styles.viewport.margin}))`,
+            transition: `
+              transform ${styles.transition.duration} cubic-bezier(0, 0, 0.2, 1), 
+              opacity ${styles.transition.duration}, visibility 1s`, // From MUI Drawer
             opacity: 0,
             visibility: "hidden",
           },

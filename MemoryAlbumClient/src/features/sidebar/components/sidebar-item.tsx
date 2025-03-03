@@ -1,3 +1,4 @@
+import { styles } from "@/config/constants";
 import {
   ListItem,
   ListItemButton,
@@ -38,12 +39,14 @@ export default function SidebarItem(props: SidebarItemProps) {
               {
                 position: "absolute",
                 left: "110%",
-                background: "white",
+                background: (theme) => theme.palette.background.paper,
                 borderRadius: "10px",
                 padding: "6px 20px",
-                boxShadow: "4px 4px 10px rgba(0,0,0,0.25)",
+                boxShadow: (theme) => theme.shadows[4],
 
-                transition: "opacity 225ms, visibility 225ms",
+                transition: `
+                  opacity ${styles.transition.duration}, 
+                  visibility ${styles.transition.duration}`,
               },
               isVisible && {
                 opacity: 0.9, // TODO: add to theme

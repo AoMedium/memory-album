@@ -1,4 +1,5 @@
-import { Folder, FolderOutlined } from "@mui/icons-material";
+import { styles } from "@/config/constants";
+import { FolderOutlined } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -16,12 +17,12 @@ export default function AlbumSelector() {
     <Button
       sx={{
         position: "absolute",
-        top: "30px",
-        left: "30px",
+        top: `${styles.viewport.margin}`,
+        left: `${styles.viewport.margin}`,
         padding: "15px",
         borderRadius: "10px",
 
-        background: "white",
+        background: (theme) => theme.palette.background.paper,
         color: "black",
       }}
       variant="contained"
