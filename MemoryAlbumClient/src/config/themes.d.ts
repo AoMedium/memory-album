@@ -1,16 +1,13 @@
-import { Theme, ThemeOptions } from "@mui/material/styles";
-
 declare module "@mui/material/styles" {
-  interface CustomTheme extends Theme {
-    globals: {
-      height: number;
+  interface Palette {
+    icon: {
+      main: string;
     };
   }
   // allow configuration using `createTheme`
-  interface CustomThemeOptions extends ThemeOptions {
-    globals?: {
-      height?: number;
+  interface PaletteOptions {
+    icon?: {
+      main?: string;
     };
   }
-  export function createTheme(options?: CustomThemeOptions): CustomTheme;
 }

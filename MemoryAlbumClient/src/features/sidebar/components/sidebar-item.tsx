@@ -29,6 +29,7 @@ export default function SidebarItem(props: SidebarItemProps) {
           sx={{
             minWidth: 0,
             justifyContent: "center",
+            color: styles.color.icon.main,
           }}
         >
           {props.icon}

@@ -8,4 +8,10 @@ export const styles = {
   transition: {
     duration: "225ms",
   },
+  color: {
+    // TODO: migrate this to custom themes
+    icon: {
+      main: "grey",
+    },
+  },
 };

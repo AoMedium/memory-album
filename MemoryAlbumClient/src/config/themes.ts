@@ -11,8 +11,8 @@ const mapTheme = createTheme({
       main: "rgb(80, 108, 151)",
     },
     text: {
-      primary: "rgb(83, 153, 251)",
-      secondary: "rgb(80, 108, 151)",
+      primary: "rgb(80, 108, 151)",
+      secondary: "grey",
     },
     background: {
       default: "rgb(255,255,255)",

@@ -19,11 +19,12 @@ export default function AlbumSelector() {
         position: "absolute",
         top: `${styles.viewport.margin}`,
         left: `${styles.viewport.margin}`,
-        padding: "15px",
+        padding: " 10px 15px",
         borderRadius: "10px",
 
         background: (theme) => theme.palette.background.paper,
-        color: "black",
+        boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
+        color: (theme) => theme.palette.text.secondary,
       }}
       variant="contained"
     >
