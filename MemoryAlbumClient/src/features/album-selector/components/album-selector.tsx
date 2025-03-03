@@ -2,9 +2,10 @@ import { styles } from "@/config/constants";
 import { FolderOutlined } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
+import { getAlbums } from "../api/get-albums";
 
 export default function AlbumSelector() {
-  const [albumName, setAlbumName] = useState<string>("Placeholder album");
+  const [albumName] = useState<string>("Placeholder album");
 
   /**
    * TODO:
@@ -12,6 +13,12 @@ export default function AlbumSelector() {
    * - call album api
    * - use redux to cache/store selected album details
    */
+
+  async function openAlbums() {
+    const response = await getAlbums();
+
+    console.log(response);
+  }
 
   return (
     <Button
@@ -27,6 +34,7 @@ export default function AlbumSelector() {
         color: (theme) => theme.palette.text.secondary,
       }}
       variant="contained"
+      onClick={openAlbums}
     >
       <Stack direction="row" spacing="15px">
         <FolderOutlined />
