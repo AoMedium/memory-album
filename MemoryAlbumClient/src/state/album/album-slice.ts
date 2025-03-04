@@ -3,22 +3,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface AlbumState {
   albums: AlbumResponse[];
-  selectedAlbumId?: string | undefined;
+  selectedAlbum?: AlbumResponse | undefined;
 }
 
 const initialState: AlbumState = {
   albums: [],
-  selectedAlbumId: undefined,
+  selectedAlbum: undefined,
 };
 
 const albumSlice = createSlice({
   name: 'album',
   initialState,
   reducers: {
-    selectAlbum(state, action) {
-      state.selectedAlbumId = action.payload;
+    selectAlbum(state, action: { payload: AlbumResponse }) {
+      state.selectedAlbum = action.payload;
     },
-    updateAlbums(state, action) {
+    updateAlbums(state, action: { payload: AlbumResponse[] }) {
       state.albums = action.payload;
     },
   },
