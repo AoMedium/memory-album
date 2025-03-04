@@ -55,9 +55,7 @@ export default function AlbumSelector() {
           </Typography>
         </Stack>
       </Button>
-      {isModalOpen && (
-        <AlbumModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
-      )}
+      <AlbumModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
     </>
   );
 }

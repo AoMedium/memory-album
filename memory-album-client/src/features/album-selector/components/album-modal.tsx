@@ -1,10 +1,7 @@
 import { styles } from '@/config/constants';
 import { Close } from '@mui/icons-material';
-import { Box, Button, IconButton, List, ListItem } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/state/store';
-import { AlbumResponse } from '@/types/api';
-import { selectAlbum } from '@/state/album/album-slice';
+import { Box, IconButton, Modal } from '@mui/material';
+import AlbumList from './album-list';
 
 interface Props {
   isModalOpen: boolean;
@@ -12,41 +9,36 @@ interface Props {
 }
 
 export default function AlbumModal(props: Props) {
-  const albums = useSelector((state: RootState) => state.album.albums);
-
-  const dispatch = useDispatch();
-
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: `calc(3 * ${styles.viewport.margin})`,
-        left: `${styles.viewport.margin}`,
-        padding: '10px 15px',
-        borderRadius: '10px',
+    <Modal open={props.isModalOpen}>
+      <Box
+        sx={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          padding: '10px 15px',
+          borderRadius: '10px',
 
-        background: (theme) => theme.palette.background.paper,
-        boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
-        color: (theme) => theme.palette.text.secondary,
-      }}
-    >
-      <IconButton>
-        <Close onClick={() => props.setModalOpen(false)} />
-      </IconButton>
-      <List>
-        {albums.map((album: AlbumResponse) => (
-          <ListItem key={album.id}>
-            <Button
-              onClick={() => {
-                props.setModalOpen(false);
-                dispatch(selectAlbum(album));
-              }}
-            >
-              {album.title}
-            </Button>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+          background: (theme) => theme.palette.background.paper,
+          boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
+          color: (theme) => theme.palette.text.secondary,
+        }}
+      >
+        <IconButton
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+          }}
+        >
+          <Close onClick={() => props.setModalOpen(false)} />
+        </IconButton>
+        <AlbumList
+          isModalOpen={props.isModalOpen}
+          setModalOpen={props.setModalOpen}
+        />
+      </Box>
+    </Modal>
   );
 }
