@@ -1,25 +1,16 @@
 import { styles } from '@/config/constants';
-import { Close, FolderOutlined } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  IconButton,
-  List,
-  ListItem,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { FolderOutlined } from '@mui/icons-material';
+import { Button, Stack, Typography } from '@mui/material';
 import { getAlbums } from '../api/get-albums';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/state/store';
-import { AlbumResponse } from '@/types/api';
-import { selectAlbum, updateAlbums } from '@/state/album/album-slice';
+import { updateAlbums } from '@/state/album/album-slice';
 import { useState } from 'react';
+import AlbumModal from './album-modal';
 
 export default function AlbumSelector() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const albums = useSelector((state: RootState) => state.album.albums);
   const selectedAlbum = useSelector(
     (state: RootState) => state.album.selectedAlbum,
   );
@@ -65,37 +56,7 @@ export default function AlbumSelector() {
         </Stack>
       </Button>
       {isModalOpen && (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: `calc(3 * ${styles.viewport.margin})`,
-            left: `${styles.viewport.margin}`,
-            padding: '10px 15px',
-            borderRadius: '10px',
-
-            background: (theme) => theme.palette.background.paper,
-            boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
-            color: (theme) => theme.palette.text.secondary,
-          }}
-        >
-          <IconButton>
-            <Close onClick={() => setModalOpen(false)} />
-          </IconButton>
-          <List>
-            {albums.map((album: AlbumResponse) => (
-              <ListItem key={album.id}>
-                <Button
-                  onClick={() => {
-                    setModalOpen(false);
-                    dispatch(selectAlbum(album));
-                  }}
-                >
-                  {album.title}
-                </Button>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
+        <AlbumModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
       )}
     </>
   );
