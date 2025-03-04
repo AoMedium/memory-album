@@ -1,11 +1,11 @@
-import { styles } from "@/config/constants";
-import { FolderOutlined } from "@mui/icons-material";
-import { Button, Stack, Typography } from "@mui/material";
-import { useState } from "react";
-import { getAlbums } from "../api/get-albums";
+import { styles } from '@/config/constants';
+import { FolderOutlined } from '@mui/icons-material';
+import { Button, Stack, Typography } from '@mui/material';
+import { useState } from 'react';
+import { getAlbums } from '../api/get-albums';
 
 export default function AlbumSelector() {
-  const [albumName] = useState<string>("Placeholder album");
+  const [albumName] = useState<string>('Placeholder album');
 
   /**
    * TODO:
@@ -23,11 +23,11 @@ export default function AlbumSelector() {
   return (
     <Button
       sx={{
-        position: "absolute",
+        position: 'absolute',
         top: `${styles.viewport.margin}`,
         left: `${styles.viewport.margin}`,
-        padding: " 10px 15px",
-        borderRadius: "10px",
+        padding: '10px 15px',
+        borderRadius: '10px',
 
         background: (theme) => theme.palette.background.paper,
         boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
@@ -38,7 +38,7 @@ export default function AlbumSelector() {
     >
       <Stack direction="row" spacing="15px">
         <FolderOutlined />
-        <Typography sx={{ fontVariantCaps: "normal" }}>{albumName}</Typography>
+        <Typography sx={{ fontVariantCaps: 'normal' }}>{albumName}</Typography>
       </Stack>
     </Button>
   );

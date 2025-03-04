@@ -7,12 +7,12 @@ import {
   Search,
   Settings,
   Share,
-} from "@mui/icons-material";
-import { Box, IconButton, List } from "@mui/material";
-import { useState } from "react";
-import SidebarItem from "./sidebar-item";
-import SidebarDivider from "./sidebar-divider";
-import { styles } from "@/config/constants";
+} from '@mui/icons-material';
+import { Box, IconButton, List } from '@mui/material';
+import { useState } from 'react';
+import SidebarItem from './sidebar-item';
+import SidebarDivider from './sidebar-divider';
+import { styles } from '@/config/constants';
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -28,8 +28,8 @@ export default function Sidebar() {
   return (
     <Box
       sx={{
-        display: "flex",
-        height: "100vh",
+        display: 'flex',
+        height: '100vh',
       }}
     >
       <IconButton
@@ -39,16 +39,16 @@ export default function Sidebar() {
         edge="start"
         sx={[
           {
-            position: "absolute", // TODO: check if this is appropriate for avoiding collision with sidebar
-            top: "50%",
-            left: "8px",
-            padding: "8px",
-            transform: "translateY(-50%)",
+            position: 'absolute', // TODO: check if this is appropriate for avoiding collision with sidebar
+            top: '50%',
+            left: '8px',
+            padding: '8px',
+            transform: 'translateY(-50%)',
             background: (theme) => theme.palette.background.paper,
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
           },
-          open && { display: "none" },
+          open && { display: 'none' },
         ]}
       >
         <ChevronRight />
@@ -58,17 +58,17 @@ export default function Sidebar() {
         sx={[
           {
             margin: `auto ${styles.viewport.margin}`,
-            background: "white", // TODO: replace with theme paper color
-            width: "fit-content",
-            height: "fit-content",
+            background: 'white', // TODO: replace with theme paper color
+            width: 'fit-content',
+            height: 'fit-content',
 
-            boxSizing: "border-box",
-            transform: "none",
+            boxSizing: 'border-box',
+            transform: 'none',
             transition: `transform ${styles.transition.duration} cubic-bezier(0, 0, 0.2, 1)`, // From MUI Drawer
 
             opacity: 0.9,
-            visibility: "visible",
-            borderRadius: "10px",
+            visibility: 'visible',
+            borderRadius: '10px',
             boxShadow: (theme) => theme.shadows[4],
           },
           !open && {
@@ -77,7 +77,7 @@ export default function Sidebar() {
               transform ${styles.transition.duration} cubic-bezier(0, 0, 0.2, 1), 
               opacity ${styles.transition.duration}, visibility 1s`, // From MUI Drawer
             opacity: 0,
-            visibility: "hidden",
+            visibility: 'hidden',
           },
         ]}
       >

@@ -1,12 +1,12 @@
-import { styles } from "@/config/constants";
+import { styles } from '@/config/constants';
 import {
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography,
-} from "@mui/material";
-import { JSX, useState } from "react";
+} from '@mui/material';
+import { JSX, useState } from 'react';
 
 interface SidebarItemProps {
   text?: string;
@@ -18,9 +18,9 @@ export default function SidebarItem(props: SidebarItemProps) {
   const [isVisible, setVisible] = useState(false);
 
   return (
-    <ListItem sx={{ justifyContent: "center" }} key={props.text} disablePadding>
+    <ListItem sx={{ justifyContent: 'center' }} key={props.text} disablePadding>
       <ListItemButton
-        sx={{ padding: "12px", borderRadius: "10px" }}
+        sx={{ padding: '12px', borderRadius: '10px' }}
         onClick={props.onClick}
         onMouseEnter={() => setVisible(true)}
         onMouseLeave={() => setVisible(false)}
@@ -28,7 +28,7 @@ export default function SidebarItem(props: SidebarItemProps) {
         <ListItemIcon
           sx={{
             minWidth: 0,
-            justifyContent: "center",
+            justifyContent: 'center',
             color: styles.color.icon.main,
           }}
         >
@@ -38,11 +38,11 @@ export default function SidebarItem(props: SidebarItemProps) {
           <ListItemText
             sx={[
               {
-                position: "absolute",
-                left: "110%",
+                position: 'absolute',
+                left: '110%',
                 background: (theme) => theme.palette.background.paper,
-                borderRadius: "10px",
-                padding: "6px 20px",
+                borderRadius: '10px',
+                padding: '6px 20px',
                 boxShadow: (theme) => theme.shadows[4],
 
                 transition: `
@@ -51,19 +51,19 @@ export default function SidebarItem(props: SidebarItemProps) {
               },
               isVisible && {
                 opacity: 0.9, // TODO: add to theme
-                visibility: "visible",
+                visibility: 'visible',
               },
               !isVisible && {
                 opacity: 0,
-                visibility: "hidden",
+                visibility: 'hidden',
               },
             ]}
             disableTypography // Disable default nested Typography component
           >
             <Typography
               sx={{
-                fontSize: "14px",
-                color: "grey",
+                fontSize: '14px',
+                color: 'grey',
               }}
             >
               {props.text}

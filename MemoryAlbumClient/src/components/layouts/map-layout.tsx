@@ -1,11 +1,11 @@
-import Map from "react-map-gl/maplibre";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { BASEMAP } from "@deck.gl/carto";
-import DeckGL from "deck.gl";
-import { MapView } from "@deck.gl/core";
-import Sidebar from "@/features/sidebar/components/sidebar";
-import AddEventButton from "@/features/add-event/components/add-event-button";
-import AlbumSelector from "@/features/album-selector/components/album-selector";
+import Map from 'react-map-gl/maplibre';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { BASEMAP } from '@deck.gl/carto';
+import DeckGL from 'deck.gl';
+import { MapView } from '@deck.gl/core';
+import Sidebar from '@/features/sidebar/components/sidebar';
+import AddEventButton from '@/features/add-event/components/add-event-button';
+import AlbumSelector from '@/features/album-selector/components/album-selector';
 
 export default function MapLayout() {
   return (

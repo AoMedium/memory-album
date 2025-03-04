@@ -1,10 +1,10 @@
-import Button from "@mui/material/Button";
-import axios from "axios";
+import Button from '@mui/material/Button';
+import axios from 'axios';
 
 // TODO: https://www.youtube.com/watch?v=h9KevTtI5O0&list=PLDxCaNaYIuUlG5ZqoQzFE27CUOoQvOqnQ&index=1
 
 async function callApi() {
-  const URL = "http://localhost:5226";
+  const URL = 'http://localhost:5226';
 
   const response = await axios.get(`${URL}/api/Albums`, {});
 

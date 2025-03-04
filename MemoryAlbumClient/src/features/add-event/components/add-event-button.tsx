@@ -1,12 +1,12 @@
-import { styles } from "@/config/constants";
-import { Add } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { styles } from '@/config/constants';
+import { Add } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 export default function AddEventButton() {
   return (
     <IconButton
       sx={{
-        position: "absolute",
+        position: 'absolute',
         bottom: `calc(2 * ${styles.viewport.margin})`,
         right: `calc(2 * ${styles.viewport.margin})`,
 
@@ -15,13 +15,13 @@ export default function AddEventButton() {
 
         color: (theme) => theme.palette.text.primary,
 
-        ":hover": {
+        ':hover': {
           background: (theme) => theme.palette.primary.main,
           color: (theme) => theme.palette.primary.contrastText,
         },
       }}
     >
-      <Add sx={{ fontSize: "35px" }} />
+      <Add sx={{ fontSize: '35px' }} />
     </IconButton>
   );
 }

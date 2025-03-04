@@ -1,4 +1,4 @@
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface Palette {
     icon: {
       main: string;
