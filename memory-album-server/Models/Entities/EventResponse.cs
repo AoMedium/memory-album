@@ -1,0 +1,16 @@
+using MemoryAlbumServer.Models.Entities.Media;
+using MemoryAlbumServer.Models.Properties;
+
+namespace MemoryAlbumServer.Models.Entities;
+public class EventResponse
+{
+    public Guid Id { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public DateTime Timestamp { get; set; }
+    public Position? Location { get; set; }
+    public ICollection<Guid> PersonIds { get; set; } = [];
+    public ICollection<Guid> TagIds { get; set; } = [];
+    public ICollection<Guid> PhotoIds { get; set; } = [];
+    public ICollection<Guid> VideoIds { get; set; } = [];
+}
