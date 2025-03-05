@@ -2,7 +2,7 @@ using MemoryAlbumServer.Models.Entities.Media;
 using MemoryAlbumServer.Models.Properties;
 
 namespace MemoryAlbumServer.Models.Entities;
-public class EventResponse
+public class EventRequest
 {
     public Guid Id { get; set; }
     public string? Title { get; set; }

@@ -17,6 +17,8 @@ export default function AlbumModal(props: Props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
+          minWidth: '30%',
+          minHeight: '20%',
           padding: '10px 15px',
           borderRadius: '10px',
 
