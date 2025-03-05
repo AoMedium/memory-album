@@ -4,11 +4,13 @@ import { createSlice } from '@reduxjs/toolkit';
 interface AlbumState {
   albums: AlbumResponse[];
   selectedAlbum?: AlbumResponse | undefined;
+  isLoading: boolean;
 }
 
 const initialState: AlbumState = {
   albums: [],
   selectedAlbum: undefined,
+  isLoading: false,
 };
 
 const albumSlice = createSlice({
@@ -21,8 +23,11 @@ const albumSlice = createSlice({
     updateAlbums(state, action: { payload: AlbumResponse[] }) {
       state.albums = action.payload;
     },
+    setLoading(state, action: { payload: boolean }) {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { selectAlbum, updateAlbums } = albumSlice.actions;
+export const { selectAlbum, updateAlbums, setLoading } = albumSlice.actions;
 export default albumSlice.reducer;

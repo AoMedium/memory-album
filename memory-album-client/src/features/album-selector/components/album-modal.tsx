@@ -29,6 +29,7 @@ export default function AlbumModal(props: Props) {
       >
         <IconButton
           sx={{
+            zIndex: 1000,
             position: 'absolute',
             top: 0,
             right: 0,
