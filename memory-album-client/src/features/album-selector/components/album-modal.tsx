@@ -17,10 +17,11 @@ export default function AlbumModal(props: Props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          minWidth: '30%',
-          minHeight: '20%',
-          padding: '10px 15px',
+          width: '80%',
+          height: '80%',
+          padding: '16px',
           borderRadius: '10px',
+          boxSizing: 'border-box',
 
           background: (theme) => theme.palette.background.paper,
           boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
@@ -37,10 +38,7 @@ export default function AlbumModal(props: Props) {
         >
           <Close onClick={() => props.setModalOpen(false)} />
         </IconButton>
-        <AlbumList
-          isModalOpen={props.isModalOpen}
-          setModalOpen={props.setModalOpen}
-        />
+        <AlbumList setModalOpen={props.setModalOpen} />
       </Box>
     </Modal>
   );
