@@ -1,6 +1,7 @@
 using MemoryAlbumServer.Data;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
+using MemoryAlbumServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,37 +9,29 @@ namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AlbumsController(MemoryAlbumContext context) : Controller
+public class AlbumsController(IAlbumService albumService) : Controller
 {
-    private readonly MemoryAlbumContext _context = context;
+    private readonly IAlbumService _albumService = albumService;
 
     // GET: /api/Albums
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AlbumResponse>>> GetAlbums()
     {
-        var albums = _context.Albums
-            .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
-            .Include(album => album.Events)
-            .Select(album => MapToAlbumResponse(album));
-        return await albums.ToListAsync();
+        var albums = await _albumService.GetAllAsync();
+        return albums.Select(MapToAlbumResponse).ToList();
     }
 
     // GET: /api/Albums/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<AlbumResponse>> GetAlbumById(Guid id)
     {
-        var album = await _context.Albums
-            .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
-            .Include(album => album.Events)
-            .SingleOrDefaultAsync(album => id == album.Id);
+        var album = await _albumService.GetById(id);
 
         if (album == null)
         {
             return NotFound();
         }
-
-        var albumResponse = MapToAlbumResponse(album);
-        return albumResponse;
+        return MapToAlbumResponse(album);
     }
 
     // POST: /api/Albums
