@@ -9,9 +9,10 @@ namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AlbumsController(IAlbumService albumService) : Controller
+public class AlbumsController(IAlbumService albumService, IPhotoService photoService) : Controller
 {
     private readonly IAlbumService _albumService = albumService;
+    private readonly IPhotoService _photoService = photoService;
 
     // GET: /api/Albums
     [HttpGet]
@@ -36,7 +37,7 @@ public class AlbumsController(IAlbumService albumService) : Controller
 
     // POST: /api/Albums
     [HttpPost]
-    public async Task<ActionResult<AlbumResponse>> CreateAlbum(AlbumRequest albumRequest)
+    public async Task<ActionResult<AlbumResponse>> CreateAlbum(AlbumCreateRequest albumCreateRequest)
     {
         if (!ModelState.IsValid) // Check if validation rules were broken during request-model binding.
         {
@@ -45,9 +46,9 @@ public class AlbumsController(IAlbumService albumService) : Controller
 
         Photo? coverPhoto = null;
 
-        if (albumRequest.CoverPhotoId != null) // Get profile picture if specified
+        if (albumCreateRequest.CoverPhotoId.HasValue) // Get profile picture if specified
         {
-            coverPhoto = await _context.Media.OfType<Photo>().SingleOrDefaultAsync(photo => photo.Id == albumRequest.CoverPhotoId);
+            coverPhoto = await _photoService.GetById(albumCreateRequest.CoverPhotoId.Value);
 
             if (coverPhoto == null)
             {
@@ -57,16 +58,15 @@ public class AlbumsController(IAlbumService albumService) : Controller
 
         var album = new Album
         {
-            Id = albumRequest.Id,
-            Title = albumRequest.Title,
-            Description = albumRequest.Description,
+            Title = albumCreateRequest.Title,
+            Description = albumCreateRequest.Description,
             CoverPhoto = coverPhoto,
             Events = [] // This action does not allow adding events
         };
 
-        _context.Albums.Add(album);
-        await _context.SaveChangesAsync();
+        await _albumService.Add(album);
 
+        // Return created album with the generated id
         return CreatedAtAction(nameof(CreateAlbum), new { id = album.Id });
     }
 

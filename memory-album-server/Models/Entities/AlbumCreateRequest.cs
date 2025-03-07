@@ -3,7 +3,7 @@ using MemoryAlbumServer.Models.Entities.Media;
 
 namespace MemoryAlbumServer.Models.Entities;
 
-public class AlbumRequest : BaseEntity
+public class AlbumCreateRequest
 {
     public string? Title { get; set; }
     public string? Description { get; set; }

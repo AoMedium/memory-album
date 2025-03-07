@@ -27,4 +27,13 @@ public class AlbumService(MemoryAlbumContext _context) : IAlbumService
 
         return album;
     }
+
+    public async Task<Album> Add(Album album)
+    {
+        _context.Albums.Add(album);
+        await _context.SaveChangesAsync();
+
+        // Return the created album with its generated ID
+        return album;
+    }
 }
