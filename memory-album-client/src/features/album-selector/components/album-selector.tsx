@@ -4,7 +4,7 @@ import { Button, Stack, Typography } from '@mui/material';
 import { getAlbums } from '../api/get-albums';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/state/store';
-import { updateAlbums } from '@/state/album/album-slice';
+import { setLoading, updateAlbums } from '@/state/album/album-slice';
 import { useState } from 'react';
 import AlbumModal from './album-modal';
 
@@ -26,9 +26,12 @@ export default function AlbumSelector() {
 
   async function openAlbums() {
     setModalOpen(true);
+    dispatch(setLoading(true));
 
     const albums = await getAlbums(); // TODO: check cache instead of calling API
+
     dispatch(updateAlbums(albums));
+    dispatch(setLoading(false));
   }
 
   return (
