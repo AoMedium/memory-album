@@ -1,9 +1,9 @@
+using MemoryAlbumServer.Models.Common;
+
 namespace MemoryAlbumServer.Models.Entities;
 
-public class AlbumResponse
+public class AlbumResponse : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public string? Title { get; set; }
     public string? Description { get; set; }
     public Guid? CoverPhotoId { get; set; }
