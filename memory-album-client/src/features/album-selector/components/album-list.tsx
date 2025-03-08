@@ -1,16 +1,9 @@
 import { RootState } from '@/state/store';
 import { AlbumResponse } from '@/types/api';
 import { NoPhotography } from '@mui/icons-material';
-import {
-  List,
-  ListItem,
-  Typography,
-  Box,
-  CircularProgress,
-  Grid2,
-} from '@mui/material';
+import { Typography, Box, CircularProgress, Grid2 } from '@mui/material';
 import { useSelector } from 'react-redux';
-import AlbumListCard from './album-list-card';
+import AlbumCard from './album-card';
 import { useState } from 'react';
 import AlbumDetails from './album-details';
 
@@ -77,23 +70,18 @@ export default function AlbumList(props: Props) {
           overflow: 'scroll',
         }}
       >
-        <List
-          sx={{
-            // Do not apply scroll here as it does not take the container height into account for overflow
-            border: 'black 2px solid',
-          }}
-        >
+        <Grid2 container spacing={2}>
           {albums.map((album: AlbumResponse) => (
-            <ListItem
+            <Grid2
               key={album.id}
               sx={{
                 padding: 0,
               }}
             >
-              <AlbumListCard album={album} setCurrentAlbum={setCurrentAlbum} />
-            </ListItem>
+              <AlbumCard album={album} setCurrentAlbum={setCurrentAlbum} />
+            </Grid2>
           ))}
-        </List>
+        </Grid2>
       </Grid2>
       <Grid2 size={4}>
         <AlbumDetails

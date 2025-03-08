@@ -14,7 +14,7 @@ interface Props {
   setCurrentAlbum: (album: AlbumResponse) => void;
 }
 
-export default function AlbumListCard(props: Props) {
+export default function AlbumCard(props: Props) {
   return (
     <Card
       sx={{ width: 1 }}
