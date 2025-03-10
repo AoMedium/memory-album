@@ -1,31 +1,31 @@
-import { styles } from '@/config/constants';
 import { Close } from '@mui/icons-material';
 import { Box, IconButton, Modal } from '@mui/material';
 import AlbumList from './album-list';
+import AlbumDetailsModal from './album-details-modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/state/store';
+import { setSelectionModalOpen } from '@/state/album/album-selection-slice';
 
-interface Props {
-  isModalOpen: boolean;
-  setModalOpen: (open: boolean) => void;
-}
+export default function AlbumModal() {
+  const isSelectionModalOpen = useSelector(
+    (state: RootState) => state.albumSelection.isSelectionModalOpen,
+  );
 
-export default function AlbumModal(props: Props) {
+  const isDetailsModalOpen = useSelector(
+    (state: RootState) => state.albumSelection.isDetailsModalOpen,
+  );
+
+  const dispatch = useDispatch();
+
   return (
-    <Modal open={props.isModalOpen}>
+    <Modal open={isSelectionModalOpen}>
       <Box
         sx={{
           position: 'fixed',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '80%',
           height: '80%',
-          padding: '16px',
-          borderRadius: '10px',
-          boxSizing: 'border-box',
-
-          background: (theme) => theme.palette.background.paper,
-          boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
-          color: (theme) => theme.palette.text.secondary,
         }}
       >
         <IconButton
@@ -36,9 +36,12 @@ export default function AlbumModal(props: Props) {
             right: 0,
           }}
         >
-          <Close onClick={() => props.setModalOpen(false)} />
+          <Close onClick={() => dispatch(setSelectionModalOpen(false))} />
         </IconButton>
-        <AlbumList setModalOpen={props.setModalOpen} />
+        <AlbumList />
+        <Modal open={isDetailsModalOpen}>
+          <AlbumDetailsModal />
+        </Modal>
       </Box>
     </Modal>
   );

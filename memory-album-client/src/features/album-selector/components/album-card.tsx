@@ -1,41 +1,37 @@
-import { AlbumResponse } from '@/types/api';
-import { Edit } from '@mui/icons-material';
 import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  IconButton,
-} from '@mui/material';
+  selectAlbum,
+  setDetailsModalOpen,
+} from '@/state/album/album-selection-slice';
+import { AlbumResponse } from '@/types/api';
+import { ImageNotSupported } from '@mui/icons-material';
+import { Card, CardMedia, Typography, Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   album: AlbumResponse;
-  setCurrentAlbum: (album: AlbumResponse) => void;
 }
 
 export default function AlbumCard(props: Props) {
+  const dispatch = useDispatch();
+
   return (
     <Card
-      sx={{ width: 1 }}
+      sx={{ width: '200px', height: '200px', margin: 1 }}
       onClick={() => {
-        props.setCurrentAlbum(props.album);
+        dispatch(selectAlbum(props.album));
+        dispatch(setDetailsModalOpen(true));
       }}
     >
-      <CardMedia sx={{ height: 140 }} />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {props.album.title}
-        </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {props.album.description}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <IconButton>
-          <Edit />
-        </IconButton>
-      </CardActions>
+      <Box sx={{ width: '100px', height: '100px' }}>
+        {props.album.coverPhotoId ? (
+          <CardMedia sx={{ height: 140 }} />
+        ) : (
+          <ImageNotSupported />
+        )}
+      </Box>
+      <Typography gutterBottom variant="h5" component="div">
+        {props.album.title}
+      </Typography>
     </Card>
   );
 }

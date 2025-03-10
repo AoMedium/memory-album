@@ -5,14 +5,12 @@ import { getAlbums } from '../api/get-albums';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/state/store';
 import { setLoading, updateAlbums } from '@/state/album/album-slice';
-import { useState } from 'react';
 import AlbumModal from './album-modal';
+import { setSelectionModalOpen } from '@/state/album/album-selection-slice';
 
 export default function AlbumSelector() {
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const selectedAlbum = useSelector(
-    (state: RootState) => state.album.selectedAlbum,
+  const currentAlbum = useSelector(
+    (state: RootState) => state.album.currentAlbum,
   );
 
   const dispatch = useDispatch();
@@ -25,7 +23,7 @@ export default function AlbumSelector() {
    */
 
   async function openAlbums() {
-    setModalOpen(true);
+    dispatch(setSelectionModalOpen(true));
     dispatch(setLoading(true));
 
     const albums = await getAlbums(); // TODO: check cache instead of calling API
@@ -54,11 +52,11 @@ export default function AlbumSelector() {
         <Stack direction="row" spacing="15px">
           <FolderOutlined />
           <Typography sx={{ fontVariantCaps: 'normal' }}>
-            {selectedAlbum?.title || 'No album selected'}
+            {currentAlbum?.title || 'No album selected'}
           </Typography>
         </Stack>
       </Button>
-      <AlbumModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
+      <AlbumModal />
     </>
   );
 }

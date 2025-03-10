@@ -1,24 +1,15 @@
 import { RootState } from '@/state/store';
 import { AlbumResponse } from '@/types/api';
 import { NoPhotography } from '@mui/icons-material';
-import { Typography, Box, CircularProgress, Grid2 } from '@mui/material';
+import { Typography, Box, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import AlbumCard from './album-card';
-import { useState } from 'react';
-import AlbumDetails from './album-details';
+import { styles } from '@/config/constants';
 
-interface Props {
-  setModalOpen: (open: boolean) => void;
-}
-
-export default function AlbumList(props: Props) {
+export default function AlbumList() {
   // Better to explicitly use selectors for each to avoid unnecessary re-renders
   const albums = useSelector((state: RootState) => state.album.albums);
   const isLoading = useSelector((state: RootState) => state.album.isLoading);
-
-  const [currentAlbum, setCurrentAlbum] = useState<AlbumResponse | undefined>(
-    undefined,
-  );
 
   if (isLoading) {
     return (
@@ -55,40 +46,29 @@ export default function AlbumList(props: Props) {
   }
 
   return (
-    <Grid2
-      container
-      spacing={2}
+    <Box
       sx={{
-        height: '100%',
-        overflow: 'hidden',
+        display: 'flex',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        maxHeight: '100%',
+        overflow: 'scroll',
+        flexWrap: 'wrap',
+        gap: 1,
+
+        padding: '16px',
+        borderRadius: '10px',
+        boxSizing: 'border-box',
+        justifyContent: 'center',
+
+        background: (theme) => theme.palette.background.paper,
+        boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
+        color: (theme) => theme.palette.text.secondary,
       }}
     >
-      <Grid2
-        size={8}
-        sx={{
-          height: '100%', // Set height 100% here to ensure list fills entire container as well
-          overflow: 'scroll',
-        }}
-      >
-        <Grid2 container spacing={2}>
-          {albums.map((album: AlbumResponse) => (
-            <Grid2
-              key={album.id}
-              sx={{
-                padding: 0,
-              }}
-            >
-              <AlbumCard album={album} setCurrentAlbum={setCurrentAlbum} />
-            </Grid2>
-          ))}
-        </Grid2>
-      </Grid2>
-      <Grid2 size={4}>
-        <AlbumDetails
-          setModalOpen={props.setModalOpen}
-          currentAlbum={currentAlbum}
-        />
-      </Grid2>
-    </Grid2>
+      {albums.map((album: AlbumResponse) => (
+        <AlbumCard key={album.id} album={album} />
+      ))}
+    </Box>
   );
 }
