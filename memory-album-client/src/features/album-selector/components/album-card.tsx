@@ -1,10 +1,11 @@
+import ClickableCard from '@/components/ui/clickable-card';
 import {
   selectAlbum,
   setDetailsModalOpen,
 } from '@/state/album/album-selection-slice';
 import { AlbumResponse } from '@/types/api';
 import { ImageNotSupported } from '@mui/icons-material';
-import { Card, CardMedia, Typography, Box } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
 interface Props {
@@ -15,23 +16,27 @@ export default function AlbumCard(props: Props) {
   const dispatch = useDispatch();
 
   return (
-    <Card
-      sx={{ width: '200px', height: '200px', margin: 1 }}
+    <ClickableCard
+      sx={{
+        width: '200px',
+        height: '200px',
+        margin: 1,
+      }}
       onClick={() => {
         dispatch(selectAlbum(props.album));
         dispatch(setDetailsModalOpen(true));
       }}
     >
       <Box sx={{ width: '100px', height: '100px' }}>
-        {props.album.coverPhotoId ? (
-          <CardMedia sx={{ height: 140 }} />
-        ) : (
-          <ImageNotSupported />
-        )}
+        {props.album.coverPhotoId ? <></> : <ImageNotSupported />}
       </Box>
-      <Typography gutterBottom variant="h5" component="div">
+      <Typography
+        sx={{ position: 'relative', bottom: 0 }}
+        variant="h5"
+        component="div"
+      >
         {props.album.title}
       </Typography>
-    </Card>
+    </ClickableCard>
   );
 }
