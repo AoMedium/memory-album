@@ -1,8 +1,9 @@
+using MemoryAlbumServer.Models.Common;
+
 namespace MemoryAlbumServer.Models.Entities;
 
-public class PersonDto
+public class PersonDto : BaseEntity
 {
-    public Guid Id { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Description { get; set; }

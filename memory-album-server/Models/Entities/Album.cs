@@ -1,11 +1,10 @@
+using MemoryAlbumServer.Models.Common;
 using MemoryAlbumServer.Models.Entities.Media;
 
 namespace MemoryAlbumServer.Models.Entities;
 
-public class Album
+public class Album : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public string? Title { get; set; }
     public string? Description { get; set; }
     public Photo? CoverPhoto { get; set; }

@@ -1,4 +1,5 @@
 using MemoryAlbumServer.Data;
+using MemoryAlbumServer.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,10 @@ builder.Services.AddDbContext<MemoryAlbumContext>(options =>
         .EnableSensitiveDataLogging()
         .EnableDetailedErrors();
 });
+
+// Inject services into controllers
+builder.Services.AddScoped<IAlbumService, AlbumService>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 var app = builder.Build();
 

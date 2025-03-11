@@ -1,6 +1,7 @@
 using MemoryAlbumServer.Data;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
+using MemoryAlbumServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,37 +9,30 @@ namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AlbumsController(MemoryAlbumContext context) : Controller
+public class AlbumsController(IAlbumService albumService, IPhotoService photoService) : Controller
 {
-    private readonly MemoryAlbumContext _context = context;
+    private readonly IAlbumService _albumService = albumService;
+    private readonly IPhotoService _photoService = photoService;
 
     // GET: /api/Albums
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AlbumGetResponse>>> GetAlbums()
     {
-        var albums = _context.Albums
-            .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
-            .Include(album => album.Events)
-            .Select(album => MapToAlbumGetResponse(album));
-        return await albums.ToListAsync();
+        var albums = await _albumService.GetAllAsync();
+        return albums.Select(MapToAlbumGetResponse).ToList();
     }
 
     // GET: /api/Albums/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<AlbumGetResponse>> GetAlbumById(Guid id)
     {
-        var album = await _context.Albums
-            .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
-            .Include(album => album.Events)
-            .SingleOrDefaultAsync(album => id == album.Id);
+        var album = await _albumService.GetById(id);
 
         if (album == null)
         {
             return NotFound();
         }
-
-        var albumResponse = MapToAlbumGetResponse(album);
-        return albumResponse;
+        return MapToAlbumGetResponse(album);
     }
 
     // POST: /api/Albums
@@ -52,9 +46,9 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
 
         Photo? coverPhoto = null;
 
-        if (request.CoverPhotoId != null) // Get profile picture if specified
+        if (request.CoverPhotoId.HasValue) // Get profile picture if specified
         {
-            coverPhoto = await _context.Media.OfType<Photo>().SingleOrDefaultAsync(photo => photo.Id == request.CoverPhotoId);
+            coverPhoto = await _photoService.GetById(request.CoverPhotoId.Value);
 
             if (coverPhoto == null)
             {
@@ -64,16 +58,15 @@ public class AlbumsController(MemoryAlbumContext context) : Controller
 
         var album = new Album
         {
-            Id = Guid.NewGuid(),
             Title = request.Title,
             Description = request.Description,
             CoverPhoto = coverPhoto,
             Events = [] // This action does not allow adding events
         };
 
-        _context.Albums.Add(album);
-        await _context.SaveChangesAsync();
+        await _albumService.Add(album);
 
+        // Return created album with the generated id
         return CreatedAtAction(nameof(CreateAlbum), new AlbumCreateResponse { Id = album.Id });
     }
 
