@@ -1,4 +1,4 @@
-import { styles } from '@/config/constants';
+import ModalContainer from '@/components/ui/modal-container';
 import {
   setDetailsModalOpen,
   setSelectionModalOpen,
@@ -18,8 +18,7 @@ export default function AlbumDetailsModal() {
   return (
     <>
       {selectedAlbum ? (
-        <Stack
-          spacing={2}
+        <ModalContainer
           sx={{
             display: 'flex',
             position: 'fixed',
@@ -27,62 +26,58 @@ export default function AlbumDetailsModal() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
 
-            overflow: 'scroll',
-            padding: 2,
-            borderRadius: '10px',
-            boxSizing: 'border-box',
-
-            background: (theme) => theme.palette.background.paper,
-            boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
-            color: (theme) => theme.palette.text.secondary,
+            padding: 0, // Override as MUI text field label gets cut off
           }}
         >
-          <Stack spacing={2}>
-            <TextField
-              label="Title"
-              disabled
-              value={selectedAlbum.title || 'No title'}
-            />
-            <TextField
-              label="Description"
-              multiline
-              maxRows={2}
-              disabled
-              value={selectedAlbum.description || 'No description'}
-            />
-          </Stack>
-
           <Stack
-            spacing={1}
+            spacing={2}
             sx={{
-              flexGrow: 1,
+              overflow: 'scroll',
+              padding: 2,
             }}
           >
-            <Button
-              variant="contained"
-              onClick={() => {
-                if (!selectedAlbum) {
-                  throw new Error(
-                    'currentAlbum should not be undefined at this point.',
-                  );
-                }
-                dispatch(setAlbum(selectedAlbum));
-                dispatch(setDetailsModalOpen(false));
-                dispatch(setSelectionModalOpen(false));
-              }}
-            >
-              Select
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                dispatch(setDetailsModalOpen(false));
-              }}
-            >
-              Cancel
-            </Button>
+            <Stack spacing={2}>
+              <TextField
+                label="Title"
+                disabled
+                value={selectedAlbum.title || 'No title'}
+              />
+              <TextField
+                label="Description"
+                multiline
+                maxRows={2}
+                disabled
+                value={selectedAlbum.description || 'No description'}
+              />
+            </Stack>
+
+            <Stack spacing={1}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  if (!selectedAlbum) {
+                    throw new Error(
+                      'currentAlbum should not be undefined at this point.',
+                    );
+                  }
+                  dispatch(setAlbum(selectedAlbum));
+                  dispatch(setDetailsModalOpen(false));
+                  dispatch(setSelectionModalOpen(false));
+                }}
+              >
+                Select
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  dispatch(setDetailsModalOpen(false));
+                }}
+              >
+                Cancel
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
+        </ModalContainer>
       ) : (
         <Typography>Select an album</Typography>
       )}
