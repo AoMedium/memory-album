@@ -1,6 +1,6 @@
 namespace MemoryAlbumServer.Models.Entities;
 
-public class AlbumResponse
+public class AlbumGetResponse
 {
     public Guid Id { get; set; }
 
