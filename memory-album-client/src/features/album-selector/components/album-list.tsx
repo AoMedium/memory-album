@@ -1,7 +1,13 @@
 import { RootState } from '@/state/store';
 import { AlbumResponse } from '@/types/api';
 import { Close, ImageNotSupported } from '@mui/icons-material';
-import { Typography, CircularProgress, IconButton } from '@mui/material';
+import {
+  Typography,
+  CircularProgress,
+  IconButton,
+  Button,
+  Stack,
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import AlbumCard from './album-card';
 import ModalContainer from '@/components/ui/modal-container';
@@ -43,13 +49,31 @@ export default function AlbumList() {
           transform: 'translate(-50%, -50%)',
 
           textAlign: 'center',
-          minWidth: '300px',
-          padding: '100px 0',
+          padding: '100px 50px',
         }}
       >
         <CloseModalButton />
-        <ImageNotSupported />
-        <Typography marginTop={2}>No albums</Typography>
+        <Stack
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            minWidth: '200px',
+          }}
+          spacing={2}
+          direction="column"
+        >
+          <ImageNotSupported fontSize="large" />
+          <Typography>No albums</Typography>
+          <Button
+            variant="contained"
+            onClick={() => {
+              // TODO: implement
+              throw 'Not implemented';
+            }}
+          >
+            Create new album
+          </Button>
+        </Stack>
       </ModalContainer>
     );
   }
