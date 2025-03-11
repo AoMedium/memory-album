@@ -7,6 +7,7 @@ import {
   IconButton,
   Button,
   Stack,
+  Box,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import AlbumCard from './album-card';
@@ -81,23 +82,28 @@ export default function AlbumList() {
   return (
     <ModalContainer
       sx={{
-        display: 'flex',
         position: 'relative',
         top: '50%',
         transform: 'translateY(-50%)',
-        maxHeight: '100%',
-
-        overflow: 'scroll',
-
-        flexWrap: 'wrap',
-        gap: 1,
-        justifyContent: 'center',
       }}
     >
       <CloseModalButton />
-      {albums.map((album: AlbumResponse) => (
-        <AlbumCard key={album.id} album={album} />
-      ))}
+      <Box
+        sx={{
+          display: 'flex',
+          maxHeight: '80vh',
+          overflow: 'scroll',
+
+          flexWrap: 'wrap',
+          gap: 1,
+          justifyContent: 'center',
+        }}
+      >
+        {/* TODO: filter and search bar */}
+        {albums.map((album: AlbumResponse) => (
+          <AlbumCard key={album.id} album={album} />
+        ))}
+      </Box>
     </ModalContainer>
   );
 }
