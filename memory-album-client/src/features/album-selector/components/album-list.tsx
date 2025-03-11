@@ -1,6 +1,6 @@
 import { RootState } from '@/state/store';
 import { AlbumResponse } from '@/types/api';
-import { Close, NoPhotography } from '@mui/icons-material';
+import { Close, ImageNotSupported } from '@mui/icons-material';
 import { Typography, CircularProgress, IconButton } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import AlbumCard from './album-card';
@@ -11,8 +11,6 @@ export default function AlbumList() {
   // Better to explicitly use selectors for each to avoid unnecessary re-renders
   const albums = useSelector((state: RootState) => state.album.albums);
   const isLoading = useSelector((state: RootState) => state.album.isLoading);
-
-  const dispatch = useDispatch();
 
   if (isLoading) {
     return (
@@ -28,6 +26,7 @@ export default function AlbumList() {
           padding: '100px 0',
         }}
       >
+        <CloseModalButton />
         <CircularProgress />
         <Typography marginTop={2}>Loading albums...</Typography>
       </ModalContainer>
@@ -42,9 +41,14 @@ export default function AlbumList() {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
+
+          textAlign: 'center',
+          minWidth: '300px',
+          padding: '100px 0',
         }}
       >
-        <NoPhotography />
+        <CloseModalButton />
+        <ImageNotSupported />
         <Typography marginTop={2}>No albums</Typography>
       </ModalContainer>
     );
@@ -66,19 +70,27 @@ export default function AlbumList() {
         justifyContent: 'center',
       }}
     >
-      <IconButton
-        sx={{
-          zIndex: 1000,
-          position: 'absolute',
-          top: 0,
-          right: 0,
-        }}
-      >
-        <Close onClick={() => dispatch(setSelectionModalOpen(false))} />
-      </IconButton>
+      <CloseModalButton />
       {albums.map((album: AlbumResponse) => (
         <AlbumCard key={album.id} album={album} />
       ))}
     </ModalContainer>
+  );
+}
+
+function CloseModalButton() {
+  const dispatch = useDispatch();
+
+  return (
+    <IconButton
+      sx={{
+        zIndex: 1000,
+        position: 'absolute',
+        top: 0,
+        right: 0,
+      }}
+    >
+      <Close onClick={() => dispatch(setSelectionModalOpen(false))} />
+    </IconButton>
   );
 }
