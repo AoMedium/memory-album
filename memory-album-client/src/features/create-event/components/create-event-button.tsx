@@ -1,8 +1,12 @@
 import { styles } from '@/config/constants';
+import { setCreationPanelOpen } from '@/state/event/event-creation-slice';
 import { Add } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
-export default function AddEventButton() {
+export default function CreateEventButton() {
+  const dispatch = useDispatch();
+
   return (
     <IconButton
       sx={{
@@ -20,6 +24,7 @@ export default function AddEventButton() {
           color: (theme) => theme.palette.primary.contrastText,
         },
       }}
+      onClick={() => dispatch(setCreationPanelOpen(true))}
     >
       <Add sx={{ fontSize: '35px' }} />
     </IconButton>

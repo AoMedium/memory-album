@@ -4,8 +4,9 @@ import { BASEMAP } from '@deck.gl/carto';
 import DeckGL from 'deck.gl';
 import { MapView } from '@deck.gl/core';
 import Sidebar from '@/features/sidebar/components/sidebar';
-import AddEventButton from '@/features/add-event/components/add-event-button';
 import AlbumSelector from '@/features/album-selector/components/album-selector';
+import EventCreationPanel from '@/features/create-event/components/event-creation-panel';
+import CreateEventButton from '@/features/create-event/components/create-event-button';
 
 export default function MapLayout() {
   return (
@@ -23,8 +24,12 @@ export default function MapLayout() {
       <MapView>
         <Map mapStyle={BASEMAP.VOYAGER} />
       </MapView>
+
       <Sidebar />
-      <AddEventButton />
+
+      <CreateEventButton />
+      <EventCreationPanel />
+
       <AlbumSelector />
     </DeckGL>
   );

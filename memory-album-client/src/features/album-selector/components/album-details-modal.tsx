@@ -46,27 +46,24 @@ export default function AlbumDetailsModal() {
             }}
           >
             <Stack
-              spacing={2}
               sx={{
                 overflow: 'scroll',
                 padding: 2,
               }}
+              spacing={2}
             >
-              <Stack spacing={2}>
-                <TextField
-                  label="Title"
-                  disabled
-                  value={selectedAlbum.title || 'No title'}
-                />
-                <TextField
-                  label="Description"
-                  multiline
-                  maxRows={2}
-                  disabled
-                  value={selectedAlbum.description || 'No description'}
-                />
-              </Stack>
-
+              <TextField
+                label="Title"
+                disabled
+                value={selectedAlbum.title || 'No title'}
+              />
+              <TextField
+                label="Description"
+                multiline
+                maxRows={2}
+                disabled
+                value={selectedAlbum.description || 'No description'}
+              />
               <Stack spacing={1}>
                 <Button
                   variant="contained"

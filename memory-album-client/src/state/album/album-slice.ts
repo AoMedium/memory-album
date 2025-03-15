@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface AlbumState {
   albums: AlbumResponse[];
-  currentAlbum: AlbumResponse | undefined;
+  currentAlbum?: AlbumResponse;
   isLoading: boolean;
 }
 

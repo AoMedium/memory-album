@@ -7,3 +7,15 @@ export type AlbumResponse = {
   coverPhotoId: string;
   eventIds: string[];
 };
+
+export type EventCreateRequest = {
+  title: string;
+  description: string;
+  timestamp: Date;
+  location: Location;
+};
+
+export type Location = {
+  latitude: number;
+  longitude: number;
+};
