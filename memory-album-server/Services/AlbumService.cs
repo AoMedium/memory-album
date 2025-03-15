@@ -8,7 +8,7 @@ public class AlbumService(MemoryAlbumContext _context) : IAlbumService
 {
     private readonly MemoryAlbumContext _context = _context;
 
-    public async Task<IEnumerable<Album>> GetAllAsync()
+    public async Task<IEnumerable<Album>> GetAll()
     {
         var albums = await _context.Albums
             .Include(album => album.CoverPhoto) // Need to include or it will be missing from DTO
@@ -35,5 +35,14 @@ public class AlbumService(MemoryAlbumContext _context) : IAlbumService
 
         // Return the created album with its generated ID
         return album;
+    }
+
+    public async Task AddEvents(Album album, IEnumerable<Event> events)
+    {
+        foreach (var ev in events)
+        {
+            album.Events.Add(ev);
+        }
+        await _context.SaveChangesAsync();
     }
 }

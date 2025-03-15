@@ -32,6 +32,7 @@ builder.Services.AddDbContext<MemoryAlbumContext>(options =>
 
 // Inject services into controllers
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 var app = builder.Build();

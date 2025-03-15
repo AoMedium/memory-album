@@ -3,7 +3,7 @@ using MemoryAlbumServer.Models.Entities.Media;
 using MemoryAlbumServer.Models.Properties;
 
 namespace MemoryAlbumServer.Models.Entities;
-public class EventResponse : BaseEntity
+public class EventGetResponse : BaseEntity
 {
     public string? Title { get; set; }
     public string? Description { get; set; }

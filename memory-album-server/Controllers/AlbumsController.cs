@@ -9,16 +9,17 @@ namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AlbumsController(IAlbumService albumService, IPhotoService photoService) : Controller
+public class AlbumsController(IAlbumService albumService, IEventService eventService, IPhotoService photoService) : Controller
 {
     private readonly IAlbumService _albumService = albumService;
+    private readonly IEventService _eventService = eventService;
     private readonly IPhotoService _photoService = photoService;
 
     // GET: /api/Albums
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AlbumGetResponse>>> GetAlbums()
     {
-        var albums = await _albumService.GetAllAsync();
+        var albums = await _albumService.GetAll();
         return albums.Select(MapToAlbumGetResponse).ToList();
     }
 
@@ -68,6 +69,36 @@ public class AlbumsController(IAlbumService albumService, IPhotoService photoSer
 
         // Return created album with the generated id
         return CreatedAtAction(nameof(CreateAlbum), new AlbumCreateResponse { Id = album.Id });
+    }
+
+    // PATCH: /api/Albums/{id}/Events
+    [HttpPatch("{id}/Events")]
+    public async Task<IActionResult> AddEvents(Guid id, AlbumAddEventsRequest request)
+    {
+        var eventIds = request.EventIds.ToHashSet();
+
+        if (eventIds.Count != request.EventIds.Count)
+        {
+            return BadRequest("Duplicate event IDs in request");
+        }
+
+        var album = await _albumService.GetById(id);
+        var events = await _eventService.GetByIds(eventIds);
+
+        if (album == null)
+        {
+            return NotFound("Could not find album");
+        }
+
+        if (events.Count() != eventIds.Count)
+        {
+            return NotFound("One or more events with the given IDs could not be found");
+        }
+
+        // TODO: check if events are already added?
+
+        await _albumService.AddEvents(album, events);
+        return NoContent();
     }
 
     private static AlbumGetResponse MapToAlbumGetResponse(Album album)

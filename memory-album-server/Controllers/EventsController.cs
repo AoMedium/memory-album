@@ -1,5 +1,6 @@
 using MemoryAlbumServer.Data;
 using MemoryAlbumServer.Models.Entities;
+using MemoryAlbumServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,41 +8,62 @@ namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class EventsController(MemoryAlbumContext context) : Controller
+public class EventsController(IEventService eventService) : Controller
 {
-    private readonly MemoryAlbumContext _context = context;
+    private readonly IEventService _eventService = eventService;
 
     // GET: /api/Events
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+    public async Task<ActionResult<IEnumerable<EventGetResponse>>> GetEvents()
     {
-        return await _context.Events
-            .Include(e => e.People)
-            .Include(e => e.Tags)
-            .ToListAsync();
+        var events = await _eventService.GetAll();
+        return events.Select(MapToEventGetResponse).ToList();
     }
 
     // GET: /api/Events/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<Event>> GetEventById(Guid id)
+    public async Task<ActionResult<EventGetResponse>> GetEventById(Guid id)
     {
-        var e = await _context.Events.FindAsync(id);
+        var ev = await _eventService.GetById(id);
 
-        if (e == null)
+        if (ev == null)
         {
             return NotFound();
         }
 
-        return e;
+        return MapToEventGetResponse(ev);
     }
 
     // POST: /api/Events
     [HttpPost]
-    public async Task<ActionResult<Album>> CreateEvent(Event ev)
+    public async Task<IActionResult> CreateEvent(EventCreateRequest request)
     {
-        _context.Events.Add(ev);
-        await _context.SaveChangesAsync();
+        var ev = new Event
+        {
+            Title = request.Title,
+            Description = request.Description,
+            Timestamp = request.Timestamp,
+            Location = request.Location
+        };
+
+        ev = await _eventService.CreateEvent(ev);
 
         return CreatedAtAction(nameof(CreateEvent), new { id = ev.Id });
+    }
+
+    private static EventGetResponse MapToEventGetResponse(Event ev)
+    {
+        return new EventGetResponse
+        {
+            Id = ev.Id,
+            Title = ev.Title,
+            Description = ev.Description,
+            Timestamp = ev.Timestamp,
+            Location = ev.Location,
+            PersonIds = [.. ev.People.Select(person => person.Id)],
+            TagIds = [.. ev.Tags.Select(tag => tag.Id)],
+            PhotoIds = [.. ev.Photos.Select(photo => photo.Id)],
+            VideoIds = [.. ev.Videos.Select(video => video.Id)]
+        };
     }
 }
