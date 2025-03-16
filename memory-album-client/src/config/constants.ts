@@ -15,3 +15,5 @@ export const styles = {
     },
   },
 };
+
+export const MS_TO_S = 1 / 1000;
