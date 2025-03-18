@@ -3,6 +3,7 @@ import { MS_TO_S, styles } from '@/config/constants';
 import {
   clearEvent,
   clearSelectedLocation,
+  selectLocation,
   setCreationPanelOpen,
   setSelectingLocation,
 } from '@/state/event/event-creation-slice';
@@ -47,6 +48,10 @@ export default function EventCreationPanel() {
     setLatitude(selectedLocation.latitude);
     setLongitude(selectedLocation.longitude);
   }, [selectedLocation]);
+
+  useEffect(() => {
+    dispatch(selectLocation({ latitude, longitude }));
+  }, [dispatch, latitude, longitude]);
 
   return (
     <ModalContainer
@@ -100,12 +105,20 @@ export default function EventCreationPanel() {
           <TextField
             label="Latitude"
             value={latitude}
-            onChange={(e) => setLatitude(Number.parseFloat(e.target.value))}
+            onChange={(e) => {
+              if (typeof e.target.value === 'number') {
+                setLatitude(Number.parseFloat(e.target.value));
+              }
+            }}
           />
           <TextField
             label="Longitude"
             value={longitude}
-            onChange={(e) => setLongitude(Number.parseFloat(e.target.value))}
+            onChange={(e) => {
+              if (typeof e.target.value === 'number') {
+                setLongitude(Number.parseFloat(e.target.value));
+              }
+            }}
           />
         </Stack>
         <Stack spacing={1}>
