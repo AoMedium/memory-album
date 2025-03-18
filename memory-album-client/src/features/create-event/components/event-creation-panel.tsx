@@ -2,11 +2,13 @@ import ModalContainer from '@/components/ui/modal-container';
 import { MS_TO_S, styles } from '@/config/constants';
 import {
   clearEvent,
+  clearSelectedLocation,
   setCreationPanelOpen,
+  setSelectingLocation,
 } from '@/state/event/event-creation-slice';
 import { RootState } from '@/state/store';
 import { Stack, Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TimestampPicker from './timestamp-picker';
 import { Room } from '@mui/icons-material';
@@ -16,11 +18,31 @@ export default function EventCreationPanel() {
     (state: RootState) => state.eventCreation.isCreationPanelOpen,
   );
 
+  const isSelectingLocation = useSelector(
+    (state: RootState) => state.eventCreation.isSelectingLocation,
+  );
+
+  const selectedLocation = useSelector(
+    (state: RootState) => state.eventCreation.selectedLocation,
+  );
+
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [timestamp, setTimestamp] = useState<number>(Date.now() * MS_TO_S);
+
+  // TODO: set initial as map position
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
+
+  useEffect(() => {
+    if (!selectedLocation) {
+      return;
+    }
+    setLatitude(selectedLocation.latitude);
+    setLongitude(selectedLocation.longitude);
+  }, [selectedLocation]);
 
   return (
     <ModalContainer
@@ -35,6 +57,7 @@ export default function EventCreationPanel() {
         width: '400px',
       }}
     >
+      {/* TODO: input validation */}
       <Stack spacing={2}>
         <TextField
           label="Title"
@@ -62,12 +85,21 @@ export default function EventCreationPanel() {
               // height: '100%',
               // aspectRatio: '1/1',
             }}
-            variant="outlined"
+            variant={isSelectingLocation ? 'contained' : 'outlined'}
+            onClick={() => dispatch(setSelectingLocation(!isSelectingLocation))}
           >
             <Room />
           </Button>
-          <TextField label="Latitude" type="number" />
-          <TextField label="Longitude" type="number" />
+          <TextField
+            label="Latitude"
+            value={latitude}
+            onChange={(e) => setLatitude(Number.parseFloat(e.target.value))}
+          />
+          <TextField
+            label="Longitude"
+            value={longitude}
+            onChange={(e) => setLongitude(Number.parseFloat(e.target.value))}
+          />
         </Stack>
         <Stack spacing={1}>
           <Button
@@ -84,6 +116,8 @@ export default function EventCreationPanel() {
               if (confirm('Discard your changes?')) {
                 dispatch(clearEvent());
                 dispatch(setCreationPanelOpen(false));
+                dispatch(setSelectingLocation(false));
+                dispatch(clearSelectedLocation());
               }
             }}
           >

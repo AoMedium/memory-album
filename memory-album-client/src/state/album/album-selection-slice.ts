@@ -14,7 +14,7 @@ const initialState: AlbumSelectionState = {
 };
 
 const albumSelectionSlice = createSlice({
-  name: 'album',
+  name: 'albumSelection',
   initialState,
   reducers: {
     setSelectionModalOpen(state, action: { payload: boolean }) {
