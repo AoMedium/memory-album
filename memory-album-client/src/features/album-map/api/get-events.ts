@@ -1,8 +1,8 @@
+import { api } from '@/lib/api-client';
 import { EventGetResponse } from '@/types/api';
+import { AxiosResponse } from 'axios';
 
-export async function getEvents(): Promise<EventGetResponse> {}
-
-// export async function createEvent(): Promise<string> {
-//   const response = await api.post('/event');
-//   return response.data;
-// }
+export async function getEvents(): Promise<AxiosResponse<EventGetResponse[]>> {
+  const response = await api.get('/events');
+  return response;
+}

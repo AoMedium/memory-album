@@ -1,7 +1,7 @@
 import { api } from '@/lib/api-client';
-import { AlbumResponse } from '@/types/api';
+import { AlbumGetResponse } from '@/types/api';
 
-export async function getAlbums(): Promise<AlbumResponse[]> {
+export async function getAlbums(): Promise<AlbumGetResponse[]> {
   const response = await api.get('/albums');
   return response.data;
 }

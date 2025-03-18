@@ -1,9 +1,9 @@
-import { AlbumResponse } from '@/types/api';
+import { AlbumGetResponse } from '@/types/api';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface AlbumState {
-  albums: AlbumResponse[];
-  currentAlbum?: AlbumResponse;
+  albums: AlbumGetResponse[];
+  currentAlbum?: AlbumGetResponse;
   isLoading: boolean;
 }
 
@@ -17,10 +17,10 @@ const albumSlice = createSlice({
   name: 'album',
   initialState,
   reducers: {
-    setAlbum(state, action: { payload: AlbumResponse }) {
+    setAlbum(state, action: { payload: AlbumGetResponse }) {
       state.currentAlbum = action.payload;
     },
-    updateAlbums(state, action: { payload: AlbumResponse[] }) {
+    updateAlbums(state, action: { payload: AlbumGetResponse[] }) {
       state.albums = action.payload;
     },
     setLoading(state, action: { payload: boolean }) {

@@ -1,5 +1,5 @@
 import { RootState } from '@/state/store';
-import { AlbumResponse } from '@/types/api';
+import { AlbumGetResponse } from '@/types/api';
 import { Close, ImageNotSupported } from '@mui/icons-material';
 import {
   Typography,
@@ -100,7 +100,7 @@ export default function AlbumList() {
         }}
       >
         {/* TODO: filter and search bar */}
-        {albums.map((album: AlbumResponse) => (
+        {albums.map((album: AlbumGetResponse) => (
           <AlbumCard key={album.id} album={album} />
         ))}
       </Box>

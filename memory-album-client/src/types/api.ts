@@ -4,7 +4,11 @@ export type EntityCreatedResponse = {
   id: string;
 };
 
-export type AlbumResponse = {
+export type AlbumAddEventsRequest = {
+  eventIds: string[];
+};
+
+export type AlbumGetResponse = {
   id: string;
   title: string;
   description: string;
