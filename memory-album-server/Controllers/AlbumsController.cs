@@ -1,4 +1,5 @@
 using MemoryAlbumServer.Data;
+using MemoryAlbumServer.Models.Common;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
 using MemoryAlbumServer.Services;
@@ -38,7 +39,7 @@ public class AlbumsController(IAlbumService albumService, IEventService eventSer
 
     // POST: /api/Albums
     [HttpPost]
-    public async Task<ActionResult<AlbumCreateResponse>> CreateAlbum(AlbumCreateRequest request)
+    public async Task<ActionResult<EntityCreatedResponse>> CreateAlbum(AlbumCreateRequest request)
     {
         if (!ModelState.IsValid) // Check if validation rules were broken during request-model binding.
         {
@@ -68,7 +69,7 @@ public class AlbumsController(IAlbumService albumService, IEventService eventSer
         await _albumService.Add(album);
 
         // Return created album with the generated id
-        return CreatedAtAction(nameof(CreateAlbum), new AlbumCreateResponse { Id = album.Id });
+        return CreatedAtAction(nameof(CreateAlbum), new EntityCreatedResponse { Id = album.Id });
     }
 
     // PATCH: /api/Albums/{id}/Events

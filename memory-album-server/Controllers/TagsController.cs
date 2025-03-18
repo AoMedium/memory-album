@@ -1,4 +1,5 @@
 using MemoryAlbumServer.Data;
+using MemoryAlbumServer.Models.Common;
 using MemoryAlbumServer.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,11 +35,11 @@ public class TagsController(MemoryAlbumContext context) : Controller
 
     // POST: /api/Tags
     [HttpPost]
-    public async Task<ActionResult<Tag>> CreateTag(Tag tag)
+    public async Task<ActionResult<EntityCreatedResponse>> CreateTag(Tag tag)
     {
         _context.Tags.Add(tag);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(CreateTag), new { id = tag.Id });
+        return CreatedAtAction(nameof(CreateTag), new EntityCreatedResponse { Id = tag.Id });
     }
 }

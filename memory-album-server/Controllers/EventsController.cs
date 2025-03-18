@@ -1,4 +1,5 @@
 using MemoryAlbumServer.Data;
+using MemoryAlbumServer.Models.Common;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -36,19 +37,19 @@ public class EventsController(IEventService eventService) : Controller
 
     // POST: /api/Events
     [HttpPost]
-    public async Task<IActionResult> CreateEvent(EventCreateRequest request)
+    public async Task<ActionResult<EntityCreatedResponse>> CreateEvent(EventCreateRequest request)
     {
         var ev = new Event
         {
             Title = request.Title,
             Description = request.Description,
-            Timestamp = request.Timestamp,
+            Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(request.Timestamp).UtcDateTime,
             Location = request.Location
         };
 
         ev = await _eventService.CreateEvent(ev);
 
-        return CreatedAtAction(nameof(CreateEvent), new { id = ev.Id });
+        return CreatedAtAction(nameof(CreateEvent), new EntityCreatedResponse { Id = ev.Id });
     }
 
     private static EventGetResponse MapToEventGetResponse(Event ev)
