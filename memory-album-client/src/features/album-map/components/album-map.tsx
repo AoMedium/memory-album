@@ -1,20 +1,16 @@
 import { selectLocation } from '@/state/event/event-creation-slice';
 import { RootState } from '@/state/store';
-import { Location } from '@/types/api';
 import { BASEMAP } from '@deck.gl/carto';
 import DeckGL, { MapView, PickingInfo } from 'deck.gl';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import Map from 'react-map-gl/maplibre';
 import { useDispatch, useSelector } from 'react-redux';
-import { createMarkerLayer } from '../api/marker-layer';
+import { useSelectedLocationMarkerLayer } from '../api/marker-layer';
 
 export default function AlbumMap() {
   // const layers = useSelector((state: RootState) => state.map.layers);
   const cursor = useSelector((state: RootState) => state.map.cursor);
 
-  const selectedLocation = useSelector(
-    (state: RootState) => state.eventCreation.selectedLocation,
-  );
   const isSelectingLocation = useSelector(
     (state: RootState) => state.eventCreation.isSelectingLocation,
   );
@@ -35,28 +31,9 @@ export default function AlbumMap() {
     [dispatch, isSelectingLocation],
   );
 
-  // TODO: try using state from store instead
-  const [selectedLocationMarker, setSelectedLocationMarker] = useState<
-    Location[]
-  >([]);
+  const selectedLocationMarkerLayer = useSelectedLocationMarkerLayer();
 
-  useEffect(() => {
-    if (selectedLocation) {
-      setSelectedLocationMarker([selectedLocation]);
-    } else {
-      setSelectedLocationMarker([]);
-    }
-  }, [selectedLocation]);
-
-  const selectedLocationLayer = createMarkerLayer(
-    'eventSelectedLocationLayer',
-    selectedLocationMarker,
-    'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
-    'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.json',
-    40,
-  );
-
-  const layers = [selectedLocationLayer];
+  const layers = [selectedLocationMarkerLayer];
 
   return (
     <DeckGL
