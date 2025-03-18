@@ -1,13 +1,15 @@
 import { selectLocation } from '@/state/event/event-creation-slice';
 import { RootState } from '@/state/store';
+import { Location } from '@/types/api';
 import { BASEMAP } from '@deck.gl/carto';
-import DeckGL, { IconLayer, MapView, PickingInfo } from 'deck.gl';
-import { useCallback, useEffect } from 'react';
+import DeckGL, { MapView, PickingInfo } from 'deck.gl';
+import { useCallback, useEffect, useState } from 'react';
 import Map from 'react-map-gl/maplibre';
 import { useDispatch, useSelector } from 'react-redux';
+import { createMarkerLayer } from '../api/marker-layer';
 
 export default function AlbumMap() {
-  const layers = useSelector((state: RootState) => state.map.layers);
+  // const layers = useSelector((state: RootState) => state.map.layers);
   const cursor = useSelector((state: RootState) => state.map.cursor);
 
   const selectedLocation = useSelector(
@@ -33,27 +35,28 @@ export default function AlbumMap() {
     [dispatch, isSelectingLocation],
   );
 
+  // TODO: try using state from store instead
+  const [selectedLocationMarker, setSelectedLocationMarker] = useState<
+    Location[]
+  >([]);
+
   useEffect(() => {
-    console.log(
-      'render: ' +
-        selectedLocation?.latitude +
-        ',' +
-        selectedLocation?.longitude,
-    );
+    if (selectedLocation) {
+      setSelectedLocationMarker([selectedLocation]);
+    } else {
+      setSelectedLocationMarker([]);
+    }
   }, [selectedLocation]);
 
-  // const tempLayer = new IconLayer({
-  //   id: 'test',
-  //   data: [selectedLocation?.latitude, selectedLocation?.longitude],
-  //   getIcon: () => 'marker',
-  //   getPosition: () => {
-  //     return { x: selectedLocation?.latitude, y: selectedLocation?.longitude };
-  //   },
-  //   iconAtlas:
-  //     'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
-  //   iconMapping:
-  //     'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.json',
-  // });
+  const selectedLocationLayer = createMarkerLayer(
+    'eventSelectedLocationLayer',
+    selectedLocationMarker,
+    'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+    'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.json',
+    40,
+  );
+
+  const layers = [selectedLocationLayer];
 
   return (
     <DeckGL
@@ -64,7 +67,7 @@ export default function AlbumMap() {
         zoom: 10,
       }}
       controller={{ inertia: 500 }}
-      // layers={[tempLayer]}
+      layers={layers}
       onClick={handleOnClick}
       getCursor={(state) => {
         if (state.isDragging) {

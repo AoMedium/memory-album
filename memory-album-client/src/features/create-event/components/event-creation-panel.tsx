@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TimestampPicker from './timestamp-picker';
 import { Room } from '@mui/icons-material';
+import { resetCursor, setCursor } from '@/state/map/map-slice';
 
 export default function EventCreationPanel() {
   const isCreationPanelOpen = useSelector(
@@ -38,6 +39,9 @@ export default function EventCreationPanel() {
 
   useEffect(() => {
     if (!selectedLocation) {
+      // TODO: set as initial
+      setLatitude(0);
+      setLongitude(0);
       return;
     }
     setLatitude(selectedLocation.latitude);
@@ -86,7 +90,10 @@ export default function EventCreationPanel() {
               // aspectRatio: '1/1',
             }}
             variant={isSelectingLocation ? 'contained' : 'outlined'}
-            onClick={() => dispatch(setSelectingLocation(!isSelectingLocation))}
+            onClick={() => {
+              dispatch(setSelectingLocation(!isSelectingLocation));
+              dispatch(setCursor('pointer'));
+            }}
           >
             <Room />
           </Button>
@@ -118,6 +125,7 @@ export default function EventCreationPanel() {
                 dispatch(setCreationPanelOpen(false));
                 dispatch(setSelectingLocation(false));
                 dispatch(clearSelectedLocation());
+                dispatch(resetCursor());
               }
             }}
           >
