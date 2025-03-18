@@ -14,7 +14,7 @@ export default function TimestampPicker(props: Props) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateTimePicker
         label="Timestamp"
-        value={dayjs.unix(props.timestamp)}
+        value={dayjs.unix(props.timestamp * MS_TO_S)}
         onChange={(value) =>
           value ? props.setTimestamp(value.unix()) : Date.now() * MS_TO_S
         }

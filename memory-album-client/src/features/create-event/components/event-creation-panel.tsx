@@ -1,5 +1,5 @@
 import ModalContainer from '@/components/ui/modal-container';
-import { MS_TO_S, styles } from '@/config/constants';
+import { styles } from '@/config/constants';
 import {
   clearEvent,
   clearSelectedLocation,
@@ -9,11 +9,13 @@ import {
 } from '@/state/event/event-creation-slice';
 import { RootState } from '@/state/store';
 import { Stack, Button, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TimestampPicker from './timestamp-picker';
 import { Room } from '@mui/icons-material';
 import { resetCursor, setCursor } from '@/state/map/map-slice';
+import { createEvent } from '../api/create-event';
+import { AxiosError } from 'axios';
 
 export default function EventCreationPanel() {
   const isCreationPanelOpen = useSelector(
@@ -32,7 +34,7 @@ export default function EventCreationPanel() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [timestamp, setTimestamp] = useState<number>(Date.now() * MS_TO_S);
+  const [timestamp, setTimestamp] = useState<number>(Date.now());
 
   // TODO: set initial as map position
   const [latitude, setLatitude] = useState<number>(0);
@@ -52,6 +54,32 @@ export default function EventCreationPanel() {
   useEffect(() => {
     dispatch(selectLocation({ latitude, longitude }));
   }, [dispatch, latitude, longitude]);
+
+  const clearEventCreation = useCallback(() => {
+    dispatch(clearEvent());
+    dispatch(setCreationPanelOpen(false));
+    dispatch(setSelectingLocation(false));
+    dispatch(clearSelectedLocation());
+    dispatch(resetCursor());
+  }, [dispatch]);
+
+  const submitEvent = useCallback(async () => {
+    try {
+      const response = await createEvent({
+        title,
+        description,
+        timestamp,
+        location: { latitude, longitude },
+      });
+      console.log(response.data.id);
+
+      clearEventCreation();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data); // TODO: generic api response and error handling
+      }
+    }
+  }, [clearEventCreation, description, latitude, longitude, timestamp, title]);
 
   return (
     <ModalContainer
@@ -122,23 +150,14 @@ export default function EventCreationPanel() {
           />
         </Stack>
         <Stack spacing={1}>
-          <Button
-            variant="contained"
-            onClick={() => {
-              // TODO: post event
-            }}
-          >
+          <Button variant="contained" onClick={submitEvent}>
             Create
           </Button>
           <Button
             variant="outlined"
             onClick={() => {
               if (confirm('Discard your changes?')) {
-                dispatch(clearEvent());
-                dispatch(setCreationPanelOpen(false));
-                dispatch(setSelectingLocation(false));
-                dispatch(clearSelectedLocation());
-                dispatch(resetCursor());
+                clearEventCreation();
               }
             }}
           >
