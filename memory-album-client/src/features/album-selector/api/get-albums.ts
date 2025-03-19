@@ -6,6 +6,7 @@ export async function getAlbums(): Promise<AlbumGetResponse[]> {
   return response.data;
 }
 
-export function getAlbumById({ id = '' }: { id: string }) {
-  return api.get(`/albums/${id}`);
+export async function getAlbumById(id: string): Promise<AlbumGetResponse> {
+  const response = await api.get(`/albums/${id}`);
+  return response.data;
 }

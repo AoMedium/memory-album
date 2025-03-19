@@ -20,7 +20,6 @@ export function useAlbumEventsLayer(album?: AlbumGetResponse) {
           return;
         }
         const response = await getEventsByIds(eventIds);
-        console.log(response.data);
         setEvents(response.data);
       } catch (error) {
         console.log(error);

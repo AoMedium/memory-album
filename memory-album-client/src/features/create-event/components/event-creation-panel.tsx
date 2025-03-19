@@ -17,6 +17,8 @@ import { resetCursor, setCursor } from '@/state/map/map-slice';
 import { createEvent } from '../api/create-event';
 import { AxiosError } from 'axios';
 import { addEventToAlbum } from '../api/add-event-to-album';
+import { getAlbumById } from '@/features/album-selector/api/get-albums';
+import { setAlbum } from '@/state/album/album-slice';
 
 export default function EventCreationPanel() {
   const currentAlbum = useSelector(
@@ -85,13 +87,15 @@ export default function EventCreationPanel() {
         timestamp,
         location: { latitude, longitude },
       });
-      console.log(createEventResponse.data.id);
 
       if (currentAlbum) {
         const addEventToAlbumResponse = await addEventToAlbum(currentAlbum.id, {
           eventIds: [createEventResponse.data.id],
         });
         console.log(addEventToAlbumResponse);
+
+        const getAlbumByIdResponse = await getAlbumById(currentAlbum.id);
+        dispatch(setAlbum(getAlbumByIdResponse));
       }
 
       clearEventCreation();
@@ -100,7 +104,16 @@ export default function EventCreationPanel() {
         console.log(error.response?.data); // TODO: generic api response and error handling
       }
     }
-  }, [clearEventCreation, description, latitude, longitude, timestamp, title]);
+  }, [
+    clearEventCreation,
+    currentAlbum,
+    description,
+    dispatch,
+    latitude,
+    longitude,
+    timestamp,
+    title,
+  ]);
 
   return (
     <ModalContainer
