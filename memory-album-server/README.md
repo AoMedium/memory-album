@@ -45,3 +45,11 @@ return await _context.Albums
             .Include(album => album.Events) // FIXME: missing inherited types
             .ToListAsync();
 ```
+
+### Organising Program.cs
+
+Reference: <https://www.youtube.com/watch?v=pj0hqTlxUX0>
+
+### Layered Architecture
+
+Reference: <https://zinminhtay.medium.com/asp-net-api-with-entity-framework-dbcontext-and-layering-architecture-0a9dec823c67>

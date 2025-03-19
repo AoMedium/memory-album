@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MemoryAlbumServer.Data;
+using MemoryAlbumServer.Models.Common;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,7 @@ public class PeopleController(MemoryAlbumContext context) : Controller
 
     // POST: /api/People
     [HttpPost]
-    public async Task<ActionResult> CreatePerson(PersonDto personDto)
+    public async Task<ActionResult<EntityCreatedResponse>> CreatePerson(PersonDto personDto)
     {
         if (!ModelState.IsValid) // Check if validation rules were broken during request-model binding.
         {
@@ -74,7 +75,7 @@ public class PeopleController(MemoryAlbumContext context) : Controller
         _context.People.Add(person);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(CreatePerson), new { id = person.Id });
+        return CreatedAtAction(nameof(CreatePerson), new EntityCreatedResponse { Id = person.Id });
     }
 
     /// <summary>

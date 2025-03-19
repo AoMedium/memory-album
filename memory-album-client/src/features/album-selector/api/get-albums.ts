@@ -1,11 +1,12 @@
 import { api } from '@/lib/api-client';
-import { AlbumResponse } from '@/types/api';
+import { AlbumGetResponse } from '@/types/api';
 
-export async function getAlbums(): Promise<AlbumResponse[]> {
+export async function getAlbums(): Promise<AlbumGetResponse[]> {
   const response = await api.get('/albums');
   return response.data;
 }
 
-export function getAlbumById({ id = '' }: { id: string }) {
-  return api.get(`/albums/${id}`);
+export async function getAlbumById(id: string): Promise<AlbumGetResponse> {
+  const response = await api.get(`/albums/${id}`);
+  return response.data;
 }
