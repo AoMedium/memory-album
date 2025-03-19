@@ -51,7 +51,7 @@ export function useAlbumEventsLayer(album?: AlbumGetResponse) {
           console.warn('Event location is missing: ' + d.id);
           return [0, 0];
         }
-        return [d.location.latitude, d.location.longitude];
+        return [d.location.longitude, d.location.latitude];
       },
       getColor: [83, 153, 251], // TODO: define color in templates. Color.parse(theme.palette.primary.main)?.rgb does not work
       getSize: 40,
