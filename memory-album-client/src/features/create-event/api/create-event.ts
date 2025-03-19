@@ -1,5 +1,6 @@
 import { api } from '@/lib/api-client';
-import { EntityCreatedResponse, EventCreateRequest } from '@/types/api';
+import { EntityCreatedResponse } from '@/types/api/common';
+import { EventCreateRequest } from '@/types/api/event';
 import { AxiosResponse } from 'axios';
 
 export async function createEvent(

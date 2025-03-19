@@ -1,8 +1,10 @@
+import { Geoposition } from '../common/common';
+
 export type EventCreateRequest = {
   title: string;
   description: string;
   timestamp: number;
-  location: Location;
+  location: Geoposition;
 };
 
 export type EventGetResponse = {
@@ -10,7 +12,7 @@ export type EventGetResponse = {
   title: string;
   description: string;
   timestamp: number;
-  location: Location;
+  location: Geoposition;
   personIds: string[];
   tagIds: string[];
   photoIds: string[];

@@ -1,5 +1,5 @@
 import { IconLayer } from 'deck.gl';
-import { Location } from '@/types/api';
+import { Geoposition } from '@/types/common/common';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import iconAtlas from '@/assets/icon-atlas.png';
@@ -12,11 +12,11 @@ export function useSelectedLocationMarkerLayer() {
 
   const selectedLocationMarker = selectedLocation ? [selectedLocation] : [];
 
-  return new IconLayer<Location>({
+  return new IconLayer<Geoposition>({
     id: 'eventSelectedLocationLayer',
     data: selectedLocationMarker,
     getIcon: () => 'marker',
-    getPosition: (d: Location) => [d.longitude, d.latitude],
+    getPosition: (d: Geoposition) => [d.longitude, d.latitude],
     getSize: 40,
     iconAtlas: iconAtlas,
     iconMapping: iconMapping,

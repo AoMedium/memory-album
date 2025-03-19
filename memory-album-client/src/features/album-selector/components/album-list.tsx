@@ -1,5 +1,4 @@
 import { RootState } from '@/state/store';
-import { AlbumGetResponse } from '@/types/api';
 import { Close, ImageNotSupported } from '@mui/icons-material';
 import {
   Typography,
@@ -13,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AlbumCard from './album-card';
 import ModalContainer from '@/components/ui/modal-container';
 import { setSelectionModalOpen } from '@/state/album/album-selection-slice';
+import { AlbumGetResponse } from '@/types/api/album';
 
 export default function AlbumList() {
   // Better to explicitly use selectors for each to avoid unnecessary re-renders

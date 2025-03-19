@@ -1,4 +1,4 @@
-import { AlbumGetResponse } from '@/types/api';
+import { AlbumGetResponse } from '@/types/api/album';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface AlbumState {

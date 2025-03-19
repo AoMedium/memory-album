@@ -1,5 +1,6 @@
 import { api } from '@/lib/api-client';
-import { AlbumAddEventsRequest, EntityCreatedResponse } from '@/types/api';
+import { AlbumAddEventsRequest } from '@/types/api/album';
+import { EntityCreatedResponse } from '@/types/api/common';
 import { AxiosResponse } from 'axios';
 
 export async function addEventToAlbum(

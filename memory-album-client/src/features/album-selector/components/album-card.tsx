@@ -3,7 +3,7 @@ import {
   selectAlbum,
   setDetailsModalOpen,
 } from '@/state/album/album-selection-slice';
-import { AlbumGetResponse } from '@/types/api';
+import { AlbumGetResponse } from '@/types/api/album';
 import { ImageNotSupported } from '@mui/icons-material';
 import { Typography, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
