@@ -99,7 +99,7 @@ public class AlbumsController(IAlbumService albumService, IEventService eventSer
         // TODO: check if events are already added?
 
         await _albumService.AddEvents(album, events);
-        return NoContent();
+        return Ok("Added event to album");
     }
 
     private static AlbumGetResponse MapToAlbumGetResponse(Album album)

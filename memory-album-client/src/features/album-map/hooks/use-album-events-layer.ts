@@ -25,7 +25,7 @@ export function useAlbumEventsLayer(album?: AlbumGetResponse) {
       } catch (error) {
         console.log(error);
       }
-      setTimeout(update, 30000);
+      // setTimeout(update, 30000);
     };
 
     update();

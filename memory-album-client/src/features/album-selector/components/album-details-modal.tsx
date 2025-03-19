@@ -64,6 +64,11 @@ export default function AlbumDetailsModal() {
                 disabled
                 value={selectedAlbum.description || 'No description'}
               />
+              <TextField
+                label="Events"
+                disabled
+                value={selectedAlbum.eventIds.length || 0}
+              />
               <Stack spacing={1}>
                 <Button
                   variant="contained"

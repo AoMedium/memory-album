@@ -16,8 +16,13 @@ import { Room } from '@mui/icons-material';
 import { resetCursor, setCursor } from '@/state/map/map-slice';
 import { createEvent } from '../api/create-event';
 import { AxiosError } from 'axios';
+import { addEventToAlbum } from '../api/add-event-to-album';
 
 export default function EventCreationPanel() {
+  const currentAlbum = useSelector(
+    (state: RootState) => state.album.currentAlbum,
+  );
+
   const isCreationPanelOpen = useSelector(
     (state: RootState) => state.eventCreation.isCreationPanelOpen,
   );
@@ -59,6 +64,12 @@ export default function EventCreationPanel() {
   }, [dispatch, isSelectingLocation, latitude, longitude]);
 
   const clearEventCreation = useCallback(() => {
+    setTitle('');
+    setDescription('');
+    setTimestamp(Date.now());
+    setLatitude(0);
+    setLongitude(0);
+
     dispatch(clearEvent());
     dispatch(setCreationPanelOpen(false));
     dispatch(setSelectingLocation(false));
@@ -68,13 +79,20 @@ export default function EventCreationPanel() {
 
   const submitEvent = useCallback(async () => {
     try {
-      const response = await createEvent({
+      const createEventResponse = await createEvent({
         title,
         description,
         timestamp,
         location: { latitude, longitude },
       });
-      console.log(response.data.id);
+      console.log(createEventResponse.data.id);
+
+      if (currentAlbum) {
+        const addEventToAlbumResponse = await addEventToAlbum(currentAlbum.id, {
+          eventIds: [createEventResponse.data.id],
+        });
+        console.log(addEventToAlbumResponse);
+      }
 
       clearEventCreation();
     } catch (error) {
