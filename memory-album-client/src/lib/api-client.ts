@@ -8,12 +8,12 @@ export const api = Axios.create({
 
 if (USE_LOGGING) {
   api.interceptors.request.use((request) => {
-    console.log('Starting Request', request);
+    console.log('Starting Request', request.url, request);
     return request;
   });
 
   api.interceptors.response.use((response) => {
-    console.log('Response:', response); // JSON.stringify(response, null, 2)
+    console.log('Response:', response.statusText, response); // JSON.stringify(response, null, 2)
     return response;
   });
 }
