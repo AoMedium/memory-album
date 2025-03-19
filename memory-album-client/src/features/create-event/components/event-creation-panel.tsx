@@ -52,8 +52,11 @@ export default function EventCreationPanel() {
   }, [selectedLocation]);
 
   useEffect(() => {
-    dispatch(selectLocation({ latitude, longitude }));
-  }, [dispatch, latitude, longitude]);
+    // Set selected location only when user is actively selecting location
+    if (isSelectingLocation) {
+      dispatch(selectLocation({ latitude, longitude }));
+    }
+  }, [dispatch, isSelectingLocation, latitude, longitude]);
 
   const clearEventCreation = useCallback(() => {
     dispatch(clearEvent());

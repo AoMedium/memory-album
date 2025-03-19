@@ -6,10 +6,14 @@ import { useCallback } from 'react';
 import Map from 'react-map-gl/maplibre';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSelectedLocationMarkerLayer } from '../hooks/use-selected-location-marker-layer';
-import { useEventsLayer } from '../hooks/use-events-layer';
+import { useAlbumEventsLayer } from '../hooks/use-album-events-layer';
 
 export default function AlbumMap() {
   const cursor = useSelector((state: RootState) => state.map.cursor);
+
+  const currentAlbum = useSelector(
+    (state: RootState) => state.album.currentAlbum,
+  );
 
   const isSelectingLocation = useSelector(
     (state: RootState) => state.eventCreation.isSelectingLocation,
@@ -31,7 +35,10 @@ export default function AlbumMap() {
     [dispatch, isSelectingLocation],
   );
 
-  const layers = [useSelectedLocationMarkerLayer(), useEventsLayer()];
+  const layers = [
+    useSelectedLocationMarkerLayer(),
+    useAlbumEventsLayer(currentAlbum),
+  ];
 
   return (
     <DeckGL
