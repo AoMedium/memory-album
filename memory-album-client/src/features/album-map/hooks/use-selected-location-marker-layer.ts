@@ -16,7 +16,7 @@ export function useSelectedLocationMarkerLayer() {
     id: 'eventSelectedLocationLayer',
     data: selectedLocationMarker,
     getIcon: () => 'marker',
-    getPosition: (d: Location) => [d.latitude, d.longitude],
+    getPosition: (d: Location) => [d.longitude, d.latitude],
     getSize: 40,
     iconAtlas: iconAtlas,
     iconMapping: iconMapping,

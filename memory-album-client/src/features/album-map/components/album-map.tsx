@@ -26,8 +26,8 @@ export default function AlbumMap() {
       if (isSelectingLocation && info.coordinate) {
         dispatch(
           selectLocation({
-            latitude: info.coordinate[0],
-            longitude: info.coordinate[1],
+            latitude: info.coordinate[1],
+            longitude: info.coordinate[0],
           }),
         );
       }
