@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios';
 export async function createEvent(
   event: EventCreateRequest,
 ): Promise<AxiosResponse<EntityCreatedResponse>> {
-  const response = await api.post('/events', {
+  const response = await api.post('/events', <EventCreateRequest>{
     ...event,
   });
   return response;
