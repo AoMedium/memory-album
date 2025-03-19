@@ -15,9 +15,26 @@ public class EventsController(IEventService eventService) : Controller
 
     // GET: /api/Events
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<EventGetResponse>>> GetEvents()
+    public async Task<ActionResult<IEnumerable<EventGetResponse>>> GetEventsByIds([FromQuery] IEnumerable<Guid> ids)
     {
-        var events = await _eventService.GetAll();
+        IEnumerable<Event> events;
+
+        // If no ids are provided, return all events
+        if (!ids.Any())
+        {
+            events = await _eventService.GetAll();
+            return events.Select(MapToEventGetResponse).ToList();
+        }
+
+        // Otherwise, return events with the provided ids
+        var eventIds = ids.ToHashSet();
+        events = await _eventService.GetByIds(eventIds);
+
+        if (!events.Any())
+        {
+            return NotFound("Cannot find any events with the provided ids.");
+        }
+
         return events.Select(MapToEventGetResponse).ToList();
     }
 
