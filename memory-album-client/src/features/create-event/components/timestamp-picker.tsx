@@ -1,7 +1,7 @@
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs, { locale } from 'dayjs';
+import dayjs from 'dayjs';
 import { MS_TO_S } from '@/config/constants';
 
 interface Props {
