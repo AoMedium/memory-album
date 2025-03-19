@@ -9,7 +9,7 @@ import {
 } from '@/state/event/event-creation-slice';
 import { RootState } from '@/state/store';
 import { Stack, Button, TextField } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TimestampPicker from './timestamp-picker';
 import { Room } from '@mui/icons-material';
@@ -24,6 +24,8 @@ export default function EventCreationPanel() {
   const currentAlbum = useSelector(
     (state: RootState) => state.album.currentAlbum,
   );
+
+  const mapPosition = useSelector((state: RootState) => state.map.position);
 
   const isCreationPanelOpen = useSelector(
     (state: RootState) => state.eventCreation.isCreationPanelOpen,
@@ -43,41 +45,57 @@ export default function EventCreationPanel() {
   const [description, setDescription] = useState('');
   const [timestamp, setTimestamp] = useState<number>(Date.now());
 
-  // TODO: set initial as map position
-  const [latitude, setLatitude] = useState<number>(0);
-  const [longitude, setLongitude] = useState<number>(0);
+  const [latitude, setLatitude] = useState<number>(mapPosition.latitude);
+  const [longitude, setLongitude] = useState<number>(mapPosition.longitude);
+
+  const mapPositionRef = useRef(mapPosition); // Map position changes should not trigger rerenders here
 
   useEffect(() => {
-    if (!selectedLocation) {
-      // TODO: set as initial
-      setLatitude(0);
-      setLongitude(0);
-      return;
-    }
-    setLatitude(selectedLocation.latitude);
-    setLongitude(selectedLocation.longitude);
-  }, [selectedLocation]);
+    mapPositionRef.current = mapPosition; // Keep the ref updated with the latest mapPosition
+  }, [mapPosition]);
 
-  useEffect(() => {
-    // Set selected location only when user is actively selecting location
-    if (isSelectingLocation) {
-      dispatch(selectLocation({ latitude, longitude }));
-    }
-  }, [dispatch, isSelectingLocation, latitude, longitude]);
-
-  const clearEventCreation = useCallback(() => {
-    setTitle('');
-    setDescription('');
-    setTimestamp(Date.now());
-    setLatitude(0);
-    setLongitude(0);
-
+  const cleanupEventCreation = useCallback(() => {
     dispatch(clearEvent());
-    dispatch(setCreationPanelOpen(false));
     dispatch(setSelectingLocation(false));
     dispatch(clearSelectedLocation());
     dispatch(resetCursor());
   }, [dispatch]);
+
+  const resetValues = useCallback(() => {
+    console.log('Resetting values');
+    setTitle('');
+    setDescription('');
+    setTimestamp(Date.now());
+    setLatitude(mapPositionRef.current.latitude);
+    setLongitude(mapPositionRef.current.longitude);
+  }, []);
+
+  // Reset and clean up on panel open and close
+  useEffect(() => {
+    if (isCreationPanelOpen) {
+      resetValues();
+    } else {
+      cleanupEventCreation();
+    }
+  }, [isCreationPanelOpen, cleanupEventCreation, resetValues]);
+
+  // Update location values whenever selected location changes
+  useEffect(() => {
+    if (!selectedLocation) {
+      return;
+    }
+    // console.log('Setting location value');
+    setLatitude(selectedLocation.latitude);
+    setLongitude(selectedLocation.longitude);
+  }, [selectedLocation]);
+
+  // Update selected location whenever lat or lng changes
+  useEffect(() => {
+    // console.log('Setting selected location');
+    dispatch(selectLocation({ latitude, longitude }));
+  }, [dispatch, latitude, longitude]);
+
+  // TODO: on open, show marker
 
   const submitEvent = useCallback(async () => {
     try {
@@ -98,14 +116,14 @@ export default function EventCreationPanel() {
         dispatch(setAlbum(getAlbumByIdResponse));
       }
 
-      clearEventCreation();
+      cleanupEventCreation();
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.response?.data); // TODO: generic api response and error handling
       }
     }
   }, [
-    clearEventCreation,
+    cleanupEventCreation,
     currentAlbum,
     description,
     dispatch,
@@ -168,18 +186,15 @@ export default function EventCreationPanel() {
             label="Latitude"
             value={latitude}
             onChange={(e) => {
-              if (typeof e.target.value === 'number') {
-                setLatitude(Number.parseFloat(e.target.value));
-              }
+              // TODO: validate is number
+              setLatitude(Number.parseFloat(e.target.value));
             }}
           />
           <TextField
             label="Longitude"
             value={longitude}
             onChange={(e) => {
-              if (typeof e.target.value === 'number') {
-                setLongitude(Number.parseFloat(e.target.value));
-              }
+              setLongitude(Number.parseFloat(e.target.value));
             }}
           />
         </Stack>
@@ -191,7 +206,7 @@ export default function EventCreationPanel() {
             variant="outlined"
             onClick={() => {
               if (confirm('Discard your changes?')) {
-                clearEventCreation();
+                dispatch(setCreationPanelOpen(false));
               }
             }}
           >
