@@ -5,8 +5,8 @@ import DeckGL, { MapView, MapViewState, PickingInfo } from 'deck.gl';
 import { useCallback, useEffect, useState } from 'react';
 import Map from 'react-map-gl/maplibre';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSelectedLocationMarkerLayer } from '../hooks/use-selected-location-marker-layer';
-import { useAlbumEventsLayer } from '../hooks/use-album-events-layer';
+import useSelectedLocationMarkerLayer from '../hooks/use-selected-location-marker-layer';
+import useAlbumEventsLayer from '../hooks/use-album-events-layer';
 import { setPosition } from '@/state/map/map-slice';
 
 const INITIAL_VIEW_STATE: MapViewState = {
@@ -21,7 +21,7 @@ const MAP_VIEW = new MapView({ repeat: true });
  * Amount of idle time (seconds) where map position (lat, lng) has
  * not changed before dispatching position.
  */
-const IDLE_UPDATE_POSITION_DELAY = 1000;
+const IDLE_UPDATE_POSITION_DELAY = 500;
 
 export default function AlbumMap() {
   const cursor = useSelector((state: RootState) => state.map.cursor);

@@ -1,5 +1,6 @@
 import { styles } from '@/config/constants';
 import { setCreationPanelOpen } from '@/state/event/event-creation-slice';
+import { push } from '@/state/notifications/notifications-slice';
 import { RootState } from '@/state/store';
 import { Add } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
@@ -31,7 +32,14 @@ export default function CreateEventButton() {
               color: (theme) => theme.palette.primary.contrastText,
             },
           }}
-          onClick={() => dispatch(setCreationPanelOpen(true))}
+          onClick={() => {
+            dispatch(
+              push({
+                message: 'open',
+              }),
+            );
+            dispatch(setCreationPanelOpen(true));
+          }}
         >
           <Add sx={{ fontSize: '35px' }} />
         </IconButton>

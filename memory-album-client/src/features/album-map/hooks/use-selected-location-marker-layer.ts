@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import iconAtlas from '@/assets/icon-atlas.png';
 import iconMapping from '@/assets/icon-atlas.json';
 
-export function useSelectedLocationMarkerLayer() {
+export default function useSelectedLocationMarkerLayer() {
   const selectedLocation = useSelector(
     (state: RootState) => state.eventCreation.selectedLocation,
   );

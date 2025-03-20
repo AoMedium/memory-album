@@ -19,6 +19,7 @@ import { AxiosError } from 'axios';
 import { addEventToAlbum } from '../api/add-event-to-album';
 import { getAlbumById } from '@/features/album-selector/api/get-albums';
 import { setAlbum } from '@/state/album/album-slice';
+import useNotification from '@/hooks/use-notification';
 
 export default function EventCreationPanel() {
   const currentAlbum = useSelector(
@@ -40,6 +41,8 @@ export default function EventCreationPanel() {
   );
 
   const dispatch = useDispatch();
+
+  const { notify, reportSuccess, throwError } = useNotification();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -95,7 +98,7 @@ export default function EventCreationPanel() {
     dispatch(selectLocation({ latitude, longitude }));
   }, [dispatch, latitude, longitude]);
 
-  // TODO: on open, show marker
+  // FIXME: marker not showing when closing and reopening modal too quickly, seems to be caused in between saving positions
 
   const submitEvent = useCallback(async () => {
     try {
@@ -106,6 +109,10 @@ export default function EventCreationPanel() {
         location: { latitude, longitude },
       });
 
+      reportSuccess('Created event');
+
+      dispatch(setCreationPanelOpen(false));
+
       if (currentAlbum) {
         const addEventToAlbumResponse = await addEventToAlbum(currentAlbum.id, {
           eventIds: [createEventResponse.data.id],
@@ -114,21 +121,23 @@ export default function EventCreationPanel() {
 
         const getAlbumByIdResponse = await getAlbumById(currentAlbum.id);
         dispatch(setAlbum(getAlbumByIdResponse));
-      }
 
-      cleanupEventCreation();
+        reportSuccess('Added event to current album');
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.response?.data); // TODO: generic api response and error handling
+        throwError('An error occurred');
       }
     }
   }, [
-    cleanupEventCreation,
     currentAlbum,
     description,
     dispatch,
     latitude,
     longitude,
+    reportSuccess,
+    throwError,
     timestamp,
     title,
   ]);

@@ -7,7 +7,7 @@ import { AlbumGetResponse } from '@/types/api/album';
 import { EventGetResponse } from '@/types/api/event';
 // import eventIcon from '@/assets/react.svg';
 
-export function useAlbumEventsLayer(album?: AlbumGetResponse) {
+export default function useAlbumEventsLayer(album?: AlbumGetResponse) {
   const eventIds = album?.eventIds;
 
   const [events, setEvents] = useState<EventGetResponse[]>([]);

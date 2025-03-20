@@ -24,6 +24,7 @@
     "dayjs": "^1.11.13",
     "deck.gl": "^9.1.2",
     "maplibre-gl": "^5.1.0",
+    "notistack": "^3.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-map-gl": "^8.0.1",
