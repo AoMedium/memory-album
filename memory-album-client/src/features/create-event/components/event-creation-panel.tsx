@@ -3,7 +3,6 @@ import { styles } from '@/config/constants';
 import {
   clearEvent,
   clearSelectedLocation,
-  selectLocation,
   setCreationPanelOpen,
   setSelectingLocation,
 } from '@/state/event/event-creation-slice';
@@ -12,14 +11,14 @@ import { Stack, Button, TextField } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TimestampPicker from './timestamp-picker';
-import { Room } from '@mui/icons-material';
-import { resetCursor, setCursor } from '@/state/map/map-slice';
+import { resetCursor } from '@/state/map/map-slice';
 import { createEvent } from '../api/create-event';
 import { AxiosError } from 'axios';
 import { addEventToAlbum } from '../api/add-event-to-album';
 import { getAlbumById } from '@/features/album-selector/api/get-albums';
 import { setAlbum } from '@/state/album/album-slice';
 import useNotification from '@/hooks/use-notification';
+import LocationInput from './location-input';
 
 export default function EventCreationPanel() {
   const currentAlbum = useSelector(
@@ -32,17 +31,9 @@ export default function EventCreationPanel() {
     (state: RootState) => state.eventCreation.isCreationPanelOpen,
   );
 
-  const isSelectingLocation = useSelector(
-    (state: RootState) => state.eventCreation.isSelectingLocation,
-  );
-
-  const selectedLocation = useSelector(
-    (state: RootState) => state.eventCreation.selectedLocation,
-  );
-
   const dispatch = useDispatch();
 
-  const { notify, reportSuccess, throwError } = useNotification();
+  const { reportSuccess, throwError } = useNotification();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -58,6 +49,7 @@ export default function EventCreationPanel() {
   }, [mapPosition]);
 
   const cleanupEventCreation = useCallback(() => {
+    console.log('Clean up event creation');
     dispatch(clearEvent());
     dispatch(setSelectingLocation(false));
     dispatch(clearSelectedLocation());
@@ -81,24 +73,6 @@ export default function EventCreationPanel() {
       cleanupEventCreation();
     }
   }, [isCreationPanelOpen, cleanupEventCreation, resetValues]);
-
-  // Update location values whenever selected location changes
-  useEffect(() => {
-    if (!selectedLocation) {
-      return;
-    }
-    // console.log('Setting location value');
-    setLatitude(selectedLocation.latitude);
-    setLongitude(selectedLocation.longitude);
-  }, [selectedLocation]);
-
-  // Update selected location whenever lat or lng changes
-  useEffect(() => {
-    // console.log('Setting selected location');
-    dispatch(selectLocation({ latitude, longitude }));
-  }, [dispatch, latitude, longitude]);
-
-  // FIXME: marker not showing when closing and reopening modal too quickly, seems to be caused in between saving positions
 
   const submitEvent = useCallback(async () => {
     try {
@@ -176,37 +150,12 @@ export default function EventCreationPanel() {
           required
         />
         <TimestampPicker timestamp={timestamp} setTimestamp={setTimestamp} />
-        <Stack direction="row" spacing={2}>
-          <Button
-            sx={{
-              minWidth: 0,
-              // height: '100%',
-              // aspectRatio: '1/1',
-            }}
-            variant={isSelectingLocation ? 'contained' : 'outlined'}
-            onClick={() => {
-              dispatch(setSelectingLocation(!isSelectingLocation));
-              dispatch(setCursor('pointer'));
-            }}
-          >
-            <Room />
-          </Button>
-          <TextField
-            label="Latitude"
-            value={latitude}
-            onChange={(e) => {
-              // TODO: validate is number
-              setLatitude(Number.parseFloat(e.target.value));
-            }}
-          />
-          <TextField
-            label="Longitude"
-            value={longitude}
-            onChange={(e) => {
-              setLongitude(Number.parseFloat(e.target.value));
-            }}
-          />
-        </Stack>
+        <LocationInput
+          latitude={latitude}
+          longitude={longitude}
+          setLatitude={setLatitude}
+          setLongitude={setLongitude}
+        />
         <Stack spacing={1}>
           <Button variant="contained" onClick={submitEvent}>
             Create

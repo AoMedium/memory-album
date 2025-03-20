@@ -21,7 +21,7 @@ const MAP_VIEW = new MapView({ repeat: true });
  * Amount of idle time (seconds) where map position (lat, lng) has
  * not changed before dispatching position.
  */
-const IDLE_UPDATE_POSITION_DELAY = 500;
+const IDLE_UPDATE_POSITION_DELAY = 1000;
 
 export default function AlbumMap() {
   const cursor = useSelector((state: RootState) => state.map.cursor);

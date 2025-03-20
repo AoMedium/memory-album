@@ -5,12 +5,15 @@ import iconAtlas from '@/assets/icon-atlas.png';
 import iconMapping from '@/assets/icon-atlas.json';
 import { AlbumGetResponse } from '@/types/api/album';
 import { EventGetResponse } from '@/types/api/event';
+import useNotification from '@/hooks/use-notification';
 // import eventIcon from '@/assets/react.svg';
 
 export default function useAlbumEventsLayer(album?: AlbumGetResponse) {
   const eventIds = album?.eventIds;
 
   const [events, setEvents] = useState<EventGetResponse[]>([]);
+
+  const { warn } = useNotification();
 
   useEffect(() => {
     const update = async () => {
@@ -48,6 +51,7 @@ export default function useAlbumEventsLayer(album?: AlbumGetResponse) {
       }, // ({ url: iconAtlas, width: 24, height: 24 }),
       getPosition: (d: EventGetResponse) => {
         if (!d.location) {
+          warn('Some event locations are missing');
           console.warn('Event location is missing: ' + d.id);
           return [0, 0];
         }
@@ -58,7 +62,7 @@ export default function useAlbumEventsLayer(album?: AlbumGetResponse) {
       iconAtlas: iconAtlas,
       iconMapping: iconMapping,
     });
-  }, [album, events]);
+  }, [album, events, warn]);
 
   return iconLayer;
 }
