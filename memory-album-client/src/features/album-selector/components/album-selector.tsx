@@ -7,6 +7,7 @@ import { RootState } from '@/state/store';
 import { setLoading, updateAlbums } from '@/state/album/album-slice';
 import AlbumModal from './album-modal';
 import { setSelectionModalOpen } from '@/state/album/album-selection-slice';
+import useNotification from '@/hooks/use-notification';
 
 export default function AlbumSelector() {
   const currentAlbum = useSelector(
@@ -14,6 +15,7 @@ export default function AlbumSelector() {
   );
 
   const dispatch = useDispatch();
+  const { reportSuccess, throwError } = useNotification();
 
   /**
    * TODO:`
@@ -26,9 +28,16 @@ export default function AlbumSelector() {
     dispatch(setSelectionModalOpen(true));
     dispatch(setLoading(true));
 
-    const albums = await getAlbums(); // TODO: check cache instead of calling API
+    try {
+      const response = await getAlbums(); // TODO: check cache instead of calling API
 
-    dispatch(updateAlbums(albums));
+      dispatch(updateAlbums(response.data));
+      reportSuccess('Retrieved albums');
+    } catch (error) {
+      console.error(error);
+      throwError('Could not load albums');
+    }
+
     dispatch(setLoading(false));
   }
 

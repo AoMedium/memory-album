@@ -94,7 +94,7 @@ export default function EventCreationPanel() {
         console.log(addEventToAlbumResponse);
 
         const getAlbumByIdResponse = await getAlbumById(currentAlbum.id);
-        dispatch(setAlbum(getAlbumByIdResponse));
+        dispatch(setAlbum(getAlbumByIdResponse.data));
 
         reportSuccess('Added event to current album');
       }
@@ -157,7 +157,17 @@ export default function EventCreationPanel() {
           setLongitude={setLongitude}
         />
         <Stack spacing={1}>
-          <Button variant="contained" onClick={submitEvent}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (
+                currentAlbum ||
+                confirm('No album selected. Create event anyway?')
+              ) {
+                submitEvent();
+              }
+            }}
+          >
             Create
           </Button>
           <Button
