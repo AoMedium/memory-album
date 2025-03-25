@@ -118,9 +118,8 @@ export default function EventCreationPanel() {
 
   return (
     <ModalContainer
+      open={isCreationPanelOpen}
       sx={{
-        visibility: isCreationPanelOpen ? 'visible' : 'hidden',
-
         position: 'absolute',
         top: '50%',
         right: styles.viewport.margin,

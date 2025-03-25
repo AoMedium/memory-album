@@ -10,9 +10,9 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import AlbumCard from './album-card';
-import ModalContainer from '@/components/ui/modal-container';
 import { setSelectionModalOpen } from '@/state/album/album-selection-slice';
 import { AlbumGetResponse } from '@/types/api/album';
+import ModalPanel from '@/components/ui/modal-panel';
 
 export default function AlbumList() {
   // Better to explicitly use selectors for each to avoid unnecessary re-renders
@@ -21,7 +21,7 @@ export default function AlbumList() {
 
   if (isLoading) {
     return (
-      <ModalContainer
+      <ModalPanel
         sx={{
           position: 'absolute',
           top: '50%',
@@ -36,13 +36,13 @@ export default function AlbumList() {
         <CloseModalButton />
         <CircularProgress />
         <Typography marginTop={2}>Loading albums...</Typography>
-      </ModalContainer>
+      </ModalPanel>
     );
   }
 
   if (albums.length == 0) {
     return (
-      <ModalContainer
+      <ModalPanel
         sx={{
           position: 'absolute',
           top: '50%',
@@ -75,12 +75,12 @@ export default function AlbumList() {
             Create new album
           </Button>
         </Stack>
-      </ModalContainer>
+      </ModalPanel>
     );
   }
 
   return (
-    <ModalContainer
+    <ModalPanel
       sx={{
         position: 'relative',
         top: '50%',
@@ -104,7 +104,7 @@ export default function AlbumList() {
           <AlbumCard key={album.id} album={album} />
         ))}
       </Box>
-    </ModalContainer>
+    </ModalPanel>
   );
 }
 

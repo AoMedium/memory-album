@@ -1,4 +1,4 @@
-import ModalContainer from '@/components/ui/modal-container';
+import ModalPanel from '@/components/ui/modal-panel';
 import {
   setDetailsModalOpen,
   setSelectionModalOpen,
@@ -29,7 +29,7 @@ export default function AlbumDetailsModal() {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <ModalContainer>
+          <ModalPanel>
             {selectedAlbum.coverPhotoId ? (
               <>{/* TODO: display cover photo */}</>
             ) : (
@@ -38,8 +38,8 @@ export default function AlbumDetailsModal() {
                 <Typography>No cover</Typography>
               </>
             )}
-          </ModalContainer>
-          <ModalContainer
+          </ModalPanel>
+          <ModalPanel
             sx={{
               display: 'flex',
               padding: 0, // Override as MUI text field label gets cut off
@@ -95,7 +95,7 @@ export default function AlbumDetailsModal() {
                 </Button>
               </Stack>
             </Stack>
-          </ModalContainer>
+          </ModalPanel>
         </Stack>
       ) : (
         <Typography>Select an album</Typography>
