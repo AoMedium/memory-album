@@ -1,4 +1,5 @@
-import { EventCreateRequest, Geoposition } from '@/types/api';
+import { EventCreateRequest } from '@/types/api/event';
+import { Geoposition } from '@/types/common/common';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface EventCreationState {
