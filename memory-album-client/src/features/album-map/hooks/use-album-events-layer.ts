@@ -1,6 +1,6 @@
 import { IconLayer } from 'deck.gl';
 import { useEffect, useMemo, useState } from 'react';
-import { getEventsByIds } from '../api/get-events';
+import { getEventsByIds } from '@/api/get-events';
 import iconAtlas from '@/assets/icon-atlas.png';
 import iconMapping from '@/assets/icon-atlas.json';
 import { AlbumGetResponse } from '@/types/api/album';

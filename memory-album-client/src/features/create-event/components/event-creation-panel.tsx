@@ -15,7 +15,7 @@ import { resetCursor } from '@/state/map/map-slice';
 import { createEvent } from '../api/create-event';
 import { AxiosError } from 'axios';
 import { addEventToAlbum } from '../api/add-event-to-album';
-import { getAlbumById } from '@/features/album-selector/api/get-albums';
+import { getAlbumById } from '@/api/get-albums';
 import { setAlbum } from '@/state/album/album-slice';
 import useNotification from '@/hooks/use-notification';
 import LocationInput from './location-input';

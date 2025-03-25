@@ -1,7 +1,7 @@
 import { styles } from '@/config/constants';
 import { FolderOutlined } from '@mui/icons-material';
 import { Button, Stack, Typography } from '@mui/material';
-import { getAlbums } from '../api/get-albums';
+import { getAlbums } from '@/api/get-albums';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/state/store';
 import { setLoading, updateAlbums } from '@/state/album/album-slice';
