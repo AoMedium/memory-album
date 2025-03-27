@@ -19,7 +19,7 @@ All data is encrypted and accessible through user accounts and album sharing.
 - deck.gl
 
 **Backend**
-- ASP.NET (React MVC + EF Core)
+- ASP.NET + EF Core
 - MySQL
 
 ## Developer notes
