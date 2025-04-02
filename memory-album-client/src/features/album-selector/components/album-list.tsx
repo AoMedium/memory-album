@@ -1,9 +1,8 @@
 import { RootState } from '@/state/store';
-import { Close, ImageNotSupported } from '@mui/icons-material';
+import { ImageNotSupported } from '@mui/icons-material';
 import {
   Typography,
   CircularProgress,
-  IconButton,
   Button,
   Stack,
   Box,
@@ -13,11 +12,18 @@ import AlbumCard from './album-card';
 import { setSelectionModalOpen } from '@/state/album/album-selection-slice';
 import { AlbumGetResponse } from '@/types/api/album';
 import ModalPanel from '@/components/ui/modal-panel';
+import CloseModalButton from '@/components/ui/close-modal-button';
 
 export default function AlbumList() {
   // Better to explicitly use selectors for each to avoid unnecessary re-renders
   const albums = useSelector((state: RootState) => state.album.albums);
   const isLoading = useSelector((state: RootState) => state.album.isLoading);
+
+  const dispatch = useDispatch();
+
+  function handleCloseModal() {
+    dispatch(setSelectionModalOpen(false));
+  }
 
   if (isLoading) {
     return (
@@ -33,7 +39,7 @@ export default function AlbumList() {
           padding: '100px 0',
         }}
       >
-        <CloseModalButton />
+        <CloseModalButton onClick={handleCloseModal} />
         <CircularProgress />
         <Typography marginTop={2}>Loading albums...</Typography>
       </ModalPanel>
@@ -53,7 +59,7 @@ export default function AlbumList() {
           padding: '100px 50px',
         }}
       >
-        <CloseModalButton />
+        <CloseModalButton onClick={handleCloseModal} />
         <Stack
           sx={{
             display: 'flex',
@@ -87,7 +93,7 @@ export default function AlbumList() {
         transform: 'translateY(-50%)',
       }}
     >
-      <CloseModalButton />
+      <CloseModalButton onClick={handleCloseModal} />
       <Box
         sx={{
           display: 'flex',
@@ -105,22 +111,5 @@ export default function AlbumList() {
         ))}
       </Box>
     </ModalPanel>
-  );
-}
-
-function CloseModalButton() {
-  const dispatch = useDispatch();
-
-  return (
-    <IconButton
-      sx={{
-        zIndex: 1000,
-        position: 'absolute',
-        top: 0,
-        right: 0,
-      }}
-    >
-      <Close onClick={() => dispatch(setSelectionModalOpen(false))} />
-    </IconButton>
   );
 }

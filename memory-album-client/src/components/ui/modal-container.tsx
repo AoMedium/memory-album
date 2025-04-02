@@ -11,7 +11,8 @@ export default function ModalContainer(props: PropsWithChildren<Props>) {
   return (
     <ModalPanel
       sx={{
-        visibility: props.open ? 'visible' : 'hidden', // Toggle modal visibility
+        // visibility: props.open ? 'visible' : 'hidden', // Toggle modal visibility
+        display: props.open ? 'inherit' : 'none',
 
         ...props.sx,
       }}

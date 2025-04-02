@@ -13,17 +13,26 @@ import { useState } from 'react';
 import SidebarItem from './sidebar-item';
 import SidebarDivider from './sidebar-divider';
 import { styles } from '@/config/constants';
+import { useDispatch } from 'react-redux';
+import { setListPanelOpen } from '@/state/event/event-list-slice';
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  const dispatch = useDispatch();
 
-  const handleDrawerClose = () => {
+  function handleDrawerOpen() {
+    setOpen(true);
+  }
+
+  function handleDrawerClose() {
     setOpen(false);
-  };
+  }
+
+  function handleEventListOpen() {
+    console.log('open');
+    dispatch(setListPanelOpen(true));
+  }
 
   return (
     <Box
@@ -89,7 +98,11 @@ export default function Sidebar() {
           <SidebarItem icon={<ChevronLeft />} onClick={handleDrawerClose} />
           <SidebarItem text="Search" icon={<Search />} />
           <SidebarDivider />
-          <SidebarItem text="Events" icon={<Image />} />
+          <SidebarItem
+            text="Events"
+            icon={<Image />}
+            onClick={handleEventListOpen}
+          />
           <SidebarItem text="Timeline" icon={<History />} />
           <SidebarDivider />
           <SidebarItem text="Share" icon={<Share />} />

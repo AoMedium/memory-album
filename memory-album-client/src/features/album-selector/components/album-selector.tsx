@@ -46,10 +46,10 @@ export default function AlbumSelector() {
       <Button
         sx={{
           position: 'absolute',
-          top: `${styles.viewport.margin}`,
-          left: `${styles.viewport.margin}`,
+          top: styles.viewport.margin,
+          left: styles.viewport.margin,
           padding: '10px 15px',
-          borderRadius: '10px',
+          borderRadius: styles.border.radius,
 
           background: (theme) => theme.palette.background.paper,
           boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
