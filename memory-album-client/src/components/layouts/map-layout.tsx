@@ -5,18 +5,29 @@ import EventCreationPanel from '@/features/create-event/components/event-creatio
 import AlbumMap from '@/features/album-map/components/album-map';
 import EventListModal from '@/features/event-list/components/event-list-modal';
 import CreateElementButton from '@/features/create-element/components/create-element-button';
+import DraggableContainer from '../ui/draggable-container';
 
 export default function MapLayout() {
   return (
     <>
-      <AlbumMap />
+      {/* <AlbumMap />
       <Sidebar />
       <EventListModal />
 
       <CreateElementButton />
       <EventCreationPanel />
 
-      <AlbumSelector />
+      <AlbumSelector /> */}
+
+      <DraggableContainer
+        header="Drag test"
+        initialPosition={{
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+        }}
+      >
+        <EventCreationPanel />
+      </DraggableContainer>
     </>
   );
 }

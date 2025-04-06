@@ -18,7 +18,7 @@ import { getAlbumById } from '@/api/get-albums';
 import { setAlbum } from '@/state/album/album-slice';
 import useNotification from '@/hooks/use-notification';
 import LocationInput from './location-input';
-import CreationModalContainer from '@/components/ui/creation-modal-cointainer';
+import CreationModalContainer from '@/components/ui/creation-modal-container';
 
 export default function EventCreationPanel() {
   const currentAlbum = useSelector(
