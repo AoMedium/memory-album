@@ -1,4 +1,3 @@
-import ModalContainer from '@/components/ui/modal-container';
 import { styles } from '@/config/constants';
 import {
   clearEvent,
@@ -19,6 +18,7 @@ import { getAlbumById } from '@/api/get-albums';
 import { setAlbum } from '@/state/album/album-slice';
 import useNotification from '@/hooks/use-notification';
 import LocationInput from './location-input';
+import CreationModalContainer from '@/components/ui/creation-modal-cointainer';
 
 export default function EventCreationPanel() {
   const currentAlbum = useSelector(
@@ -117,7 +117,7 @@ export default function EventCreationPanel() {
   ]);
 
   return (
-    <ModalContainer
+    <CreationModalContainer
       open={isCreationPanelOpen}
       sx={{
         position: 'absolute',
@@ -181,6 +181,6 @@ export default function EventCreationPanel() {
           </Button>
         </Stack>
       </Stack>
-    </ModalContainer>
+    </CreationModalContainer>
   );
 }

@@ -2,11 +2,11 @@ import { styles } from '@/config/constants';
 import { SxProps, Theme, Box } from '@mui/material';
 import { PropsWithChildren } from 'react';
 
-interface Props {
+interface ModalPanelProps extends PropsWithChildren {
   sx?: SxProps<Theme> | undefined;
 }
 
-export default function ModalPanel(props: PropsWithChildren<Props>) {
+export default function ModalPanel(props: ModalPanelProps) {
   return (
     <Box
       sx={{

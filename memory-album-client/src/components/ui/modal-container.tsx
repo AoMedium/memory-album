@@ -2,12 +2,12 @@ import { SxProps, Theme } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import ModalPanel from './modal-panel';
 
-interface Props {
+export interface ModalContainerProps extends PropsWithChildren {
   open: boolean;
   sx?: SxProps<Theme> | undefined;
 }
 
-export default function ModalContainer(props: PropsWithChildren<Props>) {
+export default function ModalContainer(props: ModalContainerProps) {
   return (
     <ModalPanel
       sx={{

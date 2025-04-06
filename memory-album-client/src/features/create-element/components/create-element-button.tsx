@@ -12,7 +12,7 @@ import {
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function CreateEventButton() {
+export default function CreateElementButton() {
   const isCreationPanelOpen = useSelector(
     (state: RootState) => state.eventCreation.isCreationPanelOpen,
   );
