@@ -1,6 +1,7 @@
 import { Navigate, useRoutes } from 'react-router';
 import { paths } from '@/config/paths';
-import MapLayout from '@/components/layouts/map-layout';
+import ExplorerRoute from './routes/app/explorer';
+import MapRoute from './routes/app/map';
 
 export default function AppRouter() {
   const routes = useRoutes([
@@ -10,7 +11,11 @@ export default function AppRouter() {
     },
     {
       path: paths.app.map.path,
-      element: <MapLayout />,
+      element: <MapRoute />,
+    },
+    {
+      path: paths.app.explorer.path,
+      element: <ExplorerRoute />,
     },
   ]);
 

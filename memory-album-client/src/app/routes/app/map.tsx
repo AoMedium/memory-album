@@ -5,18 +5,22 @@ import EventCreationPanel from '@/features/create-event/components/event-creatio
 import AlbumMap from '@/features/album-map/components/album-map';
 import EventListModal from '@/features/event-list/components/event-list-modal';
 import CreateElementButton from '@/features/create-element/components/create-element-button';
+import { Outlet } from 'react-router';
 
-export default function MapLayout() {
+export default function MapRoute() {
   return (
     <>
       <AlbumMap />
       <Sidebar />
-      <EventListModal />
 
       <CreateElementButton />
-      <EventCreationPanel />
 
       <AlbumSelector />
+
+      <EventListModal />
+      <EventCreationPanel />
+
+      <Outlet />
     </>
   );
 }

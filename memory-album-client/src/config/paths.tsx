@@ -29,5 +29,10 @@ export const paths = {
       getHref: (albumId: string, eventId: string) =>
         `/map/${albumId}/events/${eventId}`,
     },
+
+    explorer: {
+      path: '/explorer',
+      getHref: () => '/explorer',
+    },
   },
 };
