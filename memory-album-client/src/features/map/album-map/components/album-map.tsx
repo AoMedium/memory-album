@@ -104,6 +104,7 @@ export default function AlbumMap() {
       {/* See https://github.com/visgl/deck.gl/issues/7304#issuecomment-1277850750) */}
       {/* @ts-expect-error: cannot be used as JSX component */}
       <MapView>
+        {/* Opt for only Map without DeckGL if data visualisation is not required. */}
         <Map mapStyle={BASEMAP.VOYAGER} />
       </MapView>
     </DeckGL>
