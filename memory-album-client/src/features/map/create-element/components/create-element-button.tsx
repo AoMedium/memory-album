@@ -70,7 +70,7 @@ export default function CreateElementButton() {
 interface ActionProps {
   icon: React.ReactNode;
   title: string;
-  onClick: () => void;
+  onClick: React.MouseEventHandler;
   disabled?: boolean;
 }
 /**
@@ -85,9 +85,9 @@ function createAction(props: ActionProps) {
       icon={props.icon}
       tooltipTitle={props.title}
       tooltipOpen
-      onClick={() => {
+      onClick={(event) => {
         if (!props.disabled) {
-          props.onClick();
+          props.onClick(event);
         }
       }}
       sx={{

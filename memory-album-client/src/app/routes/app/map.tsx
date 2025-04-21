@@ -8,6 +8,7 @@ import { Outlet } from 'react-router';
 import HeaderBar from '@/features/map/header-bar/components/header-bar';
 import AlbumSelectorModal from '@/features/map/album-selector/components/modal/album-selector-modal';
 import AlbumSelectorButton from '@/features/map/album-selector/components/album-selector-button';
+import OpenExplorerButton from '@/features/explorer/navigation/components/open-explorer-button';
 
 export default function MapRoute() {
   return (
@@ -18,6 +19,7 @@ export default function MapRoute() {
       <CreateElementButton />
 
       <HeaderBar>
+        <OpenExplorerButton />
         <AlbumSelectorButton />
       </HeaderBar>
 

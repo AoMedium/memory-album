@@ -5,6 +5,8 @@ import { PropsWithChildren } from 'react';
 export default function HeaderBar(props: PropsWithChildren) {
   return (
     <Stack
+      direction="row"
+      spacing="10px"
       sx={{
         position: 'absolute',
         top: styles.viewport.margin,
