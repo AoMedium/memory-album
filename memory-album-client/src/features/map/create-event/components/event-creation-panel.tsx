@@ -118,6 +118,7 @@ export default function EventCreationPanel() {
 
   return (
     <CreationModalContainer
+      header="Create Event"
       open={isCreationPanelOpen}
       sx={{
         position: 'absolute',

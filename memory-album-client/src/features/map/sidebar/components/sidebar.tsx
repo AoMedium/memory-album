@@ -37,6 +37,7 @@ export default function Sidebar() {
   return (
     <Box
       sx={{
+        position: 'absolute',
         display: 'flex',
         height: '100vh',
       }}

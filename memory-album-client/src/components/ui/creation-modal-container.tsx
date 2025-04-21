@@ -1,14 +1,18 @@
 import ModalContainer, { ModalContainerProps } from './modal-container';
-import { Dialog, DialogTitle, Paper, PaperProps } from '@mui/material';
-import React, { useRef } from 'react';
-import Draggable from 'react-draggable';
+import DraggableContainer from './draggable-container';
 
-export default function CreationModalContainer(props: ModalContainerProps) {
+interface Props extends ModalContainerProps {
+  header: string;
+}
+
+export default function CreationModalContainer(props: Props) {
   return (
-    <Dialog open={props.open} PaperComponent={PaperComponent} hideBackdrop>
-      <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-        Create Event
-      </DialogTitle>
+    <DraggableContainer
+      header={props.header}
+      sx={{
+        display: props.open ? 'inherit' : 'none',
+      }}
+    >
       <ModalContainer
         open={props.open}
         sx={{
@@ -17,19 +21,6 @@ export default function CreationModalContainer(props: ModalContainerProps) {
       >
         {props.children}
       </ModalContainer>
-    </Dialog>
-  );
-}
-
-function PaperComponent(props: PaperProps) {
-  const nodeRef = useRef<HTMLDivElement>(null);
-  return (
-    <Draggable
-      nodeRef={nodeRef as React.RefObject<HTMLDivElement>}
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} ref={nodeRef} />
-    </Draggable>
+    </DraggableContainer>
   );
 }

@@ -1,39 +1,44 @@
-import { Box, Stack, Typography } from '@mui/material';
-import { PropsWithChildren, useRef, useState } from 'react';
-import Draggable, {
-  ControlPosition,
-  DraggableData,
-  DraggableEvent,
-  DraggableEventHandler,
-} from 'react-draggable';
+import { Stack, SxProps, Typography } from '@mui/material';
+import { PropsWithChildren, useRef } from 'react';
+import Draggable, { ControlPosition } from 'react-draggable';
+import ModalPanel from './modal-panel';
 
 interface Props extends PropsWithChildren {
   header: string;
   initialPosition?: ControlPosition;
+  sx?: SxProps;
 }
 
 export default function DraggableContainer(props: Props) {
   const nodeRef = useRef<HTMLDivElement>(null); // Required for Draggable
 
-  const [position, setPosition] = useState<ControlPosition>(
-    props.initialPosition || { x: 0, y: 0 },
-  );
-
-  function handleDrag(e: DraggableEvent, data: DraggableData) {
-    setPosition({ x: data.x, y: data.y });
-  }
-
   return (
     <Draggable
       nodeRef={nodeRef as React.RefObject<HTMLDivElement>}
       handle="#draggable"
-      position={position}
-      onDrag={handleDrag}
     >
-      <Stack ref={nodeRef} id="draggable">
-        <Box>
-          <Typography>{props.header}</Typography>
-        </Box>
+      <Stack
+        ref={nodeRef}
+        spacing="10px"
+        sx={{
+          width: 'fit-content',
+          height: 'fit-content',
+
+          ...props.sx,
+        }}
+      >
+        <ModalPanel
+          id="draggable"
+          sx={{
+            ':hover': {
+              cursor: 'move',
+            },
+          }}
+        >
+          <Typography variant="h3" textAlign="center">
+            {props.header}
+          </Typography>
+        </ModalPanel>
         {props.children}
       </Stack>
     </Draggable>

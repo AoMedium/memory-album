@@ -14,6 +14,9 @@ export default function MapRoute() {
   return (
     <>
       <AlbumMap />
+
+      {/* TODO: Organise elements */}
+
       <Sidebar />
 
       <CreateElementButton />

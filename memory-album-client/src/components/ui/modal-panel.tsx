@@ -1,14 +1,17 @@
 import { styles } from '@/config/constants';
 import { SxProps, Theme, Box } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, HTMLAttributes } from 'react';
 
-interface ModalPanelProps extends PropsWithChildren {
+interface ModalPanelProps
+  extends PropsWithChildren,
+    HTMLAttributes<HTMLDivElement> {
   sx?: SxProps<Theme> | undefined;
 }
 
 export default function ModalPanel(props: ModalPanelProps) {
   return (
     <Box
+      id={props.id}
       sx={{
         borderRadius: '10px',
         boxSizing: 'border-box',
