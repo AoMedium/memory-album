@@ -75,8 +75,13 @@ export default function AlbumMap() {
   return (
     <DeckGL
       // Add initial view state and controller here instead of in Map component for interactivity
+
       views={MAP_VIEW}
-      controller={{ inertia: 500 }}
+      controller={
+        {
+          // inertia: true, // FIXME: laggy inertia
+        }
+      }
       layers={layers}
       onClick={handleOnClick}
       getCursor={(state) => {
@@ -86,8 +91,15 @@ export default function AlbumMap() {
           return cursor;
         }
       }}
-      viewState={viewState}
+      /**
+       * Note:
+       * - Manually updating view state from state variable causes performance issues
+       * - Noticeable when dragging map
+       */
+      // viewState={viewState}
+
       onViewStateChange={(e) => setViewState(e.viewState)}
+      initialViewState={INITIAL_VIEW_STATE}
     >
       {/* See https://github.com/visgl/deck.gl/issues/7304#issuecomment-1277850750) */}
       {/* @ts-expect-error: cannot be used as JSX component */}

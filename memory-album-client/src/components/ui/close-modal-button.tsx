@@ -2,7 +2,7 @@ import { Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
 interface Props {
-  onClick: React.MouseEventHandler<SVGSVGElement> | undefined;
+  onClick?: React.MouseEventHandler<SVGSVGElement>;
 }
 
 export default function CloseModalButton(props: Props) {
