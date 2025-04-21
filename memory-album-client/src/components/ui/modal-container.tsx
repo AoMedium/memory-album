@@ -1,27 +1,23 @@
-import { styles } from '@/config/constants';
-import { Box, SxProps, Theme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
 import { PropsWithChildren } from 'react';
+import ModalPanel from './modal-panel';
 
-interface Props {
+export interface ModalContainerProps extends PropsWithChildren {
+  open: boolean;
   sx?: SxProps<Theme> | undefined;
 }
 
-export default function ModalContainer(props: PropsWithChildren<Props>) {
+export default function ModalContainer(props: ModalContainerProps) {
   return (
-    <Box
+    <ModalPanel
       sx={{
-        borderRadius: '10px',
-        boxSizing: 'border-box',
-        padding: '16px',
-
-        background: (theme) => theme.palette.background.paper,
-        boxShadow: (theme) => theme.shadows[styles.boxShadow.height],
-        color: (theme) => theme.palette.text.secondary,
+        // visibility: props.open ? 'visible' : 'hidden', // Toggle modal visibility
+        display: props.open ? 'inherit' : 'none',
 
         ...props.sx,
       }}
     >
       {props.children}
-    </Box>
+    </ModalPanel>
   );
 }

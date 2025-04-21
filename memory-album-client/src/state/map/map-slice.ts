@@ -1,8 +1,8 @@
-import { Location } from '@/types/api';
+import { Geoposition } from '@/types/common/common';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface MapState {
-  position: Location;
+  position: Geoposition;
   cursor: string;
 }
 
@@ -15,7 +15,7 @@ const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    setPosition(state, action: { payload: Location }) {
+    setPosition(state, action: { payload: Geoposition }) {
       state.position = action.payload;
     },
     setCursor(state, action: { payload: string }) {

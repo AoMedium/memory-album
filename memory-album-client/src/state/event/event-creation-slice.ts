@@ -1,11 +1,12 @@
-import { EventCreateRequest, Location } from '@/types/api';
+import { EventCreateRequest } from '@/types/api/event';
+import { Geoposition } from '@/types/common/common';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface EventCreationState {
   isCreationPanelOpen: boolean;
   currentEvent?: EventCreateRequest;
   isSelectingLocation: boolean;
-  selectedLocation?: Location;
+  selectedLocation?: Geoposition;
 }
 
 const initialState: EventCreationState = {
@@ -31,7 +32,7 @@ const eventCreationSlice = createSlice({
     setSelectingLocation(state, action: { payload: boolean }) {
       state.isSelectingLocation = action.payload;
     },
-    selectLocation(state, action: { payload: Location }) {
+    selectLocation(state, action: { payload: Geoposition }) {
       state.selectedLocation = action.payload;
     },
     clearSelectedLocation(state) {

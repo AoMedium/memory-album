@@ -1,17 +1,12 @@
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import MapLayout from '@/components/layouts/map-layout';
-import { ThemeProvider } from '@mui/material';
-import mapTheme from '@/config/themes';
+import AppProviders from './providers';
+import AppRouter from './router';
 
-export const App = () => {
+export default function App() {
   return (
     <>
-      <ThemeProvider theme={mapTheme}>
-        <MapLayout />
-      </ThemeProvider>
+      <AppProviders>
+        <AppRouter />
+      </AppProviders>
     </>
   );
-};
+}

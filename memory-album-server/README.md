@@ -3,7 +3,13 @@
 Run the server with the following command:
 
 ```sh
-dotnet run
+dotnet run --project /src
+```
+
+Run unit tests with the following command:
+
+```sh
+dotnet test
 ```
 
 ## Model configuration

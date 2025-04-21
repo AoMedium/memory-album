@@ -2,7 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import mapSliceReducer from './map/map-slice';
 import albumSliceReducer from './album/album-slice';
 import albumSelectionSliceReducer from './album/album-selection-slice';
-import eventCreationReducer from './event/event-creation-slice';
+import eventSliceReducer from './event/event-slice';
+import eventCreationSliceReducer from './event/event-creation-slice';
+import eventListSliceReducer from './event/event-list-slice';
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +13,9 @@ export const store = configureStore({
     album: albumSliceReducer,
     albumSelection: albumSelectionSliceReducer,
 
-    eventCreation: eventCreationReducer,
+    event: eventSliceReducer,
+    eventCreation: eventCreationSliceReducer,
+    eventList: eventListSliceReducer,
   },
 });
 
