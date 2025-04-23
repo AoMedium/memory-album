@@ -17,14 +17,7 @@ export default function CreationModalContainer(props: Props) {
         ...props.sx,
       }}
     >
-      <ModalPanel
-        open={props.open}
-        sx={{
-          width: '400px',
-        }}
-      >
-        {props.children}
-      </ModalPanel>
+      <ModalPanel open={props.open}>{props.children}</ModalPanel>
     </DraggableContainer>
   );
 }

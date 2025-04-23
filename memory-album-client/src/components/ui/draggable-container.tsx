@@ -1,7 +1,15 @@
-import { Stack, SxProps, Theme, Typography } from '@mui/material';
-import { PropsWithChildren, useRef } from 'react';
+import {
+  Box,
+  IconButton,
+  Stack,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material';
+import { PropsWithChildren, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import ModalPanel from './modal-panel';
+import { Add, Remove } from '@mui/icons-material';
 
 export interface DraggableContainerProps extends PropsWithChildren {
   header: string;
@@ -13,6 +21,8 @@ export interface DraggableContainerProps extends PropsWithChildren {
 
 export default function DraggableContainer(props: DraggableContainerProps) {
   const nodeRef = useRef<HTMLDivElement>(null); // Required for Draggable
+
+  const [minimised, setMinimised] = useState(true);
 
   return (
     <Draggable
@@ -32,16 +42,42 @@ export default function DraggableContainer(props: DraggableContainerProps) {
         <ModalPanel
           id="draggable"
           sx={{
+            position: 'relative', // Allow children to position absolute, relative to this
+
             ':hover': {
               cursor: 'move',
             },
           }}
         >
-          <Typography variant="h3" textAlign="center">
-            {props.header}
-          </Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={1}
+          >
+            <Typography variant="h3">{props.header}</Typography>
+            <Box
+              alignItems="center"
+              sx={{
+                // Override Stack spacing margins
+                marginTop: '-10px!important',
+                marginBottom: '-10px!important',
+                marginRight: '-10px!important',
+              }}
+            >
+              {minimised ? (
+                <IconButton onClick={() => setMinimised(false)}>
+                  <Add />
+                </IconButton>
+              ) : (
+                <IconButton onClick={() => setMinimised(true)}>
+                  <Remove />
+                </IconButton>
+              )}
+            </Box>
+          </Stack>
         </ModalPanel>
-        {props.children}
+        {!minimised && props.children}
       </Stack>
     </Draggable>
   );

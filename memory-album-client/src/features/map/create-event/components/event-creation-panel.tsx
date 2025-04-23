@@ -126,7 +126,7 @@ export default function EventCreationPanel() {
         top: styles.viewport.margin,
         right: styles.viewport.margin,
 
-        width: '400px',
+        maxWidth: '400px',
       }}
     >
       {/* TODO: input validation */}
