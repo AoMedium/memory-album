@@ -1,7 +1,9 @@
-import ModalContainer, { ModalContainerProps } from './modal-container';
-import DraggableContainer from './draggable-container';
+import DraggableContainer, {
+  DraggableContainerProps,
+} from './draggable-container';
+import ModalPanel, { ModalPanelProps } from './modal-panel';
 
-interface Props extends ModalContainerProps {
+interface Props extends DraggableContainerProps, ModalPanelProps {
   header: string;
 }
 
@@ -11,16 +13,18 @@ export default function CreationModalContainer(props: Props) {
       header={props.header}
       sx={{
         display: props.open ? 'inherit' : 'none',
+
+        ...props.sx,
       }}
     >
-      <ModalContainer
+      <ModalPanel
         open={props.open}
         sx={{
           width: '400px',
         }}
       >
         {props.children}
-      </ModalContainer>
+      </ModalPanel>
     </DraggableContainer>
   );
 }

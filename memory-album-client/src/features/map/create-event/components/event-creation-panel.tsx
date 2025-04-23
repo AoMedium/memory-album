@@ -120,11 +120,11 @@ export default function EventCreationPanel() {
     <CreationModalContainer
       header="Create Event"
       open={isCreationPanelOpen}
+      draggable
       sx={{
         position: 'absolute',
-        top: '50%',
+        top: styles.viewport.margin,
         right: styles.viewport.margin,
-        transform: 'translateY(-50%)',
 
         width: '400px',
       }}

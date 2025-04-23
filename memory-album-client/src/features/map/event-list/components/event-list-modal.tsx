@@ -1,5 +1,4 @@
 import { getEventsByIds } from '@/api/get-events';
-import ModalContainer from '@/components/ui/modal-container';
 import { styles } from '@/config/constants';
 import useNotification from '@/hooks/use-notification';
 import { updateEvents } from '@/state/event/event-slice';
@@ -9,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import EventList from './event-list';
 import CloseModalButton from '@/components/ui/close-modal-button';
 import { setListPanelOpen } from '@/state/event/event-list-slice';
+import ModalPanel from '@/components/ui/modal-panel';
 
 export default function EventListModal() {
   const isListPanelOpen = useSelector(
@@ -43,7 +43,7 @@ export default function EventListModal() {
   }, [currentAlbum, dispatch, isListPanelOpen, reportSuccess, throwError]);
 
   return (
-    <ModalContainer
+    <ModalPanel
       open={isListPanelOpen}
       sx={{
         position: 'absolute',
@@ -59,6 +59,6 @@ export default function EventListModal() {
     >
       <CloseModalButton onClick={() => dispatch(setListPanelOpen(false))} />
       <EventList />
-    </ModalContainer>
+    </ModalPanel>
   );
 }

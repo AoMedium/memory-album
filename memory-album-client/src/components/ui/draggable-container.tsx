@@ -1,15 +1,17 @@
-import { Stack, SxProps, Typography } from '@mui/material';
+import { Stack, SxProps, Theme, Typography } from '@mui/material';
 import { PropsWithChildren, useRef } from 'react';
-import Draggable, { ControlPosition } from 'react-draggable';
+import Draggable from 'react-draggable';
 import ModalPanel from './modal-panel';
 
-interface Props extends PropsWithChildren {
+export interface DraggableContainerProps extends PropsWithChildren {
   header: string;
-  initialPosition?: ControlPosition;
-  sx?: SxProps;
+  /**
+   * Note: avoid using translate as this may conflict with translate from Draggable
+   */
+  sx?: SxProps<Theme>;
 }
 
-export default function DraggableContainer(props: Props) {
+export default function DraggableContainer(props: DraggableContainerProps) {
   const nodeRef = useRef<HTMLDivElement>(null); // Required for Draggable
 
   return (
