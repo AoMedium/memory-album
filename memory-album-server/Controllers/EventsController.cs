@@ -61,7 +61,7 @@ public class EventsController(IEventService eventService) : Controller
             Title = request.Title,
             Description = request.Description,
             Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(request.Timestamp).UtcDateTime,
-            Location = request.Location
+            Position = request.Position
         };
 
         ev = await _eventService.CreateEvent(ev);
@@ -77,7 +77,7 @@ public class EventsController(IEventService eventService) : Controller
             Title = ev.Title,
             Description = ev.Description,
             Timestamp = ev.Timestamp,
-            Location = ev.Location,
+            Position = ev.Position,
             PersonIds = [.. ev.People.Select(person => person.Id)],
             TagIds = [.. ev.Tags.Select(tag => tag.Id)],
             PhotoIds = [.. ev.Photos.Select(photo => photo.Id)],

@@ -8,7 +8,7 @@ public class Event : BaseEntity
     public string? Title { get; set; }
     public string? Description { get; set; }
     public DateTime Timestamp { get; set; }
-    public Position? Location { get; set; }
+    public Geoposition? Position { get; set; }
     public ICollection<Person> People { get; set; } = [];
     public ICollection<Tag> Tags { get; set; } = [];
     public ICollection<Photo> Photos { get; set; } = [];

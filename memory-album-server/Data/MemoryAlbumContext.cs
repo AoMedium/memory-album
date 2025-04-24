@@ -1,5 +1,6 @@
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
+using MemoryAlbumServer.Models.Properties;
 using Microsoft.EntityFrameworkCore;
 
 namespace MemoryAlbumServer.Data;
@@ -25,7 +26,6 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
 
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.OwnsOne(e => e.Location); // Configures Location as a property rather than an entity
             entity.Property(e => e.Title).IsRequired();
         });
 
@@ -40,5 +40,11 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
 
         modelBuilder.Entity<Video>()
             .Property(video => video.Data).IsRequired();
+
+
+        // Configure properties separately to not be considered as entities.
+        modelBuilder.Owned<Geoposition>();
+        modelBuilder.Owned<GeoJson>();
+
     }
 }

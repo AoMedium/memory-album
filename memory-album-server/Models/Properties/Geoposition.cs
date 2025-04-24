@@ -1,6 +1,6 @@
 namespace MemoryAlbumServer.Models.Properties;
 
-public class Position
+public class Geoposition
 {
     public double Latitude { get; set; }
     public double Longitude { get; set; }
