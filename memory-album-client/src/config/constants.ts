@@ -1,6 +1,9 @@
 export const styles = {
   viewport: {
-    margin: '30px',
+    margin: '32px',
+  },
+  border: {
+    radius: '10px',
   },
   boxShadow: {
     height: 4,
