@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MemoryAlbumServer.Models.Entities;
 using MemoryAlbumServer.Models.Entities.Media;
 using System.Text;
+using MemoryAlbumServer.Models.Properties;
 
 namespace MemoryAlbumServer.Data;
 
@@ -74,6 +75,7 @@ public static class SeedData
         {
             Id = Guid.NewGuid(),
             Title = "Event 1",
+            Position = new Geoposition { Latitude = 0, Longitude = 0 },
             Photos = [
                     contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-1"].Id),
                     contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-2"].Id)
@@ -86,7 +88,8 @@ public static class SeedData
             Id = Guid.NewGuid(),
             Title = "Person Event",
             Photos = [contextPhotos.SingleOrDefault(p => p.Id == photos["test-photo-2"].Id)],
-            People = [context.People.Find(person1.Id), context.People.Find(person2.Id)]
+            People = [context.People.Find(person1.Id), context.People.Find(person2.Id)],
+            Position = new Geoposition { Latitude = 0, Longitude = 0 }
         };
 
         context.Events.AddRange([event1, personEvent]);
