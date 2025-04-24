@@ -1,4 +1,4 @@
-import mapTheme from '@/config/themes';
+import { mainTheme } from '@/config/themes';
 import { store } from '@/state/store';
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 export default function AppProviders({ children }: PropsWithChildren) {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={mapTheme}>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <SnackbarProvider maxSnack={8}>{children}</SnackbarProvider>
       </ThemeProvider>

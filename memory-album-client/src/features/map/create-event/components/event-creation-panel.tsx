@@ -18,7 +18,7 @@ import { getAlbumById } from '@/api/get-albums';
 import { setAlbum } from '@/state/album/album-slice';
 import useNotification from '@/hooks/use-notification';
 import LocationInput from './location-input';
-import CreationModalContainer from '@/components/ui/creation-modal-cointainer';
+import CreationModalContainer from '@/components/ui/creation-modal-container';
 
 export default function EventCreationPanel() {
   const currentAlbum = useSelector(
@@ -118,14 +118,15 @@ export default function EventCreationPanel() {
 
   return (
     <CreationModalContainer
+      header="Create Event"
       open={isCreationPanelOpen}
+      draggable
       sx={{
         position: 'absolute',
-        top: '50%',
+        top: styles.viewport.margin,
         right: styles.viewport.margin,
-        transform: 'translateY(-50%)',
 
-        width: '400px',
+        maxWidth: '400px',
       }}
     >
       {/* TODO: input validation */}
