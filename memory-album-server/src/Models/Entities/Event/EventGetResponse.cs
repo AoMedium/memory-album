@@ -8,7 +8,8 @@ public class EventGetResponse : BaseEntity
     public string? Title { get; set; }
     public string? Description { get; set; }
     public DateTime Timestamp { get; set; }
-    public Position? Location { get; set; }
+    public required GeoPosition Position { get; set; }
+    public Guid? LocationId { get; set; }
     public ICollection<Guid> PersonIds { get; set; } = [];
     public ICollection<Guid> TagIds { get; set; } = [];
     public ICollection<Guid> PhotoIds { get; set; } = [];

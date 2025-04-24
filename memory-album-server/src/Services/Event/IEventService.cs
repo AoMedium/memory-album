@@ -8,5 +8,5 @@ public interface IEventService
     Task<Event?> GetById(Guid id);
     Task<IEnumerable<Event>> GetByIds(ICollection<Guid> ids);
 
-    Task<Event> CreateEvent(Event ev);
+    Task<Event> Add(Event ev);
 }

@@ -8,5 +8,6 @@ public class EventCreateRequest
     public string? Title { get; set; }
     public string? Description { get; set; }
     public long Timestamp { get; set; }
-    public Position? Location { get; set; }
+    public required GeoPosition Position { get; set; }
+    public Guid? LocationId { get; set; }
 }
