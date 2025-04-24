@@ -1,5 +1,4 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
-import Sidebar from '@/features/map/sidebar/components/sidebar';
 import EventCreationPanel from '@/features/map/create-event/components/event-creation-panel';
 import AlbumMap from '@/features/map/album-map/components/album-map';
 import EventListModal from '@/features/map/event-list/components/event-list-modal';
@@ -17,7 +16,7 @@ export default function MapRoute() {
 
       {/* TODO: Organise elements */}
 
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <CreateElementButton />
 
