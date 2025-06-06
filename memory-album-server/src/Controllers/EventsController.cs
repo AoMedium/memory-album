@@ -9,10 +9,9 @@ namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class EventsController(IEventService eventService, ILocationService locationService) : Controller
+public class EventsController(IEventService eventService) : Controller
 {
     private readonly IEventService _eventService = eventService;
-    private readonly ILocationService _locationService = locationService;
 
     // GET: /api/Events
     [HttpGet]
@@ -57,22 +56,12 @@ public class EventsController(IEventService eventService, ILocationService locat
     [HttpPost]
     public async Task<ActionResult<EntityCreatedResponse>> CreateEvent(EventCreateRequest request)
     {
-        var location = request.LocationId.HasValue
-            ? await _locationService.GetById(request.LocationId.Value)
-            : null;
-
-        if (request.LocationId.HasValue && location == null)
-        {
-            return BadRequest($"Location with ID {request.LocationId} not found.");
-        }
-
         var ev = new Event
         {
             Title = request.Title,
             Description = request.Description,
             Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(request.Timestamp).UtcDateTime,
             Position = request.Position,
-            Location = location
         };
 
         ev = await _eventService.Add(ev);
@@ -89,7 +78,6 @@ public class EventsController(IEventService eventService, ILocationService locat
             Description = ev.Description,
             Timestamp = ev.Timestamp,
             Position = ev.Position,
-            LocationId = ev.Location?.Id,
             PersonIds = [.. ev.People.Select(person => person.Id)],
             TagIds = [.. ev.Tags.Select(tag => tag.Id)],
             PhotoIds = [.. ev.Photos.Select(photo => photo.Id)],
