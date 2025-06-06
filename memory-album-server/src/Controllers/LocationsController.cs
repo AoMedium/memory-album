@@ -53,8 +53,7 @@ public class LocationsController(MemoryAlbumContext context) : Controller
         var location = new Location
         {
             Name = request.Name,
-            Anchor = request.Anchor,
-            Zone = new GeoJson { Json = request.Zone } // TODO: GeoJson validation
+            Anchor = request.Anchor
         };
 
         _context.Locations.Add(location);
@@ -69,8 +68,7 @@ public class LocationsController(MemoryAlbumContext context) : Controller
         {
             Id = location.Id,
             Name = location.Name,
-            Anchor = location.Anchor,
-            Zone = location.Zone.Json
+            Anchor = location.Anchor
         };
     }
 }

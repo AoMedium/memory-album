@@ -7,5 +7,4 @@ public class Location : BaseEntity
 {
     public required string Name { get; set; }
     public required GeoPosition Anchor { get; set; }
-    public required GeoJson Zone { get; set; }
 }

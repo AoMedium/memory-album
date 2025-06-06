@@ -45,7 +45,6 @@ public class MemoryAlbumContext(DbContextOptions<MemoryAlbumContext> options) : 
 
         // Configure properties separately to not be considered as entities.
         modelBuilder.Owned<GeoPosition>();
-        modelBuilder.Owned<GeoJson>();
 
     }
 }
