@@ -68,7 +68,8 @@ public class LocationsController(MemoryAlbumContext context) : Controller
         {
             Id = location.Id,
             Name = location.Name,
-            Anchor = location.Anchor
+            Anchor = location.Anchor,
+            EventIds = [.. location.Events.Select(e => e.Id)]
         };
     }
 }

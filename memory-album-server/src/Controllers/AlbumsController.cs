@@ -74,7 +74,7 @@ public class AlbumsController(IAlbumService albumService, IEventService eventSer
 
     // PATCH: /api/Albums/{id}/Events
     [HttpPatch("{id}/Events")]
-    public async Task<IActionResult> AddEvents(Guid id, AlbumAddEventsRequest request)
+    public async Task<IActionResult> AddEvents(Guid id, AddEventsRequest request)
     {
         var eventIds = request.EventIds.ToHashSet();
 
