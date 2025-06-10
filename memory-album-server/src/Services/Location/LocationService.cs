@@ -31,4 +31,12 @@ public class LocationService(MemoryAlbumContext _context) : ILocationService
         // Return the created location with its generated ID
         return location;
     }
+    public async Task AddEvents(Location location, IEnumerable<Event> events)
+    {
+        foreach (var ev in events)
+        {
+            location.Events.Add(ev);
+        }
+        await _context.SaveChangesAsync();
+    }
 }

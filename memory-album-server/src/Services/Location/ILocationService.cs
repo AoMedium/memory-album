@@ -7,4 +7,5 @@ public interface ILocationService
     Task<IEnumerable<Location>> GetAll();
     Task<Location?> GetById(Guid id);
     Task<Location> Add(Location location);
+    Task AddEvents(Location location, IEnumerable<Event> events);
 }
