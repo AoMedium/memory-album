@@ -10,7 +10,9 @@ public class LocationService(MemoryAlbumContext _context) : ILocationService
 
     public async Task<IEnumerable<Location>> GetAll()
     {
-        var locations = await _context.Locations.ToListAsync();
+        var locations = await _context.Locations
+            .Include(location => location.Events)
+            .ToListAsync();
 
         return locations;
     }
@@ -18,6 +20,7 @@ public class LocationService(MemoryAlbumContext _context) : ILocationService
     public async Task<Location?> GetById(Guid id)
     {
         var location = await _context.Locations
+            .Include(location => location.Events)
             .SingleOrDefaultAsync(location => id == location.Id);
 
         return location;
