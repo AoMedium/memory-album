@@ -12,9 +12,8 @@ namespace MemoryAlbumServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class LocationsController(MemoryAlbumContext context, ILocationService locationService, IEventService eventService) : Controller
+public class LocationsController(ILocationService locationService, IEventService eventService) : Controller
 {
-    private readonly MemoryAlbumContext _context = context;
     private readonly ILocationService _locationService = locationService;
     private readonly IEventService _eventService = eventService;
 
@@ -22,27 +21,21 @@ public class LocationsController(MemoryAlbumContext context, ILocationService lo
     [HttpGet]
     public async Task<ActionResult<IEnumerable<LocationGetResponse>>> GetLocations()
     {
-        var locations = _context.Locations
-            .Select(location => MapToLocationGetResponse(location))
-            .ToListAsync();
-
-        return await locations;
+        var locations = await _locationService.GetAll();
+        return locations.Select(MapToLocationGetResponse).ToList();
     }
 
     // GET: /api/Locations/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<LocationGetResponse>> GetLocationById(Guid id)
     {
-        var location = await _context.Locations.SingleOrDefaultAsync(location => id == location.Id);
+        var location = await _locationService.GetById(id);
 
         if (location == null)
         {
             return NotFound();
         }
-
-        var locationDto = MapToLocationGetResponse(location);
-
-        return locationDto;
+        return MapToLocationGetResponse(location);
     }
 
     // POST: /api/Locations
@@ -59,8 +52,7 @@ public class LocationsController(MemoryAlbumContext context, ILocationService lo
             Anchor = request.Anchor
         };
 
-        _context.Locations.Add(location);
-        await _context.SaveChangesAsync();
+        await _locationService.Add(location);
 
         return CreatedAtAction(nameof(CreateLocation), new EntityCreatedResponse { Id = location.Id });
     }
