@@ -4,6 +4,7 @@ using MemoryAlbumServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryAlbumServer.Migrations
 {
     [DbContext(typeof(MemoryAlbumContext))]
-    partial class MemoryAlbumContextModelSnapshot : ModelSnapshot
+    [Migration("20250424094648_AddLocations")]
+    partial class AddLocations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,7 +120,7 @@ namespace MemoryAlbumServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime?>("Birthday")
+                    b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
@@ -231,7 +234,7 @@ namespace MemoryAlbumServer.Migrations
                         .WithMany()
                         .HasForeignKey("LocationId");
 
-                    b.OwnsOne("MemoryAlbumServer.Models.Properties.GeoPosition", "Position", b1 =>
+                    b.OwnsOne("MemoryAlbumServer.Models.Properties.Geoposition", "Position", b1 =>
                         {
                             b1.Property<Guid>("EventId")
                                 .HasColumnType("char(36)");
@@ -258,7 +261,7 @@ namespace MemoryAlbumServer.Migrations
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Location", b =>
                 {
-                    b.OwnsOne("MemoryAlbumServer.Models.Properties.GeoPosition", "Anchor", b1 =>
+                    b.OwnsOne("MemoryAlbumServer.Models.Properties.Geoposition", "Anchor", b1 =>
                         {
                             b1.Property<Guid>("LocationId")
                                 .HasColumnType("char(36)");

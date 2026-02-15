@@ -4,6 +4,7 @@ using MemoryAlbumServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryAlbumServer.Migrations
 {
     [DbContext(typeof(MemoryAlbumContext))]
-    partial class MemoryAlbumContextModelSnapshot : ModelSnapshot
+    [Migration("20250424044527_RenamePositionToGeoposition")]
+    partial class RenamePositionToGeoposition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +60,6 @@ namespace MemoryAlbumServer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("char(36)");
-
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime(6)");
 
@@ -71,24 +71,7 @@ namespace MemoryAlbumServer.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Location", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Media.Medium", b =>
@@ -117,7 +100,7 @@ namespace MemoryAlbumServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime?>("Birthday")
+                    b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
@@ -227,11 +210,7 @@ namespace MemoryAlbumServer.Migrations
                         .WithMany("Events")
                         .HasForeignKey("AlbumId");
 
-                    b.HasOne("MemoryAlbumServer.Models.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
-
-                    b.OwnsOne("MemoryAlbumServer.Models.Properties.GeoPosition", "Position", b1 =>
+                    b.OwnsOne("MemoryAlbumServer.Models.Properties.Geoposition", "Position", b1 =>
                         {
                             b1.Property<Guid>("EventId")
                                 .HasColumnType("char(36)");
@@ -250,55 +229,7 @@ namespace MemoryAlbumServer.Migrations
                                 .HasForeignKey("EventId");
                         });
 
-                    b.Navigation("Location");
-
-                    b.Navigation("Position")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Location", b =>
-                {
-                    b.OwnsOne("MemoryAlbumServer.Models.Properties.GeoPosition", "Anchor", b1 =>
-                        {
-                            b1.Property<Guid>("LocationId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<double>("Latitude")
-                                .HasColumnType("double");
-
-                            b1.Property<double>("Longitude")
-                                .HasColumnType("double");
-
-                            b1.HasKey("LocationId");
-
-                            b1.ToTable("Locations");
-
-                            b1.WithOwner()
-                                .HasForeignKey("LocationId");
-                        });
-
-                    b.OwnsOne("MemoryAlbumServer.Models.Properties.GeoJson", "Zone", b1 =>
-                        {
-                            b1.Property<Guid>("LocationId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<string>("Json")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("LocationId");
-
-                            b1.ToTable("Locations");
-
-                            b1.WithOwner()
-                                .HasForeignKey("LocationId");
-                        });
-
-                    b.Navigation("Anchor")
-                        .IsRequired();
-
-                    b.Navigation("Zone")
-                        .IsRequired();
+                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("MemoryAlbumServer.Models.Entities.Person", b =>

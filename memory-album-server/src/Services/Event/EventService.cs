@@ -27,7 +27,7 @@ public class EventService(MemoryAlbumContext _context) : IEventService
             .ToListAsync();
     }
 
-    public async Task<Event> CreateEvent(Event ev)
+    public async Task<Event> Add(Event ev)
     {
         _context.Events.Add(ev);
         await _context.SaveChangesAsync();
